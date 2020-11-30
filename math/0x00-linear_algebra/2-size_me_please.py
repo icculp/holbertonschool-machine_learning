@@ -9,7 +9,7 @@ def matrix_shape(matrix):
     shape = []
     if type(matrix) == int:
         pass
-    else: 
+    else:
         shape.append(len(matrix))
         shape += matrix_shape(matrix[0])
     return shape
