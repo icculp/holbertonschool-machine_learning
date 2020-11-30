@@ -6,7 +6,14 @@
 
 def matrix_shape(matrix):
     """ Return shape as list of integers """
-    shape = [len(matrix), len(matrix[0])]
+    shape = []
+    if type(matrix) == int:
+        pass
+    else: 
+        shape.append(len(matrix))
+        shape += matrix_shape(matrix[0])
+    return shape
+    """
     try:
         shape.append(len(matrix[0][0]))
     except Exception:
@@ -16,3 +23,4 @@ def matrix_shape(matrix):
     except Exception:
         pass
     return shape
+    """
