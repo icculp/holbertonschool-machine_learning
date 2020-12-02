@@ -11,11 +11,10 @@ def cat_matrices2D(mat1, mat2, axis=0):
     if axis == 0:
         new.extend(new2.copy())
     elif axis == 1:
-        try:
-            for li in range(len(new)):
-                new[li].extend(new2[li])
-        except Exception:
+        if len(new) != len(new2):
             return None
+        for li in range(len(new)):
+            new[li].extend(new2[li])
     else:
         return None
     return new.copy()
