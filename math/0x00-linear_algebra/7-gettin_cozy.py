@@ -9,6 +9,11 @@ def cat_matrices2D(mat1, mat2, axis=0):
     new = list(map(list, mat1))
     new2 = list(map(list, mat2))
     if axis == 0:
+        try:
+            if len(new[0]) != len(new2[0]):
+                return None
+        except Exception:
+            return None
         new.extend(new2.copy())
     elif axis == 1:
         if len(new) != len(new2):
