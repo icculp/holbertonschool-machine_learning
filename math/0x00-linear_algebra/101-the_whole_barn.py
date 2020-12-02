@@ -2,6 +2,7 @@
 """
     Task 16 advanced
 """
+import numpy as np
 
 
 def matrix_shape(matrix):
