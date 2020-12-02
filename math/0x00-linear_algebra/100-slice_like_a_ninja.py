@@ -2,7 +2,6 @@
 """
     Task 15 advanced
 """
-import numpy as np
 
 
 def np_slice(matrix, axes={}):
