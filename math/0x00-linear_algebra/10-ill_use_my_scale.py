@@ -7,4 +7,4 @@ import numpy as np
 
 def np_shape(matrix):
     """ Returns shape of np array (matrix) """
-    return matrix.shape
+    return np.shape(matrix)
