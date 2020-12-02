@@ -8,8 +8,8 @@ import numpy as np
 def np_slice(matrix, axes={}):
     """ slices matrices """
     m = matrix.copy()
-    n = np.array([])
-    for k in axes.keys():
+    n = list()
+    for k in sorted(axes.keys()):
         val = axes[k]
         if len(val) == 3:
             start = val[0]
@@ -20,16 +20,31 @@ def np_slice(matrix, axes={}):
             stop = val[1]
             step = None
         elif len(val) == 1:
-            start = val[0]
-            stop = None
+            start = None
+            stop = val[0]
             step = None
         else:
             start = None
             stop = None
             step = None
         s = slice(start, stop, step)
-        i = range(1, m.shape[k])
-        t = np.take(m,indices=i,axis=k)
-        '''n = np.append(n, t[s])'''
+        '''x = np.moveaxis(m.copy(), k, 0)'''
+        slc = [slice(None)] * len(m.shape)
+        slc[k] = s
+        m = m[tuple(slc)]
+        """
+        m = array_slice(m, k, start, stop, step)
+        """
+
+        '''
+        print('mstart')
+        print(m)
+        print('mend')
+        '''
+
+        '''t = np.take(m,indices=i,axis=k)'''
+        '''
+        n.append(m[tuple(slc)])'''
         '''print(t[s])'''
-    return t[s]
+    '''print(slice(2,))'''
+    return m
