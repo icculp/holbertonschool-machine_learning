@@ -17,7 +17,6 @@ def matrix_shape(matrix):
 
 def add_matrices(mat1, mat2):
     """ Adds two matrices """
-    import numpy as np
     if matrix_shape(mat1) != matrix_shape(mat2):
         return None
     return mat1 + mat2
