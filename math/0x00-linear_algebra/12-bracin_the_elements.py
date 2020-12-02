@@ -2,14 +2,12 @@
 """
     Task 12
 """
-import numpy as np
 
 
 def np_elementwise(mat1, mat2):
     """ transposes np array """
-    print(dir(mat1))
-    sum = np.add(mat1, mat2)
-    dif = np.subtract(mat1, mat2)
-    prod = np.multiply(mat1, mat2)
-    quot = np.divide(mat1, mat2)
+    sum = mat1 + mat2
+    dif = mat1 - mat2
+    prod = mat1 * mat2
+    quot = mat1 / mat2
     return (sum, dif, prod, quot)
