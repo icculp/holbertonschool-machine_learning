@@ -7,7 +7,7 @@
 def matrix_shape(matrix):
     """ Return shape as list of integers """
     shape = []
-    if type(matrix) == int or type(matrix) == float:
+    if type(matrix) != list:
         pass
     else:
         shape.append(len(matrix))
