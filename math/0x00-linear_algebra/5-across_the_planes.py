@@ -19,7 +19,7 @@ def add_matrices2D(mat1, mat2):
     """ Adds two arrays of same size, else returns None """
     if matrix_shape(mat1) != matrix_shape(mat2):
         return None
-    new = mat1.copy()
+    new = list(map(list, mat1))
     for i in range(len(mat1)):
         for j in range(len(mat1[0])):
             new[i][j] += mat2[i][j]
