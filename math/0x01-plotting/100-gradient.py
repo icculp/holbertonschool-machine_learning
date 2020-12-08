@@ -8,18 +8,10 @@ x = np.random.randn(2000) * 10
 y = np.random.randn(2000) * 10
 z = np.random.rand(2000) + 40 - np.sqrt(np.square(x) + np.square(y))
 
-
 p = plt.scatter(x, y, c=z)
 plt.xlabel('x coordinate (m)')
 plt.ylabel('y coordinate (m)')
 plt.title("Mountain Elevation")
 plt.colorbar(p)
-print(dir(plt.colorbar))
-
-'''
-fig, ax = plt.subplots()
-im = ax.scatter(x, y, c=c)
-fig.colorbar(im, ax=ax)
-'''
 
 plt.show()
