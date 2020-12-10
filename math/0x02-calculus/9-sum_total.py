@@ -7,7 +7,7 @@
 def summation_i_squared(n):
     """ calculates the sum of i squared from 1 to n """
     sum = 0
-    if type(n) is not int:
+    if type(n) is not int or n < 1:
         return None
     if n == 1:
         return 1
