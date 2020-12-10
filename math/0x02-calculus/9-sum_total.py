@@ -6,10 +6,10 @@
 
 def summation_i_squared(n):
     """ calculates the sum of i squared from 1 to n """
-    ''' Recursive solution reaching max depth
     sum = 0
     if type(n) is not int or n < 1:
         return None
+    ''' Recursive solution reaching max depth
     if n == 1:
         return 1
     else:
