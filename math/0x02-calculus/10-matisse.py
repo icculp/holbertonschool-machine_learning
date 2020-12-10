@@ -9,6 +9,8 @@ def poly_derivative(poly):
     new = []
     if type(poly) is not list:
         return None
+    if not all(isinstance(x, (int, float)) for x in poly):
+        return None
     for i in range(1, len(poly)):
         new.append(i * poly[i])
     if new == []:
