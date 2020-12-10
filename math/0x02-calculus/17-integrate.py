@@ -13,15 +13,13 @@ def poly_integral(poly, C=0):
             or not isinstance(C, (int, float)):
         return None
     if type(C) is float and C.is_integer():
-        C = int(C)
+        C = C
     new.append(C)
     for i in range(len(poly)):
         num = poly[i] / (i + 1)
         if num.is_integer():
             num = int(num)
         new.append(num)
-    while new[-1] == 0:
+    while new[-1] == 0 and len(new) > 1:
         new.pop()
-        if len(new) == 0:
-            break
     return new
