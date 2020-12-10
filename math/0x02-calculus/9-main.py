@@ -21,7 +21,7 @@ n = 10
 print(summation_i_squared(n), 385)
 
 n = 100
-print(summation_i_squared(n), 385)
+print(summation_i_squared(n), 338350)
 
 n = 100000
-print(summation_i_squared(n), 385)
+print(summation_i_squared(n), 333338333350000)
