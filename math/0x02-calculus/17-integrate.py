@@ -12,6 +12,8 @@ def poly_integral(poly, C=0):
     if not all(isinstance(x, (int, float)) for x in poly)\
             or not isinstance(C, (int, float)):
         return None
+    if type(C) is float and C.is_integer():
+        C = num(C)
     new.append(C)
     for i in range(len(poly)):
         num = poly[i] / (i + 1)
