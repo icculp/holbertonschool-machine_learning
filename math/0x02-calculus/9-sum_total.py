@@ -14,4 +14,4 @@ def summation_i_squared(n):
     else:
         sum += summation_i_squared(n - 1)
         sum += n * n
-    return sum
+    return int(sum)
