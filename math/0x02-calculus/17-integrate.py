@@ -7,7 +7,7 @@
 def poly_integral(poly, C=0):
     """ calculates the integral of a polynomial """
     new = []
-    if type(poly) is not list:
+    if type(poly) is not list or len(poly) == 0:
         return None
     if not all(isinstance(x, (int, float)) for x in poly)\
             or not isinstance(C, (int, float)):

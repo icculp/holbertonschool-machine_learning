@@ -20,5 +20,14 @@ print(poly_integral(poly, 0.0))
 poly = [0]
 print(poly_integral(poly, 1.0))
 
-poly = [0]
+poly = [5]
+print(poly_integral(poly, 0.0))
+
+poly = [5, 'a', 6, 7]
+print(poly_integral(poly, 0.0))
+
+poly = [5, 6, 7]
+print(poly_integral(poly, 'a'))
+
+poly = []
 print(poly_integral(poly, 0.0))
