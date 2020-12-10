@@ -20,6 +20,8 @@ def poly_integral(poly, C=0):
         if num.is_integer():
             num = int(num)
         new.append(num)
-    while new[-1] == 0 and len(new) > 1:
+    while new[-1] == 0:
         new.pop()
+        if len(new) == 0:
+            break
     return new

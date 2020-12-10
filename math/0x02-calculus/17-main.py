@@ -16,3 +16,9 @@ print(poly_integral(poly, 1.0))
 
 poly = [5, 0, 0, 0]
 print(poly_integral(poly, 0.0))
+
+poly = [0]
+print(poly_integral(poly, 1.0))
+
+poly = [0]
+print(poly_integral(poly, 0.0))
