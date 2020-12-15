@@ -10,8 +10,9 @@ class Normal:
     def __init__(self, data=None, mean=0., stddev=1.):
         """ constructor for Normal class """
         self.data = data
-        self.mean = mean
-        self.stddev = stddev
+        if data is None:
+            self.mean = mean
+            self.stddev = stddev
         if data is not None:
             self.mean = sum(self.data) / len(self.data)
             difs = [(self.data[i] - self.mean) for i in range(len(self.data))]
@@ -43,8 +44,6 @@ class Normal:
     @mean.setter
     def mean(self, value):
         """ mean setter """
-        if value <= 0:
-            raise ValueError("mean must be a positive value")
         self.__mean = float(value)
 
     @property
@@ -58,18 +57,14 @@ class Normal:
         if value <= 0:
             raise ValueError("stddev must be a positive value")
         self.__stddev = float(value)
-
+    '''
     def pmf(self, k):
         """ probability mass function """
         e = 2.7182818285
-        '''if self.data is None:
-            return 0'''
         if type(k) is not int:
             k = int(k)
         if k < 0:
             return 0
-        '''if k < 0 or k > len(self.data):
-            return 0'''
         num = (e ** (self.lambtha * -1)) * (self.lambtha ** k)
         den = 1
         for i in range(1, k + 1):
@@ -93,4 +88,4 @@ class Normal:
                 else:
                     den = den * i
             cumulative.append(num / den)
-        return sum(cumulative)
+        return sum(cumulative)'''
