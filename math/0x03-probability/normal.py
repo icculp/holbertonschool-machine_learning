@@ -10,10 +10,9 @@ class Normal:
     def __init__(self, data=None, mean=0., stddev=1.):
         """ constructor for Normal class """
         self.data = data
-        if data is None:
-            self.mean = mean
-            self.stddev = stddev
-        else:
+        self.mean = mean
+        self.stddev = stddev
+        if data is not None:
             self.mean = sum(self.data) / len(self.data)
             difs = [(self.data[i] - self.mean) for i in range(len(self.data))]
             sifs = [difs[j] * difs[j] for j in range(len(difs))]
