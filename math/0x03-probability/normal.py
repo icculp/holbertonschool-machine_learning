@@ -15,7 +15,9 @@ class Normal:
             self.stddev = stddev
         else:
             self.mean = sum(self.data) / len(self.data)
-            self.stddev = stddev
+            difs = [(self.data[i] - self.mean) for i in range(len(self.data))]
+            sifs = [difs[j] * difs[j] for j in range(len(difs))]
+            self.stddev = (sum(sifs) / len(self.data)) ** (1/2)
 
     @property
     def data(self):
@@ -42,9 +44,9 @@ class Normal:
     @mean.setter
     def mean(self, value):
         """ mean setter """
-        if value < 0:
-            raise ValueError("lambtha must be a positive value")
-        self.__lambtha = float(value)
+        if value <= 0:
+            raise ValueError("mean must be a positive value")
+        self.__mean = float(value)
 
     @property
     def stddev(self):
@@ -54,8 +56,8 @@ class Normal:
     @stddev.setter
     def stddev(self, value):
         """ stdev setter """
-        if value < 0:
-            raise ValueError("lambtha must be a positive value")
+        if value <= 0:
+            raise ValueError("stddev must be a positive value")
         self.__stddev = float(value)
 
     def pmf(self, k):
