@@ -52,7 +52,7 @@ class Exponential:
         if type(k) is not int:
             '''k = int(k)'''
             return 0
-        if k <= 0:
+        if k < 0:
             return 0
         '''if k < 0 or k > len(self.data):
             return 0'''
