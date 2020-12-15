@@ -40,7 +40,7 @@ class Exponential:
     @lambtha.setter
     def lambtha(self, value):
         """ lambtha setter """
-        if value < 0:
+        if value <= 0:
             raise ValueError("lambtha must be a positive value")
         self.__lambtha = float(value)
 
