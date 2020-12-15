@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-    Task 0
+    Tasks 0-3, building Poisson class
 """
 
 
