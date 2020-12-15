@@ -70,9 +70,9 @@ class Exponential:
             k = int(k)'''
         if k < 0:
             return 0
-        cumulative = []
+        '''cumulative = []
         mean = 1 / self.lambtha
-        p = 1 - (e ** ((k * -1) / mean))
+        p = 1 - (e ** ((k * -1) / mean))'''
         '''
         for i in range(k + 1):
             num = (e ** (self.lambtha * -1)) * (self.lambtha ** i)
@@ -84,4 +84,5 @@ class Exponential:
                     den = den * i
             cumulative.append(num / den)
         '''
+        p = 1 - (e ** (-1 * self.lambtha * k))
         return p
