@@ -44,20 +44,20 @@ class Exponential:
             raise ValueError("lambtha must be a positive value")
         self.__lambtha = float(value)
 
-    def pdf(self, k):
+    def pdf(self, x):
         """ probability density function """
         e = 2.7182818285
         '''if self.data is None:
             return 0'''
         '''if type(k) is not int:
             k = int(k)'''
-        if k < 0:
+        if x < 0:
             return 0
         '''if k < 0 or k > len(self.data):
             return 0'''
-        num = (e ** (self.lambtha * -1)) * (self.lambtha ** k)
+        num = (e ** (self.lambtha * -1)) * (self.lambtha ** x)
         den = 1
-        for i in range(1, k + 1):
+        for i in range(1, x + 1):
             den = den * i
         return num / den
 
