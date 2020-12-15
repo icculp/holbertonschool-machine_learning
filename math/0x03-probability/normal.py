@@ -57,8 +57,16 @@ class Normal:
         if value <= 0:
             raise ValueError("stddev must be a positive value")
         self.__stddev = float(value)
-    '''
-    def pmf(self, k):
+
+    def z_score(self, x):
+        """ calculates the z-score given x """
+        return (x - self.mean) / self.stddev
+
+    def x_value(self, x):
+        """ calculates the x value given a z-score  """
+        return (x * self.stddev) + self.mean
+
+    def pdf(self, k):
         """ probability mass function """
         e = 2.7182818285
         if type(k) is not int:
@@ -88,4 +96,4 @@ class Normal:
                 else:
                     den = den * i
             cumulative.append(num / den)
-        return sum(cumulative)'''
+        return sum(cumulative)
