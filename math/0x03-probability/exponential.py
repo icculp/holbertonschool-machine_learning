@@ -44,8 +44,8 @@ class Exponential:
             raise ValueError("lambtha must be a positive value")
         self.__lambtha = float(value)
 
-    def pmf(self, k):
-        """ probability mass function """
+    def pdf(self, k):
+        """ probability density function """
         e = 2.7182818285
         '''if self.data is None:
             return 0'''
