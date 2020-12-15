@@ -55,11 +55,13 @@ class Exponential:
             return 0
         '''if k < 0 or k > len(self.data):
             return 0'''
-        num = (e ** (self.lambtha * -1)) * (self.lambtha ** x)
+        '''num = (e ** (self.lambtha * -1)) * (self.lambtha ** x)
         den = 1
         for i in range(1, x + 1):
             den = den * i
-        return num / den
+        return num / den'''
+        p = self.lambtha * (e ** (-1 * self.lambtha * x))
+        return p
 
     def cdf(self, k):
         """ cumultive density function """
