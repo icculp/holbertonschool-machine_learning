@@ -50,8 +50,7 @@ class Exponential:
         '''if self.data is None:
             return 0'''
         if type(k) is not int:
-            '''k = int(k)'''
-            return 0
+            k = int(k)
         if k < 0:
             return 0
         '''if k < 0 or k > len(self.data):
