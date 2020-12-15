@@ -60,3 +60,22 @@ class Poisson:
         for i in range(1, k + 1):
             den = den * i
         return num / den
+
+    def cdf(self, k):
+        """ cumultive density function """
+        e = 2.7182818285
+        if type(k) is not int:
+            k = int(k)
+        if k < 0:
+            return 0
+        cumulative = []
+        for i in range(k + 1):
+            num = (e ** (self.lambtha * -1)) * (self.lambtha ** i)
+            den = 1
+            for i in range(0, i + 1):
+                if i == 0:
+                    pass
+                else:
+                    den = den * i
+            cumulative.append(num / den)
+        return sum(cumulative)
