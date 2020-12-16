@@ -70,7 +70,8 @@ class Normal:
         """ probability density function """
         e = 2.7182818285
         pi = 3.1415926536
-        return (1 / (self.stddev * ((2 * pi) ** (.5)))) * (e ** (-(1/2) * (((k - self.mean) / self.stddev) ** 2)))
+        return (1 / (self.stddev * ((2 * pi) ** (.5)))) *\
+               (e ** (-(1/2) * (((k - self.mean) / self.stddev) ** 2)))
 
     def cdf(self, k):
         """ cumultive density function """
