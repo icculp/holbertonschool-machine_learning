@@ -76,18 +76,11 @@ class Normal:
     def cdf(self, k):
         """ cumultive density function """
         e = 2.7182818285
-        if type(k) is not int:
-            k = int(k)
-        if k < 0:
-            return 0
-        cumulative = []
-        for i in range(k + 1):
-            num = (e ** (self.lambtha * -1)) * (self.lambtha ** i)
-            den = 1
-            for i in range(0, i + 1):
-                if i == 0:
-                    pass
-                else:
-                    den = den * i
-            cumulative.append(num / den)
-        return sum(cumulative)
+        pi = 3.1415926536
+        x = (k - self.mean) / (self.stddev * (2 ** .5))
+        erf = (2 / (pi ** .5)) *\
+              (x - ((x ** 3) / 3) +
+                   ((x ** 5) / 10) -
+                   ((x ** 7) / 42) +
+                   ((x ** 9) / 216))
+        return (1 + erf) / 2
