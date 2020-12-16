@@ -86,3 +86,7 @@ class Binomial:
         """ cumultive density function """
         e = 2.7182818285
         pi = 3.1415926536
+        p = []
+        for i in range(k + 1):
+            p.append(self.pmf(i))
+        return sum(p)
