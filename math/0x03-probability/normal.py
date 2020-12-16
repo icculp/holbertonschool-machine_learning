@@ -67,17 +67,10 @@ class Normal:
         return (x * self.stddev) + self.mean
 
     def pdf(self, k):
-        """ probability mass function """
+        """ probability density function """
         e = 2.7182818285
-        if type(k) is not int:
-            k = int(k)
-        if k < 0:
-            return 0
-        num = (e ** (self.lambtha * -1)) * (self.lambtha ** k)
-        den = 1
-        for i in range(1, k + 1):
-            den = den * i
-        return num / den
+        pi = 3.1415926536
+        return (1 / (self.stddev * ((2 * pi) ** (.5)))) * (e ** (-(1/2) * (((k - self.mean) / self.stddev) ** 2)))
 
     def cdf(self, k):
         """ cumultive density function """
