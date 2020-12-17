@@ -78,7 +78,7 @@ class Binomial:
         for i in range(1, nk_dif + 1):
             nk_f = nk_f * i
         nk = (n_f / (k_f * nk_f))
-        return nk * (self.p ** k) * ((1 - self.p) ** (self.n - k))
+        return nk * (self.p ** k) * (1 - self.p) ** (self.n - k)
 
     def cdf(self, k):
         """ cumultive density function """
