@@ -16,7 +16,7 @@ class Binomial:
         if data is not None:
             mean = sum(self.data) / len(self.data)
             vals = [(self.data[i] - mean) ** 2 for i in range(len(self.data))]
-            var = sum(vals) / (len(self.data) - 1)
+            var = sum(vals) / (len(self.data))
             q = var / mean
             p = 1 - q
             self.n = mean / p
