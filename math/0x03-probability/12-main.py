@@ -20,6 +20,7 @@ print('F(40):', b3.cdf(40))
 print("sp(40):", binom.cdf(40, b3.n, b3.p))
 print()
 
+
 b5 = Binomial(data)
 print('F(100):', b5.cdf(100))
 print("sp(100):", binom.cdf(100, b5.n, b5.p))
@@ -30,6 +31,18 @@ print('F(0):', b6.cdf(0))
 print("sp(0):", binom.cdf(0, b6.n, b6.p))
 print()
 
-b6 = Binomial(data)
-print('F(0):', b6.cdf(-1))
-print("sp(0):", binom.cdf(0, b6.n, b6.p))
+'''
+b6 = Binomial(None)
+print('F(10):', b6.cdf(10))
+print("sp(10):", binom.cdf(10, b6.n, b6.p))
+print()
+'''
+
+b7 = Binomial(data)
+print('F(10):', b7.cdf(10))
+print("sp(10):", binom.cdf(10, b7.n, b7.p))
+print()
+
+b8 = Binomial(data)
+print('F(20):', b8.cdf(10))
+print("sp(20):", binom.cdf(10, b8.n, b8.p))

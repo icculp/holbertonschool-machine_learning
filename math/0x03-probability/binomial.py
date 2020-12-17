@@ -9,11 +9,11 @@ class Binomial:
 
     def __init__(self, data=None, n=1, p=0.5):
         """ constructor for Binomial class """
+        self.data = data
         if data is None:
             self.n = n
             self.p = p
         if data is not None:
-            self.data = data
             mean = sum(self.data) / len(self.data)
             vals = [(self.data[i] - mean) ** 2 for i in range(len(self.data))]
             var = sum(vals) / (len(self.data) - 1)
@@ -47,8 +47,9 @@ class Binomial:
     @n.setter
     def n(self, value):
         """ n setter """
-        if value <= 0:
-            raise ValueError("n must be a positive value")
+        if self.data is None:
+            if value <= 0:
+                raise ValueError("n must be a positive value")
         self.__n = int(value)
 
     @property
@@ -59,8 +60,9 @@ class Binomial:
     @p.setter
     def p(self, value):
         """ p setter """
-        if value <= 0 or value >= 1:
-            raise ValueError("p must be greater than 0 and less than 1")
+        if self.data is None:
+            if value <= 0 or value >= 1:
+                raise ValueError("p must be greater than 0 and less than 1")
         self.__p = float(value)
 
     def pmf(self, k):
