@@ -50,7 +50,7 @@ class Binomial:
         if self.data is None:
             if value <= 0:
                 raise ValueError("n must be a positive value")
-        self.__n = int(value)
+        self.__n = round(value)
 
     @property
     def p(self):

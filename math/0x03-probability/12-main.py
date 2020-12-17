@@ -20,11 +20,12 @@ print('F(40):', b3.cdf(40))
 print("sp(40):", binom.cdf(40, b3.n, b3.p))
 print()
 
-
+'''
 b5 = Binomial(data)
 print('F(100):', b5.cdf(100))
 print("sp(100):", binom.cdf(100, b5.n, b5.p))
 print()
+'''
 
 b6 = Binomial(data)
 print('F(0):', b6.cdf(0))
