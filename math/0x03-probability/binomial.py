@@ -9,11 +9,11 @@ class Binomial:
 
     def __init__(self, data=None, n=1, p=0.5):
         """ constructor for Binomial class """
-        self.data = data
         if data is None:
             self.n = n
             self.p = p
         if data is not None:
+            self.data = data
             mean = sum(self.data) / len(self.data)
             vals = [(self.data[i] - mean) ** 2 for i in range(len(self.data))]
             var = sum(vals) / (len(self.data) - 1)
