@@ -65,9 +65,9 @@ class Binomial:
 
     def pmf(self, k):
         """ probability mass function """
-        k = int(k)
         if k < 0:
             return 0
+        k = int(k)
         q = 1 - self.p
         n_f, k_f, nk_f = 1, 1, 1
         nk_dif = self.n - k
@@ -82,9 +82,9 @@ class Binomial:
 
     def cdf(self, k):
         """ cumultive density function """
-        k = int(k)
         if k < 0:
             return 0
+        k = int(k)
         p = []
         for i in range(k + 1):
             p.append(self.pmf(i))

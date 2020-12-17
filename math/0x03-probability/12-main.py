@@ -28,3 +28,8 @@ print()
 b6 = Binomial(data)
 print('F(0):', b6.cdf(0))
 print("sp(0):", binom.cdf(0, b6.n, b6.p))
+print()
+
+b6 = Binomial(data)
+print('F(0):', b6.cdf(-1))
+print("sp(0):", binom.cdf(0, b6.n, b6.p))
