@@ -68,7 +68,7 @@ class Binomial:
         e = 2.7182818285
         pi = 3.1415926536
         k = int(k)
-        if k < 0:
+        if k <= 0:
             return 0
         q = 1 - self.p
         n_f, k_f, nk_f = 1, 1, 1
