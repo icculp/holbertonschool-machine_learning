@@ -65,10 +65,8 @@ class Binomial:
 
     def pmf(self, k):
         """ probability mass function """
-        e = 2.7182818285
-        pi = 3.1415926536
         k = int(k)
-        if k <= 0:
+        if k < 0:
             return 0
         q = 1 - self.p
         n_f, k_f, nk_f = 1, 1, 1
@@ -85,10 +83,8 @@ class Binomial:
     def cdf(self, k):
         """ cumultive density function """
         k = int(k)
-        if k <= 0:
+        if k < 0:
             return 0
-        e = 2.7182818285
-        pi = 3.1415926536
         p = []
         for i in range(k + 1):
             p.append(self.pmf(i))
