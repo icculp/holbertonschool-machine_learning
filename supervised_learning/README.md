@@ -1,0 +1,7 @@
+# Supervised Learning
+Binary Classification
+Multiclass Classification
+Optimization Techniques
+Regularization Techniques
+Convolutional Neural Networks
+Deep Convolutional Architectures
