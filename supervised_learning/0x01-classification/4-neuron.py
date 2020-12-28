@@ -17,7 +17,8 @@ class Neuron():
         if nx < 1:
             raise ValueError("nx must be a positive integer")
         self.nx = nx
-        self.__W = np.random.normal(size=(1, nx))
+        '''self.__W = np.random.normal(size=(1, nx))'''
+        self.__W = np.random.randn(1, nx)
         self.__b = 0
         self.__A = 0
 
@@ -44,7 +45,6 @@ class Neuron():
 
     def cost(self, Y, A):
         """ calculates the cost of the model using logistic regression """
-        from math import log
         m = Y.shape[1]
         loss = np.sum((Y * np.log(A)) + ((1 - Y) * np.log(1.0000001 - A)))
         cost = -(1 / m) * loss
@@ -52,6 +52,7 @@ class Neuron():
 
     def evaluate(self, X, Y):
         """ Evaluates a neurons predictions """
-        x = self.forward_prop(X)
-        x = np.where(x >= 0.5, x, 0)
-        return x, self.cost(Y, x)
+        prop = self.forward_prop(X)
+        cost = self.cost(Y, prop)
+        x = np.where(prop >= 0.5, 1, 0)
+        return x, cost
