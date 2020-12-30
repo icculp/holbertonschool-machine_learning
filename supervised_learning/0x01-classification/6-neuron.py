@@ -61,8 +61,8 @@ class Neuron():
         """ Calculates one pass of gradient descent on the neuron """
         da = -(Y / A) + (1 - Y) / (1.0000001 - A)
         dz = A - Y
-        self.__b = self.__b - alpha * np.average(dz)
-        self.__W = self.__W - (alpha * (X * dz).T)
+        self.__b = np.subtract(self.__b, alpha * np.average(dz))
+        self.__W = np.subtract(self.__W, alpha * (X * dz).T)
 
     def train(self, X, Y, iterations=5000, alpha=0.05):
         """ Trains the neuron """
@@ -70,13 +70,11 @@ class Neuron():
             raise TypeError("iterations must be an integer")
         if iterations <= 0:
             raise ValueError("iterations must be a positive integer")
-        if type(alpha) is not float):
+        if type(alpha) is not float:
             raise TypeError("alpha must be a float")
         if alpha <= 0:
             raise ValueError("alpha must be positive")
-        stuff
-        self.__W = 
-        self.__b = 
-        self.__A = 
-        one loop
-        return evaluation
+        for _ in range(iterations):
+            A = self.forward_prop(X)
+            self.gradient_descent(X, Y, A, alpha)
+        return self.evaluate(X, Y)
