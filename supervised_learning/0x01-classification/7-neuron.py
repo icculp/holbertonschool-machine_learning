@@ -97,6 +97,8 @@ class Neuron():
                 if verbose:
                     print("Cost after {} iterations: {}".format(i, c))
             self.gradient_descent(X, Y, A, alpha)
+        if verbose:
+            print("Cost after {} iterations: {}".format(i, c))
         if graph:
             plt.plot(steps, cost)
             plt.title("Training Cost")
