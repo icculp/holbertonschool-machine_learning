@@ -62,7 +62,7 @@ class Neuron():
         m = Y.shape[1]
         da = -(Y / A) + (1 - Y) / (1.0000001 - A)
         dz = np.subtract(A, Y)
-        dw = np.multiply(X, dz)
+        dw = np.matmul(dz, X.T) / m
         self.__b = np.subtract(self.__b, alpha * np.average(dz))
-        self.__W = np.subtract(self.__W, (np.multiply(alpha, dw.T) / m))
+        self.__W = np.subtract(self.__W, (np.multiply(alpha, dw)))
         '''self.__W = np.subtract(self.__W, alpha * (X * dz).T)'''
