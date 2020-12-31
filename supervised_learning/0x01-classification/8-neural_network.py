@@ -20,7 +20,7 @@ class NeuralNetwork():
         if type(nodes) is not int:
             raise TypeError("nodes must be an integer")
         if nodes < 1:
-            raise ValueError("Nodes must be a positve integer")
+            raise ValueError("nodes must be a positve integer")
         self.W1 = np.random.normal(size=(nodes, nx))
         self.b1 = np.array([[0.] for i in range(nodes)])
         self.A1 = 0
