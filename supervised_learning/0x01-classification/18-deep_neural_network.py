@@ -61,7 +61,6 @@ class DeepNeuralNetwork:
 
     def forward_prop(self, X):
         """ Forward propagation of the network """
-        print("weights", self.weights)
         self.__cache['A0'] = X
 
         def sig_act(aw):
