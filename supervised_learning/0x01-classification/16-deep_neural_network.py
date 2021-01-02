@@ -34,4 +34,4 @@ class DeepNeuralNetwork:
             b = 'b' + str(i)
             self.weights.update({w: np.random.randn(l1,
                                 int(l2 * np.sqrt(2 / l2)))})
-            self.weights.update({b: np.zeros(l1)})
+            self.weights.update({b: np.zeros((l1, 1))})
