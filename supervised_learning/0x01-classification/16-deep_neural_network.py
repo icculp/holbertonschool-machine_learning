@@ -31,7 +31,7 @@ class DeepNeuralNetwork:
                 l2 = layers[i - 2]
             l1 = layers[i - 1]
             w = 'W' + str(i)
-            b = 'B' + str(i)
+            b = 'b' + str(i)
             self.weights.update({w: np.random.randn(l1,
                                 int(l2 * np.sqrt(2 / l2)))})
             self.weights.update({b: np.zeros(l1)})
