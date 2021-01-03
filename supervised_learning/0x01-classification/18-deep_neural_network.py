@@ -64,6 +64,7 @@ class DeepNeuralNetwork:
         self.__cache['A0'] = X
 
         def sig_act(aw):
+            """ sigmoid activation function """
             return 1 / (1 + np.exp(-aw))
 
         for i in range(self.L):
@@ -71,7 +72,7 @@ class DeepNeuralNetwork:
             a = 'A' + str(i)
             b = 'b' + str(i + 1)
             aw_ = np.matmul(self.__weights[w],
-                            self.cache[a]) + self.__weights[b]
+                            self.__cache[a]) + self.__weights[b]
             A = 'A' + str(i + 1)
-            self.__cache[A] = aw_
-        return self.cache[A], self.cache
+            self.__cache[A] = sig_act(aw_)
+        return self.__cache[A], self.__cache
