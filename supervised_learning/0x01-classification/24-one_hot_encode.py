@@ -21,9 +21,11 @@ def one_hot_encode(Y, classes):
         return None
     try:
         shape = (classes, Y.shape[0])
-        hot = np.zeros(shape)
-        r = np.arange(Y.shape[0])
-        hot[Y, r] = 1
+        hot = np.eye(classes)[Y]
+        '''hot = np.zeros(shape)'''
+        '''r = np.arange(Y.shape[0])'''
+        '''hot[Y, r] = 1'''
+        return hot.T
     except Exception:
+        print("this one")
         return None
-    return hot
