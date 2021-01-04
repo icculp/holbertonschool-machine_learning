@@ -26,5 +26,5 @@ def one_hot_encode(Y, classes):
         '''r = np.arange(Y.shape[0])'''
         '''hot[Y, r] = 1'''
         return hot.T
-    except Exception:
+    except Exception as err:
         return None
