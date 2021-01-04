@@ -27,5 +27,4 @@ def one_hot_encode(Y, classes):
         '''hot[Y, r] = 1'''
         return hot.T
     except Exception:
-        print("this one")
         return None
