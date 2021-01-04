@@ -6,10 +6,9 @@ import numpy as np
 
 
 def one_hot_encode(Y, classes):
-    """ Defines a deep neural network
-        performing binary classification """
-    shape = (Y.size, Y.max() + 1)
+    """ Converts numeric label vector into one-hot matrix """
+    shape = (Y.size, classes)
     hot = np.zeros(shape)
     r = np.arange(Y.size)
-    hot[r, Y] = 1
+    hot[Y, r] = 1
     return hot
