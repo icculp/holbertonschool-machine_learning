@@ -14,7 +14,7 @@ def one_hot_encode(Y, classes):
     '''if classes < 1:
         return None'''
     if len(Y.shape) != 1:
-       return None
+        return None
     '''if Y.shape[0] < 1:
         return None'''
     '''if classes != Y.max() + 1:
