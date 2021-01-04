@@ -11,14 +11,14 @@ def one_hot_encode(Y, classes):
         return None
     if type(classes) is not int:
         return None
-    if classes < 1:
-        return None
+    '''if classes < 1:
+        return None'''
     if len(Y.shape) != 1:
-        return None
-    if Y.shape[0] < 1:
-        return None
-    if classes != Y.max() + 1:
-        return None
+       return None
+    '''if Y.shape[0] < 1:
+        return None'''
+    '''if classes != Y.max() + 1:
+        return None'''
     try:
         shape = (classes, Y.shape[0])
         hot = np.eye(classes)[Y]
@@ -26,5 +26,5 @@ def one_hot_encode(Y, classes):
         '''r = np.arange(Y.shape[0])'''
         '''hot[Y, r] = 1'''
         return hot.T
-    except Exception as err:
+    except Exception:
         return None
