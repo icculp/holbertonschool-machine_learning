@@ -17,8 +17,11 @@ def one_hot_encode(Y, classes):
         return None
     if classes != Y.max() + 1:
         return None
-    shape = (classes, Y.shape[0])
-    hot = np.zeros(shape)
-    r = np.arange(Y.shape[0])
-    hot[Y, r] = 1
+    try:
+        shape = (classes, Y.shape[0])
+        hot = np.zeros(shape)
+        r = np.arange(Y.shape[0])
+        hot[Y, r] = 1
+    except:
+        return None
     return hot
