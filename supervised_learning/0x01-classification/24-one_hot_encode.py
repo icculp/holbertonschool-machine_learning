@@ -7,8 +7,16 @@ import numpy as np
 
 def one_hot_encode(Y, classes):
     """ Converts numeric label vector into one-hot matrix """
-    shape = (Y.size, classes)
+    if type(Y) is not np.ndarray:
+        return None
+    if classes is None:
+        return None
+    if classes < 1:
+        return None
+    if Y.shape[0] < 1:
+        return None
+    shape = (Y.shape[0], classes)
     hot = np.zeros(shape)
-    r = np.arange(Y.size)
+    r = np.arange(Y.shape[0])
     hot[Y, r] = 1
     return hot
