@@ -15,7 +15,7 @@ def one_hot_encode(Y, classes):
         return None
     if Y.shape[0] < 1:
         return None
-    shape = (Y.shape[0], classes)
+    shape = (classes, Y.shape[0])
     hot = np.zeros(shape)
     r = np.arange(Y.shape[0])
     hot[Y, r] = 1
