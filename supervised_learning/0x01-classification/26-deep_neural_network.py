@@ -174,10 +174,8 @@ class DeepNeuralNetwork:
             Returns loaded obj or None
         """
         try:
-            pass
+            with open(filename, 'rb') as f:
+                pick = pickle.load(f)
+                return pick
         except Exception:
             return None
-
-        with open(filename, 'rb') as f:
-            pick = pickle.load(f)
-            return pick
