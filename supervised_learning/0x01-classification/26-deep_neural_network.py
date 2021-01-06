@@ -169,7 +169,7 @@ class DeepNeuralNetwork:
             with open(filename, 'wb') as f:
                 pickle.dump(self, f)
         except Exception:
-            pass
+            return
 
     @staticmethod
     def load(filename):
