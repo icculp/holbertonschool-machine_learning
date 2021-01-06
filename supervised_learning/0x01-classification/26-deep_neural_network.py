@@ -163,7 +163,7 @@ class DeepNeuralNetwork:
         """ Saves the instance object to a file in picke format
             add .pkl extension to filename
         """
-        if filename[-3:] != '.pkl':
+        if filename[-4:] != '.pkl':
             filename = filename + '.pkl'
         try:
             with open(filename, 'wb') as f:
