@@ -164,7 +164,7 @@ class DeepNeuralNetwork:
             add .pkl extension to filename
         """
         if filename[-4:] != '.pkl':
-            filename = filename + '.pkl'
+            filename += ".pkl"
         with open(filename, 'wb') as f:
             pickle.dump(self, f)
             f.close()
