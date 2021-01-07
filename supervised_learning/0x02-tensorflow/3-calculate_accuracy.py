@@ -14,4 +14,4 @@ def calculate_accuracy(y, y_pred):
     t = tf.metrics.mean(loss, name='Meaney')[0]
     print(loss)
     m = tf.convert_to_tensor(loss[0], name="Mean")'''
-    return tf.reduce_mean(y - y_pred, name="Mean")
+    return tf.reduce_mean(y_pred - y, name="Mean")
