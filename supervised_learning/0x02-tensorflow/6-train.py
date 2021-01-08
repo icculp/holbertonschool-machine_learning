@@ -34,7 +34,7 @@ def train(X_train, Y_train, X_valid,
     sess = tf.Session()
     sess.run(init)
     with sess.as_default():
-        for i in range(1):
+        for i in range(iterations + 1):
             tcost = loss.eval(feed_dict={x: X_train, y: Y_train})
             tacc = accuracy.eval(feed_dict={x: X_train, y: Y_train})
             vcost = loss.eval(feed_dict={x: X_valid, y: Y_valid})
