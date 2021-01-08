@@ -11,8 +11,8 @@ def train(X_train, Y_train, X_valid,
     """
         Builds, trains, and saves a neural network classifier
     """
-    create_placeholders = __import__('0-create_plac\
-                                     eholders').create_placeholders
+    create_placeholders = __import__('0-create_plac'
+                                     + 'eholders').create_placeholders
     forward_prop = __import__('2-forward_prop').forward_prop
     calculate_accuracy = __import__('3-calculate_accuracy').calculate_accuracy
     calculate_loss = __import__('4-calculate_loss').calculate_loss
@@ -28,7 +28,6 @@ def train(X_train, Y_train, X_valid,
     sess.run(init)
     with sess.as_default():
         for i in range(iterations):
-            print(i)
             tcost = loss.eval(feed_dict={x: X_train, y: Y_train})
             tacc = accuracy.eval(feed_dict={x: X_train, y: Y_train})
             vcost = loss.eval(feed_dict={x: X_valid, y: Y_valid})
@@ -41,6 +40,5 @@ def train(X_train, Y_train, X_valid,
                 print("\tValidation Accuracy: {}".format(vacc))
             '''train = trainy.eval(feed_dict={x: X_train, y: Y_train})'''
             sess.run(train, {x: X_train, y: Y_train})
-            print(i)
         saver = tf.train.Saver()
         return saver.save(sess, save_path)
