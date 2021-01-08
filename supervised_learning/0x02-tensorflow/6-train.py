@@ -22,12 +22,20 @@ def train(X_train, Y_train, X_valid,
     y_pred = forward_prop(x, layer_sizes, activations)
     accuracy = calculate_accuracy(y, y_pred)
     loss = calculate_loss(y, y_pred)
-    train = create_train_op(loss, alpha)
+    train_op = create_train_op(loss, alpha)
+
+    tf.add_to_collection('x', x)
+    tf.add_to_collection('y', y)
+    tf.add_to_collection('y_pred', y_pred)
+    tf.add_to_collection('loss', loss)
+    tf.add_to_collection('accuracy', accuracy)
+    tf.add_to_collection('train_op', train_op)
+
     sess = tf.Session()
     init = tf.global_variables_initializer()
     sess.run(init)
     with sess.as_default():
-        for i in range(iterations):
+        for i in range(iterations + 1):
             tcost = loss.eval(feed_dict={x: X_train, y: Y_train})
             tacc = accuracy.eval(feed_dict={x: X_train, y: Y_train})
             vcost = loss.eval(feed_dict={x: X_valid, y: Y_valid})
@@ -39,6 +47,8 @@ def train(X_train, Y_train, X_valid,
                 print("\tValidation Cost: {}".format(vcost))
                 print("\tValidation Accuracy: {}".format(vacc))
             '''train = trainy.eval(feed_dict={x: X_train, y: Y_train})'''
-            sess.run(train, {x: X_train, y: Y_train})
+            if i == iterations:
+                break
+            sess.run(train_op, {x: X_train, y: Y_train})
         saver = tf.train.Saver()
         return saver.save(sess, save_path)
