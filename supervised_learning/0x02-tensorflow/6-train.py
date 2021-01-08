@@ -3,6 +3,11 @@
     Tensorflow project
 """
 import tensorflow as tf
+create_placeholders = __import__('0-create_placeholders').create_placeholders
+forward_prop = __import__('2-forward_prop').forward_prop
+calculate_accuracy = __import__('3-calculate_accuracy').calculate_accuracy
+calculate_loss = __import__('4-calculate_loss').calculate_loss
+create_train_op = __import__('5-create_train_op').create_train_op
 
 
 def train(X_train, Y_train, X_valid,
@@ -11,12 +16,6 @@ def train(X_train, Y_train, X_valid,
     """
         Builds, trains, and saves a neural network classifier
     """
-    create_placeholders = __import__('0-create_plac'
-                                     + 'eholders').create_placeholders
-    forward_prop = __import__('2-forward_prop').forward_prop
-    calculate_accuracy = __import__('3-calculate_accuracy').calculate_accuracy
-    calculate_loss = __import__('4-calculate_loss').calculate_loss
-    create_train_op = __import__('5-create_train_op').create_train_op
 
     x, y = create_placeholders(X_train.shape[1], Y_train.shape[1])
     y_pred = forward_prop(x, layer_sizes, activations)
@@ -31,11 +30,11 @@ def train(X_train, Y_train, X_valid,
     tf.add_to_collection('accuracy', accuracy)
     tf.add_to_collection('train_op', train_op)
 
-    sess = tf.Session()
     init = tf.global_variables_initializer()
+    sess = tf.Session()
     sess.run(init)
     with sess.as_default():
-        for i in range(iterations + 1):
+        for i in range(1):
             tcost = loss.eval(feed_dict={x: X_train, y: Y_train})
             tacc = accuracy.eval(feed_dict={x: X_train, y: Y_train})
             vcost = loss.eval(feed_dict={x: X_valid, y: Y_valid})
@@ -46,7 +45,6 @@ def train(X_train, Y_train, X_valid,
                 print("\tTraining Accuracy: {}".format(tacc))
                 print("\tValidation Cost: {}".format(vcost))
                 print("\tValidation Accuracy: {}".format(vacc))
-            '''train = trainy.eval(feed_dict={x: X_train, y: Y_train})'''
             if i == iterations:
                 break
             sess.run(train_op, {x: X_train, y: Y_train})
