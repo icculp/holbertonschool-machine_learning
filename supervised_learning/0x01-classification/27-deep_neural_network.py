@@ -135,7 +135,7 @@ class DeepNeuralNetwork:
         a, _ = self.forward_prop(X)
         cost = self.cost(Y, a)
         x = np.where(a >= 0.5, 1, 0)
-        return a, cost
+        return a.astype(int), cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """ Calculates one pass of gradient descent on the NN
