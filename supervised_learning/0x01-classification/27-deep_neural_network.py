@@ -95,7 +95,6 @@ class DeepNeuralNetwork:
             A contains the activated output for each example
         """
         m = Y.shape[1]
-        '''loss = np.sum((Y * np.log(A)) + ((1 - Y) * np.log(1.0000001 - A)))'''
         loss = np.sum(-Y * np.log(A))
         cost = loss / m
         return cost
