@@ -172,7 +172,7 @@ class DeepNeuralNetwork:
             raise TypeError("alpha must be a float")
         if alpha <= 0:
             raise ValueError("alpha must be positive")
-        for i in range(iterations):
+        for i in range(iterations + 1):
             A2, cache = self.forward_prop(X)
             if i == 0:
                 c = self.cost(Y, A2)
@@ -187,7 +187,6 @@ class DeepNeuralNetwork:
                 if verbose:
                     print("Cost after {} iterations: {}".format(i, c))
             self.gradient_descent(Y, cache, alpha)
-        i += 1
         if verbose:
             print("Cost after {} iterations: {}".format(i, c))
         if graph:
