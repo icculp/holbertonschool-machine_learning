@@ -71,6 +71,10 @@ class DeepNeuralNetwork:
             """ sigmoid activation function """
             return 1 / (1 + np.exp(-aw))
 
+        def soft_act(aw):
+            """ softmax activation function """
+            return np.exp(aw) / np.sum(np.exp(aw), axis=0)
+
         for i in range(self.L):
             w = 'W' + str(i + 1)
             a = 'A' + str(i)
@@ -78,7 +82,11 @@ class DeepNeuralNetwork:
             aw_ = np.matmul(self.__weights[w],
                             self.__cache[a]) + self.__weights[b]
             A = 'A' + str(i + 1)
-            self.__cache[A] = sig_act(aw_)
+            if i == self.L - 1:
+                act = soft_act(aw_)
+            else:
+                act = sig_act(aw_)
+            self.__cache[A] = act
         return self.__cache[A], self.__cache
 
     def cost(self, Y, A):
@@ -87,8 +95,9 @@ class DeepNeuralNetwork:
             A contains the activated output for each example
         """
         m = Y.shape[1]
-        loss = np.sum((Y * np.log(A)) + ((1 - Y) * np.log(1.0000001 - A)))
-        cost = -(1 / m) * loss
+        '''loss = np.sum((Y * np.log(A)) + ((1 - Y) * np.log(1.0000001 - A)))'''
+        loss = np.sum(-Y * np.log(A))
+        cost = loss / m
         return cost
 
     def evaluate(self, X, Y):
@@ -96,10 +105,38 @@ class DeepNeuralNetwork:
             X contains the input data (nx, m)
             Y contains the correct labels
         """
+        def one_hot_encode(Y, classes):
+            """ Converts numeric label vector into one-hot matrix """
+            if type(Y) is not np.ndarray:
+                return None
+            if type(classes) is not int:
+                return None
+            if len(Y.shape) != 1:
+                return None
+            try:
+                shape = (classes, Y.shape[0])
+                hot = np.eye(classes)[Y]
+                return hot.T
+            except Exception:
+                return None
+
+        def one_hot_decode(one_hot):
+            """ Converts a one-hot matrix into a vector of labels """
+            if type(one_hot) is not np.ndarray or\
+                    len(one_hot.shape) != 2 or\
+                    one_hot.shape[0] < 1 or\
+                    one_hot.shape[1] < 1:
+                return None
+            try:
+                hot = np.argmax(one_hot, axis=0)
+                return hot
+            except Exception:
+                return None
+        decoded = one_hot_decode(Y)
         a, _ = self.forward_prop(X)
         cost = self.cost(Y, a)
         x = np.where(a >= 0.5, 1, 0)
-        return x, cost
+        return a, cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """ Calculates one pass of gradient descent on the NN
