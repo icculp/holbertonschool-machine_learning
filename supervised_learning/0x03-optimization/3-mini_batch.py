@@ -42,9 +42,9 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
         accuracy = tf.get_collection('accuracy')[0]
         loss = tf.get_collection('loss')[0]
         train_op = tf.get_collection('train_op')[0]
-
         for i in range(epochs + 1):
             
+            shuf_x, shuf_y = shuffle_data(X_train, Y_train)
             train_cost = loss.eval(feed_dict={x: X_train,
                                               y: Y_train})
             train_accuracy = accuracy.eval(feed_dict={x: X_train,
@@ -65,13 +65,15 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
             for j in range(batches):
                 start = batch_size * i
                 end = batch_size * (i + 1)
-                sess.run(train_op, feed_dict={x: X_train[start:end],
-                                              y: Y_train[start:end]})
+                if end > m:
+                    end = -1
+                sess.run(train_op, feed_dict={x: shuf_x[start:end],
+                                              y: shuf_y[start:end]})
                 if j % 100 == 0:
-                    step_cost = loss.eval(feed_dict={x: X_train[start:end],
-                                                      y: Y_train[start:end]})
-                    step_accuracy = accuracy.eval(feed_dict={x: X_train[start:end],
-                                                              y: Y_train[start:end]})
+                    step_cost = loss.eval(feed_dict={x: shuf_x[start:end],
+                                                      y: shuf_y[start:end]})
+                    step_accuracy = accuracy.eval(feed_dict={x: shuf_x[start:end],
+                                                              y: shuf_y[start:end]})
                     print("\tStep {}:\n".format(j) +
                           "\t\tCost: {}\n".format(step_cost) +
                           "\t\tAccuracy: {}\n".format(step_accuracy))
