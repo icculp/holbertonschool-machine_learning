@@ -31,7 +31,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
         saver.restore(sess, load_path)
         m = X_train.shape[0]
         batches = m / batch_size
-        if batches % 1 != 0:
+        if m % batch_size != 0:
             batches = int(batches) + 1
         x = tf.get_collection('x')[0]
         y = tf.get_collection('y')[0]
@@ -39,7 +39,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
         loss = tf.get_collection('loss')[0]
         train_op = tf.get_collection('train_op')[0]
         for i in range(epochs + 1):
-
             train_cost = loss.eval({x: X_train,
                                     y: Y_train})
             train_accuracy = accuracy.eval({x: X_train,
@@ -48,7 +47,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
                                     y: Y_valid})
             valid_accuracy = accuracy.eval({x: X_valid,
                                             y: Y_valid})
-
             print("After {} epochs:\n".format(i) +
                   "\tTraining Cost: {}\n".format(train_cost) +
                   "\tTraining Accuracy: {}\n".format(train_accuracy) +
