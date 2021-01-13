@@ -31,10 +31,10 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
     '''_ = tf.Variable(initial_value='fake_variable')'''
     with tf.Session() as sess:
         '''all_variables = tf.get_collection_ref(tf.GraphKeys.GLOBAL_VARIABLES)'''
-        '''sess.run(tf.global_variables_initializer())'''
         '''saver = tf.train.Saver()'''
         saver = tf.train.import_meta_graph("{}.meta".format(load_path))
         saver.restore(sess, load_path)
+        sess.run(tf.global_variables_initializer())
         m = X_train.shape[0]
         batches = m / batch_size
         if batches % 1 != 0:
@@ -49,13 +49,13 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
             shuf_x, shuf_y = shuffle_data(X_train, Y_train)
 
             train_cost = loss.eval({x: X_train,
-                                              y: Y_train})
-            train_accuracy = accuracy.eval(feed_dict={x: X_train,
-                                                      y: Y_train})
-            valid_cost = loss.eval(feed_dict={x: X_valid,
-                                              y: Y_valid})
-            valid_accuracy = accuracy.eval(feed_dict={x: X_valid,
-                                                      y: Y_valid})
+                                    y: Y_train})
+            train_accuracy = accuracy.eval({x: X_train,
+                                            y: Y_train})
+            valid_cost = loss.eval({x: X_valid,
+                                    y: Y_valid})
+            valid_accuracy = accuracy.eval({x: X_valid,
+                                            y: Y_valid})
             print("After {} epochs:\n".format(i) +
                   "\tTraining Cost: {}\n".format(train_cost) +
                   "\tTraining Accuracy: {}\n".format(train_accuracy) +
@@ -64,20 +64,21 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
             if i == epochs:
                 ''' Done training, last epoch metrics printed '''
                 return saver.save(sess, save_path)
+            print(batches)
             for j in range(batches):
-                start = batch_size * i
+                start = batch_size * j
                 '''print("start", start)'''
-                end = batch_size * (i + 1)
+                end = batch_size * (j + 1) + 1
                 '''print("end", end)'''
                 if end > m:
                     end = -1
                 sess.run(train_op, feed_dict={x: shuf_x[start:end],
                                               y: shuf_y[start:end]})
                 if j % 100 == 0 and j != 0:
-                    step_cost = loss.eval(feed_dict={x: shuf_x[start:end],
-                                                      y: shuf_y[start:end]})
-                    step_accuracy = accuracy.eval(feed_dict={x: shuf_x[start:end],
-                                                              y: shuf_y[start:end]})
+                    step_cost = loss.eval({x: shuf_x[start:end],
+                                                     y: shuf_y[start:end]})
+                    step_accuracy = accuracy.eval({x: shuf_x[start:end],
+                                                             y: shuf_y[start:end]})
                     print("\tStep {}:\n".format(j) +
                           "\t\tCost: {}\n".format(step_cost) +
                           "\t\tAccuracy: {}\n".format(step_accuracy))
