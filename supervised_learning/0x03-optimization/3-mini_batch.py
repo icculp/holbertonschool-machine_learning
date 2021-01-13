@@ -59,7 +59,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
                   "\tValidation Accuracy: {}\n".format(valid_accuracy))
             if i == epochs:
                 ''' Done training, last epoch metrics printed '''
-                return saver.save(sess, save_path)
+                break
             shuf_x, shuf_y = shuffle_data(X_train, Y_train)
             for j in range(batches + 1):
                 start = batch_size * j
@@ -76,3 +76,4 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
                     print("\tStep {}:\n".format(j + 1) +
                           "\t\tCost: {}\n".format(step_cost) +
                           "\t\tAccuracy: {}\n".format(step_accuracy))
+        return saver.save(sess, save_path)
