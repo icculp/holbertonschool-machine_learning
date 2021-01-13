@@ -26,12 +26,9 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
         allow for smaller final batch
         shuffle training data before each epoch
     """
-    '''permute = np.random.permutation(np.arange(X.shape[0]))'''
-    '''_ = tf.Variable(initial_value='fake_variable')'''
     with tf.Session() as sess:
         saver = tf.train.import_meta_graph("{}.meta".format(load_path))
         saver.restore(sess, load_path)
-        '''sess.run(tf.global_variables_initializer())'''
         m = X_train.shape[0]
         batches = m / batch_size
         if batches % 1 != 0:
@@ -61,7 +58,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
                 ''' Done training, last epoch metrics printed '''
                 break
             shuf_x, shuf_y = shuffle_data(X_train, Y_train)
-            for j in range(batches + 1):
+            for j in range(batches):
                 start = batch_size * j
                 end = batch_size * (j + 1)
                 '''if end > m:
