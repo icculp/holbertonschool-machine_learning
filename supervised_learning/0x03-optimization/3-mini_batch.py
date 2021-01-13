@@ -60,11 +60,10 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
             if i == epochs:
                 ''' Done training, last epoch metrics printed '''
                 return saver.save(sess, save_path)
-            print(batches)
             for j in range(batches):
                 start = batch_size * j
                 '''print("start", start)'''
-                end = batch_size * (j + 1) + 1
+                end = batch_size * (j + 1)
                 '''print("end", end)'''
                 if end > m:
                     end = -1
