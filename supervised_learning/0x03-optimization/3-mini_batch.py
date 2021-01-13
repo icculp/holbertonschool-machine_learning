@@ -3,7 +3,6 @@
     Optimization project
 """
 import tensorflow as tf
-import numpy as np
 shuffle_data = __import__('2-shuffle_data').shuffle_data
 
 
@@ -30,8 +29,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
     '''permute = np.random.permutation(np.arange(X.shape[0]))'''
     '''_ = tf.Variable(initial_value='fake_variable')'''
     with tf.Session() as sess:
-        '''all_variables = tf.get_collection_ref(tf.GraphKeys.GLOBAL_VARIABLES)'''
-        '''saver = tf.train.Saver()'''
         saver = tf.train.import_meta_graph("{}.meta".format(load_path))
         saver.restore(sess, load_path)
         sess.run(tf.global_variables_initializer())
@@ -39,7 +36,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
         batches = m / batch_size
         if batches % 1 != 0:
             batches = int(batches) + 1
-            
         x = tf.get_collection('x')[0]
         y = tf.get_collection('y')[0]
         accuracy = tf.get_collection('accuracy')[0]
@@ -76,10 +72,9 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
                                               y: shuf_y[start:end]})
                 if j % 100 == 0 and j != 0:
                     step_cost = loss.eval({x: shuf_x[start:end],
-                                                     y: shuf_y[start:end]})
+                                           y: shuf_y[start:end]})
                     step_accuracy = accuracy.eval({x: shuf_x[start:end],
-                                                             y: shuf_y[start:end]})
+                                                   y: shuf_y[start:end]})
                     print("\tStep {}:\n".format(j) +
                           "\t\tCost: {}\n".format(step_cost) +
                           "\t\tAccuracy: {}\n".format(step_accuracy))
-
