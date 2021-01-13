@@ -51,6 +51,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
                                     y: Y_valid})
             valid_accuracy = accuracy.eval({x: X_valid,
                                             y: Y_valid})
+
             print("After {} epochs:\n".format(i) +
                   "\tTraining Cost: {}\n".format(train_cost) +
                   "\tTraining Accuracy: {}\n".format(train_accuracy) +
