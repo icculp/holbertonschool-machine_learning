@@ -2,8 +2,6 @@
 """
     Optimization project
 """
-import tensorflow as tf
-import numpy as np
 
 
 def normalize(X, m, s):
