@@ -30,8 +30,8 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
         saver = tf.train.import_meta_graph("{}.meta".format(load_path))
         saver.restore(sess, load_path)
         m = X_train.shape[0]
-        batches = m // batch_size
-        if m % batch_size != 0:
+        batches = m / batch_size
+        if m % 1 != 0:
             batches = int(batches) + 1
         x = tf.get_collection('x')[0]
         y = tf.get_collection('y')[0]
@@ -59,8 +59,8 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
             for j in range(batches):
                 start = batch_size * j
                 end = batch_size * (j + 1)
-                if end > m:
-                    end = None
+                '''if end > m:
+                    end = None'''
                 '''print("start", start, "end", end)'''
                 sess.run(train_op, feed_dict={x: shuf_x[start:end],
                                               y: shuf_y[start:end]})
