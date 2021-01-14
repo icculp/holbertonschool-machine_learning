@@ -59,8 +59,9 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
             for j in range(batches):
                 start = batch_size * j
                 end = batch_size * (j + 1)
-                '''if end > m:
-                    end = -1'''
+                if end > m:
+                    end = None
+                '''print("start", start, "end", end)'''
                 sess.run(train_op, feed_dict={x: shuf_x[start:end],
                                               y: shuf_y[start:end]})
                 if (j + 1) % 100 == 0 and j != 0:
