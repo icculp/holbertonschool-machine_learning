@@ -2,7 +2,6 @@
 """
     Optimization project
 """
-import tensorflow as tf
 
 
 def update_variables_momentum(alpha, beta1, var, grad, v):
