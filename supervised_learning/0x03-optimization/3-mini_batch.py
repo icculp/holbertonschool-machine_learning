@@ -33,6 +33,8 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
         batches = m / batch_size
         if batches % 1 != 0:
             batches = int(batches) + 1
+        else
+            batches = int(batches
         x = tf.get_collection('x')[0]
         y = tf.get_collection('y')[0]
         accuracy = tf.get_collection('accuracy')[0]
