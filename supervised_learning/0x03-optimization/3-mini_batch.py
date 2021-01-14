@@ -51,7 +51,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
                   "\tTraining Cost: {}\n".format(train_cost) +
                   "\tTraining Accuracy: {}\n".format(train_accuracy) +
                   "\tValidation Cost: {}\n".format(valid_cost) +
-                  "\tValidation Accuracy: {}\n".format(valid_accuracy))
+                  "\tValidation Accuracy: {}".format(valid_accuracy))
             if i == epochs:
                 ''' Done training, last epoch metrics printed '''
                 break
@@ -71,5 +71,5 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
                                                    y: shuf_y[start:end]})
                     print("\tStep {}:\n".format(j + 1) +
                           "\t\tCost: {}\n".format(step_cost) +
-                          "\t\tAccuracy: {}\n".format(step_accuracy))
+                          "\t\tAccuracy: {}".format(step_accuracy))
         return saver.save(sess, save_path)
