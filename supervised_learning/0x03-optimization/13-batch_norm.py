@@ -17,5 +17,6 @@ def batch_norm(Z, gamma, beta, epsilon):
 
         Returns: normlized Z matrix
     """
-    norm = (Z - np.mean(Z, axis=0)) / (np.std(Z + epsilon, axis=0))
+    var = np.var(Z, axis=0)
+    norm = (Z - np.mean(Z, axis=0)) / np.sqrt(var + epsilon)
     return norm * gamma + beta
