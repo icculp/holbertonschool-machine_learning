@@ -47,11 +47,12 @@ def model(Data_train, Data_valid, layers, activations,
         """
         k = tf.contrib.layers.variance_scaling_initializer(mode="FAN_AVG")
         base = tf.layers.Dense(n, kernel_initializer=k)
-        mean, var = tf.nn.moments(base(prev), axes=[0])
+        layer = base(prev)
+        mean, var = tf.nn.moments(layer, axes=[0])
         gamma = tf.Variable(tf.ones([n]), trainable=True)
         beta = tf.Variable(tf.zeros([n]), trainable=True)
         epsilon = 1e-8
-        batch_norm = tf.nn.batch_normalization(base(prev), mean, var,
+        batch_norm = tf.nn.batch_normalization(layer, mean, var,
                                                beta, gamma, epsilon)
         return activation(batch_norm)
 
@@ -62,7 +63,8 @@ def model(Data_train, Data_valid, layers, activations,
             if activation[i] is None:
                 inp = create_layer(inp, layer_sizes[i], activation[i])
             else:
-                inp = create_batch_norm_layer(inp, layer_sizes[i], activation[i])
+                inp = create_batch_norm_layer(inp, layer_sizes[i],
+                                              activation[i])
         return inp
 
     def calculate_accuracy(y, y_pred):
@@ -79,12 +81,6 @@ def model(Data_train, Data_valid, layers, activations,
             y,
             y_pred)
         return m
-
-    def create_train_op(loss, alpha):
-        """ Creates training operation for NN
-        """
-        grady = tf.train.GradientDescentOptimizer(alpha, name='GradientDescent')
-        return grady.minimize(loss)
 
     def learning_rate_decay(alpha, decay_rate,
                             global_step, decay_step):
@@ -115,27 +111,41 @@ def model(Data_train, Data_valid, layers, activations,
         permute = np.random.permutation(X.shape[0])
         return X[permute], Y[permute]
 
+    def create_Adam_op(loss, alpha, beta1, beta2, epsilon):
+        """ Creates Adam optimizer training operation in tf
+            (loss, 0.001, 0.9, 0.99, 1e-8)
+            loss is the loss of the NN
+            alpha is the learning rate
+            beta1 is first moment weight
+            beta2 is second moment weight
+            epsilon is small number to avoid division by zero
+            Returns: Adam optimiization operation
+        """
+        opt = tf.train.AdamOptimizer(alpha, beta1=beta1,
+                                     beta2=beta2, epsilon=epsilon)
+        return opt.minimize(loss)
+
     with tf.Session() as sess:
         # splt data tuples into x, y
         X_train = Data_train[0]
         Y_train = Data_train[1]
         X_valid = Data_valid[0]
         Y_valid = Data_valid[1]
-        #create placeholders for tensorflow
+        # create placeholders for tensorflow
         x = tf.placeholder("float", shape=(None, X_train.shape[1]))
         y = tf.placeholder("float", shape=(None, Y_train.shape[1]))
         tf.add_to_collection('x', x)
         tf.get_collection('y', y)
-        #m is examples I think?
+        # m is examples I think?
         m = X_train.shape[0]
-        #setting batch size and manually implementing math.ciel
+        # setting batch size and manually implementing math.ciel
         batches = m / batch_size
         if batches % 1 != 0:
             batches = int(batches) + 1
         else:
             batches = int(batches)
 
-        #forward prop
+        # forward prop
         ''' if activations none, modify fp '''
         y_pred = forward_prop(x, layers, activations)
         tf.add_to_collection('y_pred', y_pred)
@@ -147,9 +157,10 @@ def model(Data_train, Data_valid, layers, activations,
         tf.add_to_collection('loss', loss)
 
         ''' decay learning rate alpha '''
-        decay = learning_rate_decay(alpha, decay_rate, 0, 1)
-        train_op = create_train_op(loss, decay)
-
+        global_step = tf.Variable(0)
+        decay = learning_rate_decay(alpha, decay_rate, global_step, 1)
+        train_op = create_Adam_op(loss, decay, beta1, beta2, epsilon)
+        tf.add_to_collection('train_op', train_op)
 
         """ Initialize variables and run session """
         init = tf.global_variables_initializer()
@@ -190,5 +201,6 @@ def model(Data_train, Data_valid, layers, activations,
                     print("\tStep {}:\n".format(j + 1) +
                           "\t\tCost: {}\n".format(step_cost) +
                           "\t\tAccuracy: {}".format(step_accuracy))
+            sess.run(tf.assign(global_step, global_step + 1))
         saver = tf.train.Saver()
         return saver.save(sess, save_path)
