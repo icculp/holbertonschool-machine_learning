@@ -23,6 +23,7 @@ class DeepNeuralNetwork:
         self.__L = len(layers)
         if activation not in ['sig', 'tanh']:
             raise ValueError("activation must be 'sig' or 'tanh'")
+        self.__activation = activation
 
         def checklist(li, i, L):
             """ checks if every element > 1 """
