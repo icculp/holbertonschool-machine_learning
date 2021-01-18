@@ -131,11 +131,15 @@ class DeepNeuralNetwork:
                 return hot
             except Exception:
                 return None
-        decoded = one_hot_decode(Y)
         a, _ = self.forward_prop(X)
         cost = self.cost(Y, a)
+        """ decode predicted output
+            re-encode for every class
+        """
+        decoded = one_hot_decode(a)
+        encoded_classes = one_hot_encode(decoded)
         x = np.where(a >= 0.5, 1, 0)
-        return a.astype(int), cost
+        return encoded_classes.astype(int), cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """ Calculates one pass of gradient descent on the NN
