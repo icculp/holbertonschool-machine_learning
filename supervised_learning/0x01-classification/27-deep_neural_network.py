@@ -139,7 +139,7 @@ class DeepNeuralNetwork:
         classes = Y.shape[0]
         decoded = one_hot_decode(a)
         encoded_classes = one_hot_encode(decoded, classes)
-        x = np.where(a >= 0.5, 1, 0)
+        '''x = np.where(a >= 0.5, 1, 0)'''
         return encoded_classes.astype(int), cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
@@ -177,6 +177,11 @@ class DeepNeuralNetwork:
             raise TypeError("alpha must be a float")
         if alpha <= 0:
             raise ValueError("alpha must be positive")
+        if verbose is True or graph is True:
+            if type(step) is not int:
+                raise TypeError("step must be an integer")
+            if step < 1 or step > iterations:
+                raise ValueError("step must be positive and <= iterations")
         for i in range(iterations + 1):
             A2, cache = self.forward_prop(X)
             if i == 0:
