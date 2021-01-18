@@ -135,7 +135,7 @@ def model(Data_train, Data_valid, layers, activations,
         x = tf.placeholder("float", shape=(None, X_train.shape[1]))
         y = tf.placeholder("float", shape=(None, Y_train.shape[1]))
         tf.add_to_collection('x', x)
-        tf.get_collection('y', y)
+        tf.add_to_collection('y', y)
         # m is examples I think?
         m = X_train.shape[0]
         # setting batch size and manually implementing math.ciel
