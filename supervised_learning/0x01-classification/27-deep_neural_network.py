@@ -136,8 +136,9 @@ class DeepNeuralNetwork:
         """ decode predicted output
             re-encode for every class
         """
+        classes = Y.shape[0]
         decoded = one_hot_decode(a)
-        encoded_classes = one_hot_encode(decoded)
+        encoded_classes = one_hot_encode(decoded, classes)
         x = np.where(a >= 0.5, 1, 0)
         return encoded_classes.astype(int), cost
 
