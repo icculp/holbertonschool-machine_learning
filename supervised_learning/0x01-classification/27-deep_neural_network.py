@@ -76,12 +76,12 @@ class DeepNeuralNetwork:
             return np.exp(aw) / np.sum(np.exp(aw), axis=0)
 
         for i in range(self.L):
-            w = 'W' + str(i + 1)
-            a = 'A' + str(i)
-            b = 'b' + str(i + 1)
+            w = "W" + str(i + 1)
+            a = "A" + str(i)
+            b = "b" + str(i + 1)
             aw_ = np.matmul(self.__weights[w],
                             self.__cache[a]) + self.__weights[b]
-            A = 'A' + str(i + 1)
+            A = "A" + str(i + 1)
             if i == self.L - 1:
                 act = sig_act(aw_)
                 act = soft_act(aw_)
@@ -183,7 +183,7 @@ class DeepNeuralNetwork:
                 raise TypeError("step must be an integer")
             if step < 1 or step > iterations:
                 raise ValueError("step must be positive and <= iterations")
-        for i in range(iterations + 1):
+        for i in range(iterations):
             A2, cache = self.forward_prop(X)
             if i == 0:
                 c = self.cost(Y, A2)
