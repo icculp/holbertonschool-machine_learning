@@ -83,6 +83,7 @@ class DeepNeuralNetwork:
                             self.__cache[a]) + self.__weights[b]
             A = 'A' + str(i + 1)
             if i == self.L - 1:
+                act = sig_act(aw_)
                 act = soft_act(aw_)
             else:
                 act = sig_act(aw_)
