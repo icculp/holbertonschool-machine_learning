@@ -13,4 +13,5 @@ def sensitivity(confusion):
     '''totals = sum(sum(label) for label in confusion)
     print("totals", totals)'''
     classes = len(confusion)
-    return [confusion[i][i] / sum(confusion[i]) for i in range(classes)]
+    return np.array([confusion[i][i] /
+                    sum(confusion[i]) for i in range(classes)])
