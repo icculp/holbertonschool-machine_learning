@@ -27,5 +27,6 @@ def f1_score(confusion):
     '''print("trueneg", trueneg)'''
     '''falsepos = [positives[i] - confusion[i][i] for i in range(classes)]'''
     '''return [confusion[i][i] / positives[i] for i in range(classes)]'''
-    return [confusion[i][i] / (confusion[i][i] +
-            ((1 / 2) * (falsepos[i] + falseneg[i]))) for i in range(classes)]
+    return np.array([confusion[i][i] / (confusion[i][i] +
+                    ((1 / 2) * (falsepos[i] +
+                     falseneg[i]))) for i in range(classes)])
