@@ -15,9 +15,9 @@ if __name__ == '__main__':
     logits = np.argmax(lib['logits'], axis=1)
     from sklearn.metrics import confusion_matrix
     cnf = confusion_matrix(labels, logits)
-    print(dir(cnf))
-    print(cnf.ravel())
-    def perf_measure(y_actual, y_hat):
+    '''print(dir(cnf))
+    print(cnf.ravel())'''
+    '''def perf_measure(y_actual, y_hat):
         TP = 0
         FP = 0
         TN = 0
@@ -35,4 +35,4 @@ if __name__ == '__main__':
         return(TP, FP, TN, FN)
     tp, fp, tn, fn = perf_measure(labels, logits)
     print(tn)
-    print(fp)
+    print(fp)'''
