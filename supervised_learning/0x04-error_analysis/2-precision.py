@@ -10,8 +10,8 @@ def precision(confusion):
         confusion is ndarray (classes, classes), rows correct coluns predicted
         Returns: ndarray (classes,) containing sensitivity for each class
     """
-    totals = sum(sum(label) for label in confusion)
+    '''totals = sum(sum(label) for label in confusion)'''
     '''print("totals", totals)'''
     classes = len(confusion)
     positives = np.sum(confusion, axis=0)
-    return [confusion[i][i] / positives[i] for i in range(classes)]
+    return np.array([confusion[i][i] / positives[i] for i in range(classes)])
