@@ -2,6 +2,7 @@
 """
     Regularization project
 """
+import numpy as np
 
 
 def l2_reg_cost(cost, lambtha, weights, L, m):
@@ -13,5 +14,11 @@ def l2_reg_cost(cost, lambtha, weights, L, m):
         m is number of data points
         Returns: cost of NN accounting for L2 regularization
     """
-    result = cost
-    return result
+    '''print(weights.keys())'''
+    w2_norm = 0
+    for i in range(1, L + 1):
+        w = "W" + str(i)
+        w2_norm += np.sqrt(np.sum(weights[w] ** 2))
+    '''print(weights)'''
+    l2_cost = cost + (lambtha / (2 * m)) * w2_norm
+    return l2_cost
