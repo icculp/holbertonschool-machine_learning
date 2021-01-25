@@ -24,7 +24,8 @@ def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
         A_i = cache['A' + str(i)]
         if i != L:
             d = 'D' + str(i)
-            A_i = cache[d] * (1 / (keep_prob))
+            A_i = cache[d]
+            ''' * (1 / (keep_prob))'''
             '''#/ (keep_prob)#np.multiply(A_i, cache[d]) / (1 - keep_prob)'''
         A_iless1 = cache['A' + str(i - 1)]
         if i == L:
