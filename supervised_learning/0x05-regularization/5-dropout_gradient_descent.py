@@ -22,11 +22,6 @@ def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
     wold = weights.copy()
     for i in range(L, 0, -1):
         A_i = cache['A' + str(i)]
-        if i != L:
-            d = 'D' + str(i)
-            A_i = cache[d]
-            ''' * (1 / (keep_prob))'''
-            '''#/ (keep_prob)#np.multiply(A_i, cache[d]) / (1 - keep_prob)'''
         A_iless1 = cache['A' + str(i - 1)]
         if i == L:
             dz = np.subtract(A_i, Y)
@@ -34,6 +29,11 @@ def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
             """ take derivative based on tanh activation """
             der = 1 - (A_i ** 2)
             dz = np.matmul(wold['W' + str(i + 1)].T, dz2) * der
+        if i != L:
+            d = 'D' + str(i)
+            dz = cache[d] * dz
+            ''' * (1 / (keep_prob))'''
+            '''#/ (keep_prob)#np.multiply(A_i, cache[d]) / (1 - keep_prob)'''
         dz2 = dz
         dw = np.matmul(dz, A_iless1.T) / m
         wupdate = np.subtract(wold['W' + str(i)], np.multiply(alpha, dw))
