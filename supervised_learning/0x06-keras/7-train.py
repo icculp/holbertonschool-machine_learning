@@ -8,6 +8,8 @@ import tensorflow.keras as K
 def train_model(network, data, labels, batch_size,
                 epochs, validation_data=None,
                 early_stopping=False, patience=0,
+                learning_rate_decay=False,
+                alpha=0.1, decay_rate=1,
                 verbose=True, shuffle=False):
     """ Trains a model using mini-bath gradient descent
         now using keras api in tensorflow
@@ -20,11 +22,11 @@ def train_model(network, data, labels, batch_size,
         shuffle is bool whether to shuffle at each epoch
         Returns: History object generated after training
     """
+    early = K.callbacks.EarlyStopping(monitor='val_loss',
+                                      patience=patience,
+                                      mode='min')
     cb = []
     if early_stopping is True and validation_data is not None:
-        early = K.callbacks.EarlyStopping(monitor='val_loss',
-                                          patience=patience,
-                                          mode='min')
         cb.append(early)
     history = network.fit(data, labels, epochs=epochs,
                           batch_size=batch_size,
