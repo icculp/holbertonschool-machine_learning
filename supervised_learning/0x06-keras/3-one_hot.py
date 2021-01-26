@@ -2,7 +2,6 @@
 """
     Keras project (finally)
 """
-import tensorflow as tf
 import tensorflow.keras as K
 
 
@@ -14,4 +13,4 @@ def one_hot(labels, classes=None):
     '''tf.compat.v1.enable_eager_execution()
     print(type(labels))'''
     oh = K.backend.one_hot(labels, labels.shape[-1])
-    return tf.Session().run(oh)
+    return K.backend.get_session().run(oh)
