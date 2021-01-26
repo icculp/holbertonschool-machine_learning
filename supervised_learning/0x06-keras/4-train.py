@@ -18,9 +18,6 @@ def train_model(network, data, labels, batch_size,
         shuffle is bool whether to shuffle at each epoch
         Returns: History object generated after training
     """
-    '''network.compile(loss='binary_crossentropy',
-                    optimizer='adam', metrics=['accuracy'])'''
-    '''print(dir(network))'''
     history = network.fit(data, labels, epochs=epochs, batch_size=batch_size,
                           verbose=verbose, shuffle=shuffle)
     return history
