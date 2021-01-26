@@ -22,7 +22,7 @@ def train_model(network, data, labels, batch_size,
     """
     early = K.callbacks.EarlyStopping(monitor='val_loss',
                                       patience=patience,
-                                      verbose=verbose)
+                                      mode='min')
     cb = []
     if early_stopping is not None:
         cb.append(early)
