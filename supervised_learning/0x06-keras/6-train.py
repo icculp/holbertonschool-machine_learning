@@ -6,7 +6,8 @@ import tensorflow.keras as K
 
 
 def train_model(network, data, labels, batch_size,
-                epochs, verbose=True, shuffle=False):
+                epochs, validation_data=None,
+                verbose=True, shuffle=False):
     """ Trains a model using mini-bath gradient descent
         now using keras api in tensorflow
         network is model to train
@@ -18,7 +19,7 @@ def train_model(network, data, labels, batch_size,
         shuffle is bool whether to shuffle at each epoch
         Returns: History object generated after training
     """
-    history = network.fit(data, labels, epochs=epochs, 
-                          batch_size=batch_size,
+    history = network.fit(data, labels, epochs=epochs, batch_size=batch_size,
                           verbose=verbose, shuffle=shuffle)
+    network.evaluate(data, labels, batch_size=None, verbose=verbose)
     return history

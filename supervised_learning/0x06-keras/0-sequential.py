@@ -2,7 +2,6 @@
 """
     Keras project (finally)
 """
-import tensorflow as tf
 import tensorflow.keras as K
 
 
@@ -18,11 +17,8 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
         not allowed to use Input class
     """
     weights = K.initializers.VarianceScaling(mode="fan_avg")
-    '''#drop = K.layers.Dropout(rate=keep_prob)'''
     reg = K.regularizers.l2(lambtha)
-    '''reg = K.layers.Dropout(lambtha)'''
     model = K.Sequential()
-    '''#model.add(tf.keras.Input(shape=())'''
     model.add(K.layers.Dense(layers[0],
                              activation=activations[0],
                              kernel_initializer=weights,
@@ -37,9 +33,4 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
                            kernel_initializer=weights,
                            kernel_regularizer=reg)
         )
-    '''for la in model.layers:
-        print(dir(la))
-        break
-    print(len(layers))
-    print(len(activations))'''
     return model
