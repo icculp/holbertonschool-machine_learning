@@ -17,20 +17,20 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
         not allowed to use Sequential class
     """
     weights = K.initializers.VarianceScaling(mode="fan_avg")
-    '''drop = K.layers.Dropout(rate=keep_prob)'''
     reg = K.regularizers.l2(lambtha)
     inputs = K.Input(shape=(nx,))
-    '''model.add(tf.keras.Input(shape=())'''
     layer1 = K.layers.Dense(layers[0],
                             activation=activations[0],
                             kernel_initializer=weights,
                             kernel_regularizer=reg)
     drop1 = K.layers.Dropout(rate=(1 - keep_prob))
+    reg = K.regularizers.l2(lambtha)
     layer2 = K.layers.Dense(layers[1],
                             activation=activations[1],
                             kernel_initializer=weights,
                             kernel_regularizer=reg)
     drop2 = K.layers.Dropout(rate=(1 - keep_prob))
+    reg = K.regularizers.l2(lambtha)
     layer3 = K.layers.Dense(layers[2],
                             activation=activations[2],
                             kernel_initializer=weights,
