@@ -18,7 +18,7 @@ def train_model(network, data, labels, batch_size,
         shuffle is bool whether to shuffle at each epoch
         Returns: History object generated after training
     """
-    history = network.fit(data, labels, epochs=epochs, 
+    history = network.fit(data, labels, epochs=epochs,
                           batch_size=batch_size,
                           verbose=verbose, shuffle=shuffle)
     return history
