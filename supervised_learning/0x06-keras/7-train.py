@@ -23,20 +23,19 @@ def train_model(network, data, labels, batch_size,
         Returns: History object generated after training
     """
     cb = []
-    if early_stopping is True and validation_data is not None:
-        early = K.callbacks.EarlyStopping(monitor='val_loss',
-                                          patience=patience,
-                                          mode='min')
-
-        def decayed_lr(step):
-            """ Inverse time decay schedule function, step == epoch"""
-            return alpha / (1 + decay_rate * (step))
-        '''sch = K.optimizers.schedules.InverseTimeDecay(alpha, 1, decay_rate,
-                                                      staircase=True)'''
-        learn = K.callbacks.LearningRateScheduler(schedule=decayed_lr,
-                                                  verbose=True)
-        cb.append(early)
-        cb.append(learn)
+    if validation_data is not None:
+        if early_stopping is True:
+            early = K.callbacks.EarlyStopping(monitor='val_loss',
+                                              patience=patience,
+                                              mode='min')
+            cb.append(early)
+        if learning_rate_decay is True:
+            def decayed_lr(step):
+                """ Inverse time decay schedule function, step == epoch"""
+                return alpha / (1 + decay_rate * (step))
+            learn = K.callbacks.LearningRateScheduler(schedule=decayed_lr,
+                                                      verbose=True)
+            cb.append(learn)
     history = network.fit(data, labels, epochs=epochs,
                           batch_size=batch_size,
                           callbacks=cb,
