@@ -23,4 +23,4 @@ def train_model(network, data, labels, batch_size,
     '''print(dir(network))'''
     history = network.fit(data, labels, epochs=epochs, batch_size=batch_size,
                           verbose=verbose, shuffle=shuffle)
-    return history
+    return history.history
