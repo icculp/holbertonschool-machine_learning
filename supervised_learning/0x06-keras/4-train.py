@@ -20,5 +20,7 @@ def train_model(network, data, labels, batch_size,
     """
     network.compile(loss='binary_crossentropy',
                     optimizer='adam', metrics=['accuracy'])
-    network.fit(data, labels, epochs=epochs, batch_size=batch_size)
-    return
+    '''print(dir(network))'''
+    history = network.fit(data, labels, epochs=epochs, batch_size=batch_size,
+                          verbose=verbose, shuffle=shuffle)
+    return history
