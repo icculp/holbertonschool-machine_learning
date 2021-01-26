@@ -9,4 +9,4 @@ def test_model(network, data, labels, verbose=True):
     """ Saves the entire model
         Returns: None
     """
-    return network.evaluate(data, labels, verbose=True)
+    return network.evaluate(data, labels, verbose=verbose)
