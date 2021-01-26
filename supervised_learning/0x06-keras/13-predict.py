@@ -5,7 +5,7 @@
 import tensorflow.keras as K
 
 
-def predict(network, data, verbose=True):
+def predict(network, data, verbose=False):
     """ Saves the entire model
         Returns: None
     """
