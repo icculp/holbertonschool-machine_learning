@@ -20,20 +20,22 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
     weights = K.initializers.VarianceScaling(mode="fan_avg")
     '''#drop = K.layers.Dropout(rate=keep_prob)'''
     reg = K.regularizers.l2(lambtha)
+    '''reg = K.layers.Dropout(lambtha)'''
     model = K.Sequential()
     '''#model.add(tf.keras.Input(shape=())'''
     model.add(K.layers.Dense(layers[0],
                              activation=activations[0],
                              kernel_initializer=weights,
-                             activity_regularizer=reg,
+                             kernel_regularizer=reg,
                              input_shape=(nx,)))
     for i in range(1, len(layers)):
+        reg = K.regularizers.l2(lambtha)
         model.add(K.layers.Dropout(rate=keep_prob))
         model.add(
             K.layers.Dense(layers[i],
                            activation=activations[i],
                            kernel_initializer=weights,
-                           activity_regularizer=reg)
+                           kernel_regularizer=reg)
         )
     '''for la in model.layers:
         print(dir(la))
