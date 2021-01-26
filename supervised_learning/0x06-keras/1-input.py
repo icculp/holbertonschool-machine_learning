@@ -26,8 +26,8 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
     for i in range(1, len(layers)):
         drop = K.layers.Dropout(rate=(1 - keep_prob))(layer)
         reg = K.regularizers.l2(lambtha)
-        layer = K.layers.Dense(layers[2],
-                               activation=activations[2],
+        layer = K.layers.Dense(layers[i],
+                               activation=activations[i],
                                kernel_initializer=weights,
                                kernel_regularizer=reg)(drop)
     '''drop1 = K.layers.Dropout(rate=(1 - keep_prob))
