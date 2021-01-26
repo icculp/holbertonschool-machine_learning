@@ -22,14 +22,24 @@ def train_model(network, data, labels, batch_size,
         shuffle is bool whether to shuffle at each epoch
         Returns: History object generated after training
     """
-    early = K.callbacks.EarlyStopping(monitor='val_loss',
-                                      patience=patience,
-                                      mode='min')
     cb = []
     if early_stopping is True and validation_data is not None:
+        early = K.callbacks.EarlyStopping(monitor='val_loss',
+                                          patience=patience,
+                                          mode='min')
+
+        def decayed_lr(step):
+            """ Inverse time decay schedule function, step == epoch"""
+            return alpha / (1 + decay_rate * (step))
+        '''sch = K.optimizers.schedules.InverseTimeDecay(alpha, 1, decay_rate,
+                                                      staircase=True)'''
+        learn = K.callbacks.LearningRateScheduler(schedule=decayed_lr,
+                                                  verbose=True)
         cb.append(early)
+        cb.append(learn)
     history = network.fit(data, labels, epochs=epochs,
                           batch_size=batch_size,
                           callbacks=cb,
+                          validation_data=validation_data,
                           verbose=verbose, shuffle=shuffle)
     return history
