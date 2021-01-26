@@ -15,14 +15,13 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
         keep_prob is probability that node will be kept
         Returns: keras model
 
-        not allowed to use Input class
+        not allowed to use Sequential class
     """
     x = tf.placeholder("float", shape=(None, nx), name='x')
     weights = K.initializers.VarianceScaling(mode="fan_avg")
     '''drop = K.layers.Dropout(rate=keep_prob)'''
     reg = K.regularizers.l2(lambtha)
     inputs = K.Input(shape=(nx,))
-    '''model = K.Sequential()'''
     '''model.add(tf.keras.Input(shape=())'''
     layer1 = K.layers.Dense(layers[0],
                             activation=activations[0],
