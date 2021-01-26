@@ -38,7 +38,8 @@ def train_model(network, data, labels, batch_size,
                                                       verbose=True)
             cb.append(learn)
         if save_best is True:
-            saver = K.callbacks.ModelCheckpoint(filepath, save_best_only=True, mode='min')
+            saver = K.callbacks.ModelCheckpoint(filepath, save_best_only=True,
+                                                mode='min')
             cb.append(saver)
     history = network.fit(data, labels, epochs=epochs,
                           batch_size=batch_size,
