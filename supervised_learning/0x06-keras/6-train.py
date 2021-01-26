@@ -24,7 +24,7 @@ def train_model(network, data, labels, batch_size,
                                       patience=patience,
                                       mode='min')
     cb = []
-    if early_stopping is not None and validation_data is not None:
+    if early_stopping is True and validation_data is not None:
         cb.append(early)
     history = network.fit(data, labels, epochs=epochs,
                           batch_size=batch_size,
