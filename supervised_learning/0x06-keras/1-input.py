@@ -2,7 +2,6 @@
 """
     Keras project (finally)
 """
-import tensorflow as tf
 import tensorflow.keras as K
 
 
@@ -17,7 +16,6 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
 
         not allowed to use Sequential class
     """
-    x = tf.placeholder("float", shape=(None, nx), name='x')
     weights = K.initializers.VarianceScaling(mode="fan_avg")
     '''drop = K.layers.Dropout(rate=keep_prob)'''
     reg = K.regularizers.l2(lambtha)
@@ -37,12 +35,5 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
                             activation=activations[2],
                             kernel_initializer=weights,
                             kernel_regularizer=reg)
-    '''#if i != len(layers) - 1:
-        #model.add(drop)'''
-    '''for la in model.layers:
-        print(dir(la))
-        break
-    print(len(layers))
-    print(len(activations))'''
     out = layer3(drop2(layer2(drop1(layer1(inputs)))))
     return K.Model(inputs=inputs, outputs=out)
