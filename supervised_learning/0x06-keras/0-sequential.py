@@ -30,7 +30,7 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
                              input_shape=(nx,)))
     for i in range(1, len(layers)):
         reg = K.regularizers.l2(lambtha)
-        model.add(K.layers.Dropout(rate=keep_prob))
+        model.add(K.layers.Dropout(rate=(1 - keep_prob)))
         model.add(
             K.layers.Dense(layers[i],
                            activation=activations[i],
