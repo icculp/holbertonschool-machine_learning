@@ -7,6 +7,7 @@ import tensorflow.keras as K
 
 def train_model(network, data, labels, batch_size,
                 epochs, validation_data=None,
+                early_stopping=False, patience=0,
                 verbose=True, shuffle=False):
     """ Trains a model using mini-bath gradient descent
         now using keras api in tensorflow
@@ -19,7 +20,14 @@ def train_model(network, data, labels, batch_size,
         shuffle is bool whether to shuffle at each epoch
         Returns: History object generated after training
     """
-    history = network.fit(data, labels, epochs=epochs, batch_size=batch_size,
+    early = K.callbacks.EarlyStopping(monitor='val_loss',
+                                      patience=patience,
+                                      verbose=verbose)
+    cb = []
+    if early_stopping is not None:
+        cb.append(early)
+    history = network.fit(data, labels, epochs=epochs,
+                          batch_size=batch_size,
+                          callbacks=cb,
                           verbose=verbose, shuffle=shuffle)
-    network.evaluate(data, labels, batch_size=None, verbose=verbose)
     return history

@@ -22,5 +22,4 @@ def train_model(network, data, labels, batch_size,
     history = network.fit(data, labels, epochs=epochs, batch_size=batch_size,
                           verbose=verbose, shuffle=shuffle,
                           validation_data=validation_data)
-    '''network.evaluate(data, labels, batch_size=None, verbose=verbose)'''
     return history
