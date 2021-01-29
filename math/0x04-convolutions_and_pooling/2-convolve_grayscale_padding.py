@@ -22,8 +22,8 @@ def convolve_grayscale_padding(images, kernel, padding):
 
     padh = padding[0]
     padw = padding[1]
-    out_h = images.shape[1] + kh + padh + 1
-    out_w = images.shape[2] - kw + padw + 1
+    out_h = images.shape[1] + kh + 2 * padh + 1
+    out_w = images.shape[2] - kw + 2 * padw + 1
     '''print(out_h)
     print(out_w)'''
     pad_along_height = max((out_h - 1) + kh - input_h, 0)
