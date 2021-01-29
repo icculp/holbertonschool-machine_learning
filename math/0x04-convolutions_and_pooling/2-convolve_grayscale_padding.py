@@ -43,7 +43,6 @@ def convolve_grayscale_padding(images, kernel, padding):
                           (padw, padw)), 'constant')
     for x in range(out_w):
         for y in range(out_h):
-            output[:, y, x] = (np.
-                               tensordot(image_padded[:, y:y + kh,
-                                         x:x + kw], kernel))
+            output[:, y, x] = np.sum(image_padded[:, y:y + kh,
+                                     x:x + kw] * kernel, axis=1).sum(axis=1)
     return output
