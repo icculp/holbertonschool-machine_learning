@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+    Convolutions project
+"""
 import numpy as np
 
 
