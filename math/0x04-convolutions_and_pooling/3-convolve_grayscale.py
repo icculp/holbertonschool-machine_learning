@@ -22,10 +22,10 @@ def convolve_grayscale(images, kernel, padding='same', stride=(1, 1)):
     m = images.shape[0]
     if padding == 'same':
         """ Account for even kernels by adding 1, when k is even """
-        padh = int(max((input_h - 1) * stride[0] + kh -
-                input_h, 0) / 2 + int(kh % 2 == 1))
-        padw = int(max((input_w - 1) * stride[1] + kw -
-                input_w, 0) / 2 + int(kh % 2 == 1))
+        padh = int(((input_h - 1) * stride[0] + kh -
+                   input_h) / 2) + int(kh % 2 == 0)
+        padw = int(((input_w - 1) * stride[1] + kw -
+                   input_w) / 2) + int(kh % 2 == 0)
         image_padded = np.pad(images, ((0, 0), (padh, padh),
                               (padw, padw)), 'constant',
                               constant_values=0)
