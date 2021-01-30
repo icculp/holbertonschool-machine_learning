@@ -14,8 +14,6 @@ def convolve(images, kernel, padding='same', stride=(1, 1)):
         padding is a tuple of (ph, pw)
         Returns: ndarray containing convoluted images
     """
-    '''assert kernel.shape[2] == images.shape[3],\
-        "the input and the kernel should have the same depth."'''
     kh = kernel.shape[0]
     kw = kernel.shape[1]
     kc = kernel.shape[2]
@@ -30,24 +28,18 @@ def convolve(images, kernel, padding='same', stride=(1, 1)):
                    input_h) / 2) + int(kh % 2 == 0)
         padw = int(((input_w - 1) * stride[1] + kw -
                    input_w) / 2) + int(kh % 2 == 0)
-        image_padded = np.pad(images, ((0, 0), (padh, padh),
-                              (padw, padw), (0, 0)), 'constant',
-                              constant_values=0)
     elif padding == 'valid':
         padh = 0
         padw = 0
         image_padded = images
     elif type(padding) == tuple:
         padh, padw = padding
-        image_padded = np.pad(images, ((0, 0), (padh, padh),
-                              (padw, padw), (0, 0)), 'constant',
-                              constant_values=0)
+    image_padded = np.pad(images, ((0, 0), (padh, padh),
+                          (padw, padw), (0, 0)), 'constant',
+                          constant_values=0)
     out_h = int(np.floor(images.shape[1] + 2 * padh - kh) / stride[0]) + 1
     out_w = int(np.floor(images.shape[2] + 2 * padw - kw) / stride[1]) + 1
     output = np.zeros((m, out_h, out_w, nc))
-    '''print(image_padded.shape)
-    print(kernel.shape)
-    print(output.shape)'''
     for w in range(nc):
         for x in range(out_w):
             for y in range(out_h):
