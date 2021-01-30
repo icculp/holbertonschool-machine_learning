@@ -14,8 +14,8 @@ def convolve(images, kernel, padding='same', stride=(1, 1)):
         padding is a tuple of (ph, pw)
         Returns: ndarray containing convoluted images
     """
-    assert kernel.shape[2] == images.shape[3],\
-        "the input and the kernel should have the same depth."
+    '''assert kernel.shape[2] == images.shape[3],\
+        "the input and the kernel should have the same depth."'''
     kh = kernel.shape[0]
     kw = kernel.shape[1]
     kc = kernel.shape[2]
