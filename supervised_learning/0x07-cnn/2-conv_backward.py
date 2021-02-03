@@ -39,14 +39,14 @@ def conv_backward(dZ, A_prev, W, b, padding='same', stride=(1, 1)):
         A_prev_pad = np.pad(A_prev, ((0, 0), (padh, padh),
                             (padw, padw), (0, 0)), 'constant',
                             constant_values=0)
-        dZ_pad = np.pad(dA, ((0, 0), (padh, padh),
-                        (padw, padw), (0, 0)), 'constant',
-                        constant_values=0)
+        dA_prev_pad = np.pad(dA, ((0, 0), (padh, padh),
+                             (padw, padw), (0, 0)), 'constant',
+                             constant_values=0)
     elif padding == 'valid':
         padh = 0
         padw = 0
         A_prev_pad = A_prev
-        dZ_pad = dA
+        dA_prev_pad = dA
 
     '''#out_h = int(np.floor(input_h - kh) / stride[0]) + int(kw % 2 == 0)
     #out_w = int(np.floor(input_w - kw) / stride[1]) + int(kh % 2 == 0)
@@ -60,7 +60,8 @@ def conv_backward(dZ, A_prev, W, b, padding='same', stride=(1, 1)):
                     ys = stride[0] * y
                     xs = stride[1] * x
                     '''A_prev[i, xs:xs + kh,ys:ys + kw, :]'''
-                    dZ_pad[i, xs:xs + kh, ys:ys + kw, :] += W[:, :, :, c] *\
+                    dA_prev_pad[i, xs:xs + kh, ys:ys +
+                                kw, :] += W[:, :, :, c] *\
                         dZ[i, xs, ys, c]
                     dW[:, :, :, c] += A_prev_pad[i, xs:xs +
                                                  kh, ys:ys + kw, :] *\
@@ -76,8 +77,8 @@ def conv_backward(dZ, A_prev, W, b, padding='same', stride=(1, 1)):
         else:'''
         '''print(dZ_pad.shape)'''
         if padding == 'valid':
-            dA[i, :, :, :] = dZ_pad[i, :, :, :]
+            dA[i, :, :, :] = dA_prev_pad[i, :, :, :]
         else:
-            dA[i, :, :, :] = dZ_pad[i, padh:-padh, padw:-padw, :]
+            dA[i, :, :, :] = dA_prev_pad[i, padh:-padh, padw:-padw, :]
     '''assert (dA.shape == A_prev.shape), "NOPE"'''
     return dA, dW, db
