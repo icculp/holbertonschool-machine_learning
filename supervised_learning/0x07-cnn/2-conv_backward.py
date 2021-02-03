@@ -27,13 +27,13 @@ def conv_backward(dZ, A_prev, W, b, padding='same', stride=(1, 1)):
     dA = np.zeros(A_prev.shape)
     dW = np.zeros(W.shape)
     db = np.zeros(b.shape)
-
+    '''padding = "same"'''
     if padding == 'same':
         """ Account for even kernels by adding 1, when k is even """
-        padh = int(((input_h - 1) * stride[0] + kh -
-                   input_h) / 2) + int(kh % 2 == 0)
-        padw = int(((input_w - 1) * stride[1] + kw -
-                   input_w) / 2) + int(kh % 2 == 0)
+        padh = int(((h_prev - 1) * stride[0] + kh -
+                   h_prev) / 2) + int(kh % 2 == 0)
+        padw = int(((w_prev - 1) * stride[1] + kw -
+                   w_prev) / 2) + int(kh % 2 == 0)
         A_prev_pad = np.pad(A_prev, ((0, 0), (padh, padh),
                             (padw, padw), (0, 0)), 'constant',
                             constant_values=0)
@@ -76,5 +76,6 @@ def conv_backward(dZ, A_prev, W, b, padding='same', stride=(1, 1)):
         if padh == 0:
             dA[i, :, :, :] = dZ_pad[i, :, :, :]
         else:
-            dA[i, :, :, :] = dZ_pad[:, padh:-padh, padw:-padw, :]
+            dA[i, :, :, :] = dZ_pad[i, padh:-padh, padw:-padw, :]
+    assert (dA.shape == A_prev.shape), "NOPE"
     return dA, dW, db
