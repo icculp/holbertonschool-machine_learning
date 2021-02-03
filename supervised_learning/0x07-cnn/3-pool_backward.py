@@ -5,26 +5,21 @@
 import numpy as np
 
 
-def conv_backward(dZ, A_prev, W, b, padding='same', stride=(1, 1)):
+def pool_backward(dA, A_prev, kernel_shape, stride=(1, 1), mode='max'):
     """ Back prop over convolutional layer
-        dZ contains partial derivative w/ respect to unactivated output
+        dA contains partial derivative w/ respect to output of pooling layer
             (m, h_new, w_new, c_new)
         A_prev (m, h_prev, w_prev, c_prev) output of prev layer
-        W contains kernels (kh, kw, c_prev, c_new)
-            c_prev is number of channels in previous layer
-            c_new is # of channels in output
-        b (1, 1, 1, c_new)
+        kernel_shape (kh, kw)
         padding 'same' or 'valid'
         stride (sh, sw)
-        Returns: partial der w/ respect to previous layer,
-                kernels, and biases respectively
-                (dAprev, dW, db)
+        mode 'max' or 'avg'
+        Returns: partial der w/ respect to previous layer (dA_prev)
     """
     m, h_prev, w_prev, c_prev = A_prev.shape
     kh, kw, _, _ = W.shape
     m, h_new, w_new, c_new = dZ.shape
-    '''print(dZ.shape)
-    print(A_prev.shape)'''
+
     dA = np.zeros(A_prev.shape)
     dW = np.zeros(W.shape)
     db = np.zeros(b.shape)
@@ -56,8 +51,8 @@ def conv_backward(dZ, A_prev, W, b, padding='same', stride=(1, 1)):
                         dZ[i, xs, ys, c]
                     dW[:, :, :, c] += A_prev_pad[i, xs:xs +
                                                  kh, ys:ys + kw, :] *\
-                        dZ[i, x, y, c]
-                    db[:, :, :, c] += dZ[i, x, y, c]
+                        dZ[i, xs, ys, c]
+                    db[:, :, :, c] += dZ[i, xs, ys, c]
         if padding == 'valid':
             dA[i, :, :, :] = dA_prev_pad[i, :, :, :]
         else:
