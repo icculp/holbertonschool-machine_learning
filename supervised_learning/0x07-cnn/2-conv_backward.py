@@ -31,9 +31,11 @@ def conv_backward(dZ, A_prev, W, b, padding='same', stride=(1, 1)):
     if padding == 'same':
         """ Account for even kernels by adding 1, when k is even """
         padh = int(((h_prev - 1) * stride[0] + kh -
-                   h_prev) / 2) + int(kh % 2 == 0)
+                   h_prev) / 2) + 1
+        '''int(kh % 2 == 0)'''
         padw = int(((w_prev - 1) * stride[1] + kw -
-                   w_prev) / 2) + int(kh % 2 == 0)
+                   w_prev) / 2) + 1
+        '''int(kh % 2 == 0)'''
         A_prev_pad = np.pad(A_prev, ((0, 0), (padh, padh),
                             (padw, padw), (0, 0)), 'constant',
                             constant_values=0)
