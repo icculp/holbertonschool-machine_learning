@@ -24,7 +24,6 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
     aw_ = np.matmul(w,
                     a + b)
     '''
-
     kh = W.shape[0]
     kw = W.shape[1]
     kc = W.shape[2]
@@ -53,7 +52,7 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
     out_h = int(np.floor(A_prev.shape[1] + 2 * padh - kh) / stride[0]) + 1
     out_w = int(np.floor(A_prev.shape[2] + 2 * padw - kw) / stride[1]) + 1
     output = np.zeros((m, out_h, out_w, nc))
-    print(b)
+    '''print(b)'''
     for w in range(nc):
         for x in range(out_w):
             for y in range(out_h):
