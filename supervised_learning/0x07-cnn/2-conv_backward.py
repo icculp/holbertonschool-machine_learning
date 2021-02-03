@@ -73,7 +73,7 @@ def conv_backward(dZ, A_prev, W, b, padding='same', stride=(1, 1)):
             dA[i, :, :, :] = dZ_pad[padh:-padh, padw:-padw, :]
         else:'''
         '''print(dZ_pad.shape)'''
-        if padh == 0:
+        if padding == 'valid':
             dA[i, :, :, :] = dZ_pad[i, :, :, :]
         else:
             dA[i, :, :, :] = dZ_pad[i, padh:-padh, padw:-padw, :]
