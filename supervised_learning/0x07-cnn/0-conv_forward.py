@@ -35,11 +35,9 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
     if padding == 'same':
         """ Account for even kernels by adding 1, when k is even """
         padh = int(((input_h - 1) * stride[0] + kh -
-                   input_h) / 2) + 1
-        '''int(kh % 2 == 0)'''
+                   input_h) / 2) + int(kh % 2 == 0)
         padw = int(((input_w - 1) * stride[1] + kw -
-                   input_w) / 2) + 1
-        '''int(kh % 2 == 0)'''
+                   input_w) / 2) + int(kh % 2 == 0)
     elif padding == 'valid':
         padh = 0
         padw = 0
