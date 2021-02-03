@@ -64,7 +64,7 @@ def conv_backward(dZ, A_prev, W, b, padding='same', stride=(1, 1)):
                         dZ[i, x, y, c]
                     dW[:, :, :, c] += A_prev_pad[i, xs:xs +
                                                  kh, ys:ys + kw, :] *\
-                        dZ[i, x, y, c]
+                        dZ[i, xs, ys, c]
                     db[:, :, :, c] += dZ[i, xs, ys, c]
                     '''print(dX.shape)
                     print(W.shape)
