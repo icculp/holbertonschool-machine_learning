@@ -22,11 +22,11 @@ def lenet5(X):
             a tensor for the loss of the netowrk
             a tensor for the accuracy of the network
     """
-    init = K.initializers.he_normal(seed=None)
+    init = K.initializers.he_normal(seed=0)
     layer = K.layers.Conv2D(filters=6, kernel_size=(5, 5),
                             padding='same', activation='relu',
                             kernel_initializer=init,
-                            input_shape=X.shape)(X)
+                            )(X)
     layer = K.layers.MaxPool2D((2, 2), strides=(2, 2))(layer)
     layer = K.layers.Conv2D(filters=16, kernel_size=(5, 5),
                             padding='valid', activation='relu',
@@ -38,9 +38,10 @@ def lenet5(X):
                            kernel_initializer=init)(layer)
     layer = K.layers.Dense(84, activation='relu',
                            kernel_initializer=init)(layer)
-    layer = K.layers.Dense(10, activation='relu',
+    layer = K.layers.Dense(10, activation='softmax',
                            kernel_initializer=init)(layer)
-    model = K.models.Model(inputs=X, outputs=layer)
-    model.compile(optimizer="Adam", loss='categorical_crossentropy',
+    model = K.Model(inputs=X, outputs=layer)
+    adam = K.optimizers.Adam()
+    model.compile(optimizer=adam, loss='categorical_crossentropy',
                   metrics=['accuracy'])
     return model
