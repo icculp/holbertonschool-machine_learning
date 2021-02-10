@@ -41,7 +41,7 @@ def projection_block(A_prev, filters, s=2):
 
     shortcut = K.layers.Conv2D(F12, kernel_size=(1, 1),
                                strides=s)(A_prev)
-    shortcut = K.layers.BatchNormalization()(conv)
+    shortcut = K.layers.BatchNormalization()(shortcut)
 
     relu = K.layers.Add()([last, shortcut])
     out = K.layers.Activation('relu')(relu)
