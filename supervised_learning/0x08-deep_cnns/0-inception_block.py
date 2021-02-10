@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+    Deep Convolutional Architectures
+"""
 import tensorflow.keras as K
 
 
