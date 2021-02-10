@@ -38,7 +38,8 @@ def inception_network():
     fivea = inception_block(mpool, [256, 160, 320, 32, 128, 128])
     fiveb = inception_block(fivea, [384, 192, 384, 48, 128, 128])
     avgpool = K.layers.AveragePooling2D(pool_size=(7, 7),
-                                 strides=(1, 1), padding='valid')(fiveb)
+                                        strides=(1, 1),
+                                        padding='valid')(fiveb)
     drop = K.layers.Dropout(rate=0.4)(avgpool)
     dense = K.layers.Dense(1000, activation='softmax')(drop)
     model = K.Model(inputs=x, outputs=dense)
