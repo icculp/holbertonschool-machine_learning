@@ -33,7 +33,7 @@ def inception_network():
     fourc = inception_block(fourb, [128, 128, 256, 24, 64, 64])
     fourd = inception_block(fourc, [112, 144, 288, 32, 64, 64])
     foure = inception_block(fourd, [256, 160, 320, 32, 128, 128])
-    mpool = K.layers.MaxPool2D(pool_size=(7, 7),
+    mpool = K.layers.MaxPool2D(pool_size=(3, 3),
                                strides=(2, 2), padding='same')(foure)
     fivea = inception_block(mpool, [256, 160, 320, 32, 128, 128])
     fiveb = inception_block(fivea, [384, 192, 384, 48, 128, 128])
