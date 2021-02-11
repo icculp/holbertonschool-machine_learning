@@ -14,35 +14,45 @@ def resnet50():
             along channels axis and then ReLu
         Returns: keras model
     """
+    X = K.Input(shape=(224, 224, 3))
     init = K.initializers.he_normal()
-    F11, F3, F12 = filters
-    conv = K.layers.Conv2D(F11, kernel_size=(1, 1),
-                           strides=s,
-                           padding='valid',
-                           kernel_initializer=init)(A_prev)
-    bnorm = K.layers.BatchNormalization()(conv)
-    relu = K.layers.Activation('relu')(bnorm)
-
-    conv = K.layers.Conv2D(F3, kernel_size=(3, 3),
-                           strides=(1, 1),
+    conv = K.layers.Conv2D(64, kernel_size=(7, 7),
+                           strides=2,
                            padding='same',
-                           kernel_initializer=init)(relu)
+                           kernel_initializer=init)(X)
     bnorm = K.layers.BatchNormalization()(conv)
     relu = K.layers.Activation('relu')(bnorm)
 
-    conv = K.layers.Conv2D(F12, kernel_size=(1, 1),
-                           strides=(1, 1),
-                           padding='valid',
-                           kernel_initializer=init)(relu)
-    last = K.layers.BatchNormalization()(conv)
+    three_max_pool = K.layers.MaxPool2D(pool_size=(3, 3),
+                                        strides=(2, 2),
+                                        padding='same')(relu)
+    filters = (64, 64, 256)
+    ident = projection_block(three_max_pool, filters, s=1)
+    ident = identity_block(ident, filters)
+    ident = identity_block(ident, filters)
 
-    shortcut = K.layers.Conv2D(F12, kernel_size=(1, 1),
-                               strides=s,
-                               padding='valid',
-                               kernel_initializer=init)(A_prev)
-    shortcut = K.layers.BatchNormalization()(shortcut)
+    filters = (128, 128, 512)
+    ident = projection_block(ident, filters)
+    ident = identity_block(ident, filters)
+    ident = identity_block(ident, filters)
+    ident = identity_block(ident, filters)
 
-    relu = K.layers.Add()([last, shortcut])
-    out = K.layers.Activation('relu')(relu)
+    filters = (256, 256, 1024)
+    ident = projection_block(ident, filters)
+    ident = identity_block(ident, filters)
+    ident = identity_block(ident, filters)
+    ident = identity_block(ident, filters)
+    ident = identity_block(ident, filters)
+    ident = identity_block(ident, filters)
 
-    return out
+    filters = (512, 512, 2048)
+    ident = projection_block(ident, filters)
+    ident = identity_block(ident, filters)
+    ident = identity_block(ident, filters)
+
+    avgpool = K.layers.AveragePooling2D(pool_size=(7, 7),
+                                        strides=(1, 1),
+                                        padding='same')(ident)
+    dense = K.layers.Dense(1000, activation='softmax')(avgpool)
+    model = K.Model(inputs=X, outputs=dense)
+    return model
