@@ -18,9 +18,9 @@ def transition_layer(X, nb_filters, compression):
     relu = K.layers.Activation('relu')(bnorm)
     nb = int(nb_filters * compression)
     conv = K.layers.Conv2D(nb, kernel_size=(1, 1),
-                        strides=1,
-                        padding='same',
-                        kernel_initializer=init)(relu)
+                           strides=1,
+                           padding='same',
+                           kernel_initializer=init)(relu)
     avg = K.layers.AveragePooling2D(pool_size=(2, 2),
                                     strides=(2, 2))(conv)
 
