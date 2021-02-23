@@ -2,19 +2,27 @@
 """
     Object detection
 """
+import tensorflow.keras as K
+import numpy as np
 
 
-if __name__ == '__main__':
-    import numpy as np
-    Yolo = __import__('0-yolo').Yolo
+class Yolo:
+    """ Yolo v3 for object detection """
 
-    np.random.seed(0)
-    anchors = np.array([[[116, 90], [156, 198], [373, 326]],
-                        [[30, 61], [62, 45], [59, 119]],
-                        [[10, 13], [16, 30], [33, 23]]])
-    yolo = Yolo('../data/yolo.h5', '../data/coco_classes.txt', 0.6, 0.5, anchors)
-    yolo.model.summary()
-    print('Class names:', yolo.class_names)
-    print('Class threshold:', yolo.class_t)
-    print('NMS threshold:', yolo.nms_t)
-    print('Anchor boxes:', yolo.anchors)
+    def __init__(self, model_path, classes_path, class_t,
+                 nms_t, anchors):
+        """ Yolo constructor
+            model_path path where Darknet model stored
+            classes_path path for list of class names
+            class_t float representing box score threshold for initial filter
+            nms_t float IOS threshold for non-max suppression
+            anchors ndarray (outputs, anchor_boxes, 2) (2> anchor dimensions)
+        """
+        self.model = K.models.load_model(model_path)
+        with open(classes_path) as f:
+            cn = f.read().split('\n')
+            cn.pop()
+        self.class_names = cn
+        self.class_t = class_t
+        self.nms_t = nms_t
+        self.anchors = anchors
