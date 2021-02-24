@@ -25,6 +25,30 @@ if __name__ == '__main__':
     (X_train, Y_train), (X_test, Y_test) = K.datasets.cifar10.load_data()
     X_train_p, Y_train_p = preprocess_data(X_train, Y_train)
     X_test_p, Y_test_p = preprocess_data(X_test, Y_test)
+
+    inception = K.applications.DenseNet121(weights='imagenet',
+                                           include_top=False)
+    inputs = K.Input(shape=(32, 32, 3))
+    resize = K.layers.Lambda(lambda X:
+                             tf.image.resize_images(X, (299, 299)))(inputs)
+    base = inception(resize, training=False)
+    layer = K.layers.GlobalAveragePooling2D()(base)
+    layer = K.layers.Dense(500, activation="relu")(layer)
+    layer = K.layers.Dropout(.3)(layer)
+    output = K.layers.Dense(10, activation="softmax")(layer)
+    model = K.Model(inputs=inputs, outputs=output)
+    inception.trainable = False
+    model.summary()
+
+    adam = K.optimizers.Adam()
+    model.compile(optimizer=adam, loss='categorical_crossentropy',
+                  metrics=['acc'])
+
+    model.fit(X_train_p, Y_train_p, epochs=4, batch_size=32,
+              shuffle=True, verbose=1, validation_data=(X_test_p, Y_test_p))
+    model.save('cifar10.h5')
+
+    """
     '''resize = K.layers.Lambda(lambda X:
     K.backend.resize_images(X, 9 , 9,
     'channels_last'), input_shape=(32, 32, 3))'''
@@ -74,3 +98,4 @@ if __name__ == '__main__':
               batch_size=32, shuffle=True,
               validation_data=(X_test_p, Y_test_p))
     model.save('cifar10.h5')
+    """
