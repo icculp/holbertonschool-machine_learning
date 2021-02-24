@@ -26,7 +26,7 @@ if __name__ == '__main__':
     X_train_p, Y_train_p = preprocess_data(X_train, Y_train)
     X_test_p, Y_test_p = preprocess_data(X_test, Y_test)
 
-    inception = K.applications.DenseNet121(weights='imagenet',
+    inception = K.applications.InceptionResNetV2(weights='imagenet',
                                            include_top=False)
     inputs = K.Input(shape=(32, 32, 3))
     resize = K.layers.Lambda(lambda X:
