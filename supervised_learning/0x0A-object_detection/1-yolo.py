@@ -4,6 +4,7 @@
 """
 import tensorflow.keras as K
 import numpy as np
+from math import exp
 
 
 class Yolo:
@@ -15,8 +16,8 @@ class Yolo:
             model_path path where Darknet model stored
             classes_path path for list of class names
             class_t float representing box score threshold for initial filter
-            nms_t float IOS threshold for non-max suppression
-            anchors ndarray (outputs, anchor_boxes, 2) (2> anchor dimensions)
+            nms_t float IOU threshold for non-max suppression
+            anchors ndarray (outputs, anchor_boxes, 2) 2=> anchor dimensions
         """
         self.model = K.models.load_model(model_path)
         with open(classes_path) as f:
@@ -32,7 +33,7 @@ class Yolo:
             outputs is list of ndarrays containing predictions for single image
                 each output shape (grid_height, grid_width, anchor_boxes, 4 + 1 + classes)
                     4 => (t_x, t_y, t_w, t_h) 1=> box confidence
-                    classes =? class probabilities for all classes
+                    classes => class probabilities for all classes
             image_size ndarray image original size (img_h, img_w)
             Returns: tuple (boxes, box_confidences, box_class_probs)
                 boxes (grid_height, grid_width, anchor_boxes, 4)
@@ -40,7 +41,58 @@ class Yolo:
                 box_confidences ndarray (grid_height, grid_width, anchor_boxes, 1)
                 box_class_probs ndarray (grid_height, grid_width, anchor_boxes, classes)
         """
+        height, width = image_size
         print(outputs)
-        for output in outputs:
-            for detection in output:
-                scores = detection
+        box_confidences = []
+        boxes = []
+        def sigmoid(x):
+            ''' sigmoid function '''
+            return 1 / (1 + exp(-x))
+        
+        for output in range(len(outputs)):
+            for row in range(output):
+                for col in range(lrow):
+                    for box in range(col):
+                        a2 += 1
+                        print(col.shape)
+                        print(output.shape)
+                        tx = box[0]
+                        ty = box[1]
+                        tw = box[2]
+                        th = box[3]
+                        bx = sigmoid(tx) + row
+                        by = sigmoid(ty) + col
+                        bw = pw * exp(tw)
+                        bh = ph * exp(th)
+                        scores = output[5:]
+                        class_id = np.argmax(scores)
+                        confidence = sigmoid(output[4])
+                        if confidence > self.nms_t:
+                            center_x = int(detection[0] * width)
+                            center_y = int(detection[1] * height)
+                            w = int(detection[2] * width)
+                            h = int(detection[3] * height)
+                            x = center_x - w / 2
+                            y = center_y - h / 2
+                            box_confidences.append(confidence)
+
+            '''
+            #output = output.ravel
+            #for detection in output[:, :, , :]:
+            #print(detection.shape)
+            scores = output[:, :, :, 5:]
+            #class_id = np.argmax(scores)
+            confidence = sigmoid(output[:, :, : 4])#scores[class_id]
+            if confidence > self.nms_t:
+                center_x = int(detection[0] * width)
+                center_y = int(detection[1] * height)
+                w = int(detection[2] * width)
+                h = int(detection[3] * height)
+                x = center_x - w / 2
+                y = center_y - h / 2
+                box_confidences.append(confidence)'''
+        '''
+        boxes = np.asarray(boxes, dtype=np.float32)
+        box_confidences = np.asarray(box_confidences, dtype=np.float32)
+        box_class_probs = np.asarray(box_class_probs, dtype=np.float32)
+        return (boxes, box_confidences, box_class_probs)'''
