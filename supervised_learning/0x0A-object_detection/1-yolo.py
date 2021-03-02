@@ -80,9 +80,11 @@ class Yolo:
             boxes.append(box)
             box_confidences.append(box_confidence)
             box_class_probs.append(box_class_prob)
+        '''
         boxes = np.asarray(boxes)  # , dtype=np.float32)
         box_confidences = np.asarray(box_confidences)  # , dtype=np.float32)
         box_class_probs = np.asarray(box_class_probs)  # , dtype=np.float32)
+        '''
         return (boxes, box_confidences, box_class_probs)
 
         '''
