@@ -128,9 +128,9 @@ class Yolo:
                 predicted_box_classes: ndarray (?,)  class number for box_predictions ordered by class and box score
                 predicted_box_scores: ndarray (?) box scores for box_predictions ordered by class and box score
         """
-        print("filtered_boxes", filtered_boxes.shape)
-        print("box_classes", box_classes.shape)
-        print("box_scores", box_scores.shape)
+        #print("filtered_boxes", filtered_boxes.shape)
+        #print("box_classes", box_classes.shape)
+        #print("box_scores", box_scores.shape)
         box_predictions = []
         predicted_box_classes = []
         predicted_box_scores = []
@@ -143,14 +143,14 @@ class Yolo:
 
         area = (x2 - x1 + 1) * (y2 - y1 + 1)
         idxs = np.argsort(y2)
-        print(146)
+        #print(146)
         while len(idxs) > 0:
-            print(idxs)
+            #print(idxs)
             last = len(idxs) - 1
             i = idxs[last]
             pick.append(i)
             suppress = [last]
-            print(152)
+            #print(152)
             for pos in range(0, last):
                 j = idxs[pos]
                 xx1 = max(x1[i], x1[j])
@@ -160,7 +160,7 @@ class Yolo:
                 w = max(0, xx2 - xx1 + 1)
                 h = max(0, yy2 - yy1 + 1)
                 overlap = float(w * h) / area[j]
-            print(161)
+            #print(161)
             if overlap < self.nms_t:
                 suppress.append(pos)
             idxs = np.delete(idxs, suppress)
@@ -168,4 +168,10 @@ class Yolo:
         box_predictions = filtered_boxes[pick]
         predicted_box_classes = box_classes[pick]
         predicted_box_scores = box_scores[pick]
+
+        box_predictions.sort()
+        predicted_box_classes.sort()
+        print(type(predicted_box_classes))
+        print(predicted_box_classes)
+        predicted_box_scores.sort()
         return (box_predictions, predicted_box_classes, predicted_box_scores)
