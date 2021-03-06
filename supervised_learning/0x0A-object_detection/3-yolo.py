@@ -117,20 +117,26 @@ class Yolo:
         return (filtered_boxes, box_confidences, box_scores)
 
     def non_max_suppression(self, filtered_boxes, box_classes, box_scores):
-        """ selects the best bounding boxes for each potential object 
+        """ selects the best bounding boxes for each potential object
             filtered_boxes: a numpy.ndarray of shape (?, 4)
             box_classes: a numpy.ndarray of shape (?,)
                 class number for class filtered_boxes predicts, respectively
-            box_scores: a numpy.ndarray of shape (?) 
+            box_scores: a numpy.ndarray of shape (?)
                 box scores for each box in filtered_boxes, respectively
-            Returns a tuple of (box_predictions, predicted_box_classes, predicted_box_scores):
-                box_predictions: ndarray (?, 4) predicted bounding boxes ordered by class and box score
-                predicted_box_classes: ndarray (?,)  class number for box_predictions ordered by class and box score
-                predicted_box_scores: ndarray (?) box scores for box_predictions ordered by class and box score
+            Returns a tuple of (box_predictions,
+                                predicted_box_classes, predicted_box_scores):
+                box_predictions: ndarray (?, 4) predicted bounding boxes
+                    ordered by class and box score
+                predicted_box_classes: ndarray (?,)  class number for
+                    box_predictions ordered by class and box score
+                predicted_box_scores: ndarray (?) box scores for
+                    box_predictions ordered by class and box score
         """
+        '''
         print("filtered_boxes", filtered_boxes.shape)
         print("box_classes", box_classes.shape)
         print("box_scores", box_scores.shape)
+        '''
         box_predictions = []
         predicted_box_classes = []
         predicted_box_scores = []
@@ -143,14 +149,13 @@ class Yolo:
 
         area = (x2 - x1 + 1) * (y2 - y1 + 1)
         idxs = np.argsort(y2)
-        #print(146)
         while len(idxs) > 0:
-            #print(idxs)
+            '''print(idxs)'''
             last = len(idxs) - 1
             i = idxs[last]
             pick.append(i)
             suppress = [last]
-            #print(152)
+            '''print(152)'''
             for pos in range(last):
                 j = idxs[pos]
                 xx1 = max(x1[i], x1[j])
@@ -160,18 +165,17 @@ class Yolo:
                 w = max(0, xx2 - xx1 + 1)
                 h = max(0, yy2 - yy1 + 1)
                 overlap = float(w * h) / area[j]
-            #print(161)
             if overlap > self.nms_t:
                 suppress.append(pos)
             idxs = np.delete(idxs, suppress)
-        print('picckkkkkk', pick)
+        '''print('picckkkkkk', pick)'''
         box_predictions = filtered_boxes[pick]
         predicted_box_classes = box_classes[pick]
         predicted_box_scores = box_scores[pick]
 
         box_predictions.sort()
         predicted_box_classes.sort()
-        print(type(predicted_box_classes))
-        print("shape is", predicted_box_classes.shape)
+        '''print(type(predicted_box_classes))
+        print("shape is", predicted_box_classes.shape)'''
         predicted_box_scores.shape
         return (box_predictions, predicted_box_classes, predicted_box_scores)
