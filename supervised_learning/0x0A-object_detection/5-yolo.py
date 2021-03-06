@@ -197,4 +197,14 @@ class Yolo:
         """
         pimages = np.array([])
         image_shapes = np.array([])
+        input_w, input_h = self.model.inputs[0].shape.as_list()[1:3]
+
+        for image in images:
+            '''print("203")'''
+            image_shapes = np.append(image_shapes, image.shape[:2])
+            resized = cv2.resize(image, dsize=(input_w, input_h),
+                                 interpolation=cv2.INTER_CUBIC)
+            pimages = np.append(pimages, resized / 255)
+        '''print(image_shapes.shape)
+        print(pimages.shape)'''
         return (pimages, image_shapes)
