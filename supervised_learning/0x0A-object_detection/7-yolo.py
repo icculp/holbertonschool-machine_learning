@@ -234,18 +234,34 @@ class Yolo:
             If any key besides s is pressed,
                 the image window should be closed without saving
         """
-        '''
-        #print(type(image))
-        #image, _ = self.preprocess_images([image])
-        #cv2.imshow("thereee", image)'''
+        '''print(type(image))
+        image, _ = self.preprocess_images([image])
+        cv2.imshow("thereee", image)'''
         '''print(boxes)'''
         for i in range(len(boxes)):
             x, y = boxes[i][0], boxes[i][1]
             w, h = boxes[i][2], boxes[i][3]
-
             cv2.rectangle(img=image, rec=(x, y, x + w, y + h),
                           color='blue', thickness=2)
             text = "{} {:.2f}".format(box_classes[i], box_scores[i])
-            cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
-                        "red", 1, 'LINE_AA')
+            cv2.putText(image, text, (x, y - 5),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, "red", 1, 'LINE_AA')
+
         cv2.imshow(file_name, image)
+
+    def predict(self, folder_path):
+        """ makes predictions
+            folder_path: a string representing the path
+                to the folder holding all the images to predict
+            All image windows should be named after the corresponding
+                image filename without its full path(see examples below)
+            Displays all images using the show_boxes method
+            Returns: a tuple of (predictions, image_paths):
+            predictions: a list of tuples for each image of
+                (boxes, box_classes, box_scores)
+            image_paths: a list of image paths corresponding to
+                each prediction in predictions
+        """
+        predictions = []
+        image_paths = []
+        return (predictions, image_paths)
