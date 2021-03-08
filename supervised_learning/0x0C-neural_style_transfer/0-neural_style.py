@@ -58,7 +58,7 @@ class NST:
             raise TypeError(
                 "image must be a numpy.ndarray with shape (h, w, 3)")
         h, w, _ = image.shape
-       if h > w:
+        if h > w:
             h_new = 512
             w_new = int(w * (512 / h))
         else:
