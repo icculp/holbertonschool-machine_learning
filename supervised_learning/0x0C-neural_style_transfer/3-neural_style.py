@@ -117,7 +117,7 @@ class NST:
     def generate_features(self):
         """ extracts features used to calcualate ns cost """
         prepro_style = tf.keras.applications.\
-            vgg19.preprocess_input(self.style_image)
+            vgg19.preprocess_input(self.style_image * 255)
         prepro_content = tf.keras.applications.\
             vgg19.preprocess_input(self.content_image * 255)
         style_features = self.model(prepro_style)[:-1]
