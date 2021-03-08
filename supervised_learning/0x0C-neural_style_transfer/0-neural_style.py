@@ -21,8 +21,8 @@ class NST():
             raise TypeError('style_image must be a' +
                             ' numpy.ndarray with shape (h, w, 3)')
         if type(content_image) is not np.ndarray or\
-                style_image.shape[2] != 3 or\
-                style_image.ndim != 3:
+                content_image.shape[2] != 3 or\
+                content_image.ndim != 3:
             raise TypeError('content_image must be a' +
                             ' numpy.ndarray with shape (h, w, 3)')
         style_h, style_w, style_c = style_image.shape
