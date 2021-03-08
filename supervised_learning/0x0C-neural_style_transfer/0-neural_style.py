@@ -16,13 +16,13 @@ class NST:
     def __init__(self, style_image, content_image, alpha=1e4, beta=1):
         """ class constructor """
         if type(style_image) is not np.ndarray or\
-                style_image.shape[2] != 3 or\
-                style_image.ndim != 3:
+                style_image.ndim != 3 or\
+                style_image.shape[2] != 3:
             raise TypeError('style_image must be a' +
                             ' numpy.ndarray with shape (h, w, 3)')
         if type(content_image) is not np.ndarray or\
-                content_image.shape[2] != 3 or\
-                content_image.ndim != 3:
+                content_image.ndim != 3 or\
+                content_image.shape[2] != 3:
             raise TypeError('content_image must be a' +
                             ' numpy.ndarray with shape (h, w, 3)')
         style_h, style_w, style_c = style_image.shape
@@ -49,8 +49,8 @@ class NST:
     def scale_image(image):
         """ scales image dimensions and values to 0-1 """
         if type(image) is not np.ndarray or\
-                image.shape[2] != 3 or\
-                image.ndim != 3:
+                image.ndim != 3 or\
+                image.shape[2] != 3:
             raise TypeError('image must be a ' +
                             'numpy.ndarray with shape (h, w, 3)')
         h, w, c = image.shape
