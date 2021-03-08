@@ -78,8 +78,9 @@ class NST:
         x = vgg.input
         style_outputs = []
         content_output = None
-        for layer in vgg.layers[1:]:
-            if isinstance(layer, tf.keras.layers.MaxPooling2D):
+        for i, layer in enumerate(vgg.layers[1:]):
+            '''print(type(layer))'''
+            if type(layer) is tf.keras.layers.MaxPooling2D:
                 ps = layer.pool_size
                 layer = tf.keras.layers.AveragePooling2D(pool_size=ps,
                                                          strides=layer.strides,
@@ -89,9 +90,9 @@ class NST:
             else:
                 x = layer(x)
                 if layer.name in self.style_layers:
-                    style_outputs.append(layer.output)
+                    style_outputs.append(x)
                 if layer.name == self.content_layer:
-                    content_output = layer.output
+                    content_output = x
             layer.trainable = False
 
         outputs = style_outputs + [content_output]
