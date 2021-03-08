@@ -7,7 +7,7 @@ import numpy as np
 import tensorflow as tf
 
 
-class NST():
+class NST:
     """ Neural style transfer class """
     style_layers = ['block1_conv1', 'block2_conv1', 'block3_conv1',
                     'block4_conv1', 'block5_conv1']
@@ -58,10 +58,13 @@ class NST():
             raise TypeError(
                 "image must be a numpy.ndarray with shape (h, w, 3)")
         h, w, _ = image.shape
-        max_dim = 512
-        maximum = max(h, w)
-        scale = max_dim / maximum
-        new_shape = (int(h * scale), int(w * scale))
+       if h > w:
+            h_new = 512
+            w_new = int(w * (512 / h))
+        else:
+            w_new = 512
+            h_new = int(h * (512 / w))
+        new_shape = (h_new, w_new)
         image = np.expand_dims(image, axis=0)
         scaled_image = tf.image.resize_bicubic(image, new_shape)
         scaled_image = tf.clip_by_value(scaled_image / 255, 0, 1)
