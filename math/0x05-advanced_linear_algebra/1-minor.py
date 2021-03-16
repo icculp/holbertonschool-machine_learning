@@ -13,7 +13,7 @@ def determinant(matrix):
         Returns: the determinant of matrix
     """
     ''' copy list beyond axis0'''
-    print("determinant", matrix)
+    '''print("determinant", matrix)'''
     if matrix == [[]]:
         return 1
     if type(matrix) is not list or len(matrix) < 1 or\
@@ -61,24 +61,29 @@ def minor(matrix):
     elif dim == 2:
         return [[matrix[1][1], matrix[1][0]], [matrix[0][1], matrix[0][0]]]
     else:
-        def minor(array, i, j):
-            c = array
-            c = c[:i] + c[i+1:]
-            for k in range(0,len(c)):
-                c[k] = c[k][:j]+c[k][j+1:]
-            return c
         minors = []
+        mins = []
         for i in range(dim):
             for j in range(dim):
                 minor = matrix[:i] + matrix[i + 1:]
                 for k in range(len(minor)):
                     minor[k] = minor[k][: j] + minor[k][j + 1:]
-                    #print(minor[k])
-                    minors.append(minor)
+                    '''print(minor[k])'''
+                minors.append(minor)
+            mins.append(minor)
+        '''print(minors)
+        print(mins)'''
         mm = []
+        mmm = []
+        '''print("dim", dim)'''
         for m in range(len(minors)):
             mm.append(determinant(minors[m]))
-        return mm
+            '''print("m", m)'''
+            if (m + 1) % dim == 0:
+                mmm.append(mm)
+                mm = []
+        return mmm
+        '''
         mm = []
         for k in range(0,len(c)):
             print(k)
@@ -92,6 +97,7 @@ def minor(matrix):
                 c[k] = c[k][:j]+c[k][j+1:]
             return c
         '''
+        '''
         for cur in range(dim):
             for i in range(cur + 1, dim):
                 if copy[cur][cur] == 0:
@@ -103,5 +109,4 @@ def minor(matrix):
         for i in range(dim):
             det *= copy[i][i]
         return int(det)
-        '''
-    return mm
+        return mm'''
