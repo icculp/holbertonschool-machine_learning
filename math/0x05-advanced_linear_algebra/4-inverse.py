@@ -86,7 +86,6 @@ def adjugate(matrix):
     return adj
 
 
-
 def inverse(matrix):
     """ calculates the inverse
         basically multiply (adjucate) * (1 / determinant)
