@@ -42,7 +42,7 @@ def determinant(matrix):
 def minor(matrix):
     """ Calculates the matrix of minors
         matrix is a square list of lists whose determinant should be calculated
-        Returns: the determinant of matrix
+        Returns: the matrix of minors
     """
     if matrix == [[]]:
         return 1
