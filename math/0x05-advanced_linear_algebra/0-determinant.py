@@ -19,7 +19,7 @@ def determinant(matrix):
         raise TypeError("matrix must be a list of lists")
     if not all(len(matrix) == len(x) for x in matrix):
         raise ValueError("matrix must be a square matrix")
-    copy = matrix
+    copy = list(map(list, matrix))
     dim = len(matrix)
     if dim == 1:
         return matrix[0][0]
@@ -28,12 +28,14 @@ def determinant(matrix):
     else:
         for cur in range(dim):
             for i in range(cur + 1, dim):
-                if copy[cur][cur] == 0:
-                    copy[cur][cur] = 1.0e-18
+                '''if copy[cur][cur] == 0:
+                    copy[cur][cur] = 1.0e-18'''
                 curScaler = copy[i][cur] / copy[cur][cur]
                 for j in range(dim):
                     copy[i][j] = copy[i][j] - curScaler * copy[cur][j]
         det = 1
         for i in range(dim):
             det *= copy[i][i]
-    return int(det)
+    if det % 1 == 0:
+        det = int(det)
+    return det
