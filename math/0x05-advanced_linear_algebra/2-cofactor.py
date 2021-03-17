@@ -39,7 +39,7 @@ def determinant(matrix):
     return round(det)
 
 
-def minor(matrix):
+def cofactor(matrix):
     """ Calculates the matrix of minors
         matrix is a square list of lists whose determinant should be calculated
         Returns: the matrix of minors
