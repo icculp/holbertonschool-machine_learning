@@ -37,4 +37,3 @@ def determinant(matrix):
         for i in range(dim):
             det *= copy[i][i]
     return int(det)
-'''
