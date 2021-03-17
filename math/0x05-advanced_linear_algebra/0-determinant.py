@@ -29,7 +29,7 @@ def determinant(matrix):
         for cur in range(dim):
             for i in range(cur + 1, dim):
                 if copy[cur][cur] == 0:
-                    copy[cur][cur] = 1.0e-18
+                    copy[cur][cur] = 1.0e-10
                 curScaler = copy[i][cur] / copy[cur][cur]
                 for j in range(dim):
                     copy[i][j] = copy[i][j] - curScaler * copy[cur][j]
@@ -38,6 +38,6 @@ def determinant(matrix):
             det *= copy[i][i]
     if det % 1 == 0:
         det = int(det)
-    else:
-        det = round(det, 9)
-    return det
+    '''else:
+        det = round(det, 9)'''
+    return round(det)
