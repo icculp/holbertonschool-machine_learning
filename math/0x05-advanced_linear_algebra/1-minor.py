@@ -44,12 +44,10 @@ def minor(matrix):
         matrix is a square list of lists whose determinant should be calculated
         Returns: the matrix of minors
     """
-    if matrix == [[]]:
-        return 1
     if type(matrix) is not list or len(matrix) < 1 or\
             not all(isinstance(x, list) for x in matrix):
         raise TypeError("matrix must be a list of lists")
-    if not all(len(matrix) == len(x) for x in matrix):
+    if not all(len(matrix) == len(x) for x in matrix) or matrix == [[]]:
         raise ValueError("matrix must be a non-empty square matrix")
     copy = list(map(list, matrix))
     dim = len(matrix)
