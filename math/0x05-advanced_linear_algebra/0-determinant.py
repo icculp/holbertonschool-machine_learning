@@ -38,4 +38,6 @@ def determinant(matrix):
             det *= copy[i][i]
     if det % 1 == 0:
         det = int(det)
+    else:
+        det = round(det, 10)
     return det
