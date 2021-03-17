@@ -12,14 +12,13 @@ def determinant(matrix):
         matrix is a square list of lists whose determinant should be calculated
         Returns: the determinant of matrix
     """
-    ''' copy list beyond axis0'''
-    if matrix == [[]]:
-        return 1
     if type(matrix) is not list or len(matrix) < 1 or\
             not all(isinstance(x, list) for x in matrix):
         raise TypeError("matrix must be a list of lists")
     if not all(len(matrix) == len(x) for x in matrix):
         raise ValueError("matrix must be a square matrix")
+    if matrix == [[]]:
+        return 1
     copy = list(map(list, matrix))
     dim = len(matrix)
     if dim == 1:
@@ -38,3 +37,4 @@ def determinant(matrix):
         for i in range(dim):
             det *= copy[i][i]
     return int(det)
+'''
