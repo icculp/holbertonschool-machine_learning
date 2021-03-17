@@ -19,7 +19,7 @@ def determinant(matrix):
         raise TypeError("matrix must be a list of lists")
     if not all(len(matrix) == len(x) for x in matrix):
         raise ValueError("matrix must be a square matrix")
-    copy = list(map(list, matrix))
+    copy = matrix
     dim = len(matrix)
     if dim == 1:
         return matrix[0][0]
@@ -36,4 +36,4 @@ def determinant(matrix):
         det = 1
         for i in range(dim):
             det *= copy[i][i]
-    return det
+    return int(det)
