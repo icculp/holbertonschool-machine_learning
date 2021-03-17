@@ -97,5 +97,5 @@ def inverse(matrix):
     inverse = list(map(list, matrix))
     for i in range(dim):
         for j in range(dim):
-            inverse[i][j] = (adj[i][j]) * (1 / det)
+            inverse[i][j] = (adj[i][j]) / det
     return inverse
