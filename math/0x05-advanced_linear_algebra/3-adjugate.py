@@ -2,14 +2,6 @@
 """
     Advanced Linear Algebra
 
-    not allowed to import any module
-    must be done by hand!
-"""
-
-
-"""
-    Advanced Linear Algebra
-
     not allowed to im-port any module
     must be done by hand!
 """
