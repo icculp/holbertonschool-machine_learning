@@ -12,21 +12,6 @@ def determinant(matrix):
         matrix is a square list of lists whose determinant should be calculated
         Returns: the determinant of matrix
     """
-    if type(matrix) is not list:
-        raise TypeError("matrix must be a list of lists")
-    height = len(matrix)
-    if height is 0:
-        raise TypeError("matrix must be a list of lists")
-    for row in matrix:
-        if type(row) is not list:
-            raise TypeError("matrix must be a list of lists")
-        if len(row) is 0 and height is 1:
-            return 1
-        if len(row) != height:
-            raise ValueError("matrix must be a square matrix")
-    if height is 1:
-        return matrix[0][0]
-    '''
     if matrix == [[]]:
         return 1
     if type(matrix) is not list or len(matrix) < 1 or\
@@ -34,7 +19,6 @@ def determinant(matrix):
         raise TypeError("matrix must be a list of lists")
     if not all(len(matrix) == len(x) for x in matrix):
         raise ValueError("matrix must be a square matrix")
-    '''
     copy = list(map(list, matrix))
     dim = len(matrix)
     if dim == 1:
