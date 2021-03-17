@@ -9,6 +9,9 @@ if __name__ == '__main__':
     mat4 = [[5, 7, 9], [3, 1, 8], [6, 2, 4]]
     mat5 = []
     mat6 = [[1, 2, 3], [4, 5, 6]]
+    mat7 = [[3, 1, 1], [-1, 2, 1], [1, 1, 1]]
+    mat8 = [[2, 3, 1], [0, 5, 6], [1, 1, 2]]
+    mat9 = [[1, 2, 3], [0, 4, 5], [1, 0, 6]]
 
     print(cofactor(mat1))
     print(cofactor(mat2))
@@ -22,3 +25,6 @@ if __name__ == '__main__':
         cofactor(mat6)
     except Exception as e:
         print(e)
+    print([[1, 2, -3], [0, 2, -2], [-1, -4, 7]], cofactor(mat7))
+    print([[4, 6, -5], [-5, 3, 1], [13, -12, 10]], cofactor(mat8))
+    print([[24, 5, -4], [-12, 3, 2], [-2, -5, 4]], cofactor(mat9))

@@ -36,8 +36,4 @@ def determinant(matrix):
         det = 1
         for i in range(dim):
             det *= copy[i][i]
-    if det % 1 == 0:
-        det = int(det)
-    '''else:
-        det = round(det, 9)'''
     return round(det)
