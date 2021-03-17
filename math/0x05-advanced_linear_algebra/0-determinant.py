@@ -39,5 +39,5 @@ def determinant(matrix):
     if det % 1 == 0:
         det = int(det)
     else:
-        det = round(det, 10)
+        det = round(det, 9)
     return det
