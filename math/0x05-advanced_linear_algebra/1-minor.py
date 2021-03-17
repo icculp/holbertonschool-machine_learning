@@ -17,8 +17,8 @@ def determinant(matrix):
     if type(matrix) is not list or len(matrix) < 1 or\
             not all(isinstance(x, list) for x in matrix):
         raise TypeError("matrix must be a list of lists")
-    if len(matrix) != len(matrix[0]):
-        raise TypeError("matrix must be a square matrix")
+    if not all(len(matrix) == len(x) for x in matrix):
+        raise ValueError("matrix must be a square matrix")
     copy = list(map(list, matrix))
     dim = len(matrix)
     if dim == 1:
@@ -29,14 +29,14 @@ def determinant(matrix):
         for cur in range(dim):
             for i in range(cur + 1, dim):
                 if copy[cur][cur] == 0:
-                    copy[cur][cur] = 1.0e-18
+                    copy[cur][cur] = 1.0e-10
                 curScaler = copy[i][cur] / copy[cur][cur]
                 for j in range(dim):
                     copy[i][j] = copy[i][j] - curScaler * copy[cur][j]
-        det = 1.0
+        det = 1
         for i in range(dim):
             det *= copy[i][i]
-    return int(det)
+    return round(det)
 
 
 def minor(matrix):
