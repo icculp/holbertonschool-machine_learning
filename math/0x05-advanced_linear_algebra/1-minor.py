@@ -50,7 +50,7 @@ def minor(matrix):
             not all(isinstance(x, list) for x in matrix):
         raise TypeError("matrix must be a list of lists")
     if not all(len(matrix) == len(x) for x in matrix):
-        raise TypeError("matrix must be a non-empty square matrix")
+        raise ValueError("matrix must be a non-empty square matrix")
     copy = list(map(list, matrix))
     dim = len(matrix)
     if dim == 1:
