@@ -5,6 +5,7 @@
     not allowed to im-port any module
     must be done by hand!
 """
+import numpy as np
 
 
 def definiteness(matrix):
@@ -16,7 +17,6 @@ def definiteness(matrix):
                             Negative definite, or
                             Indefinite
     """
-    import numpy as np
     if type(matrix) is not np.ndarray:
         raise TypeError("matrix must be a numpy.ndarray")
 
