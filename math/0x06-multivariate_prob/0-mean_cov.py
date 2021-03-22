@@ -20,13 +20,20 @@ def mean_cov(X):
     n, d = X.shape
     if n < 2:
         raise ValueError("X must contain multiple data points")
-    '''print(X)
-    print(X.shape)'''
-    mean = np.mean(X, axis=0)
+    mean = np.mean(X, axis=0, keepdims=True)
     ones = np.ones((n, 1))
-    '''#x = X - ones.T @ ones @ ((ones.T @ ones) ** -1)
-    #x = (x.T @ x) / n'''
+    ''' method 0
+    x = (X.T - mean.T) @ (X - mean) / (n - 1)
+    '''
+
+    ''' method 1 '''
+    x = X - ones * ones.T @ X * ((ones.T @ ones) ** -1)
+    x = (x.T @ x) * (1 / n)
+
+
+    ''' method 2
     x = X - (ones @ ones.T @ X) * (1 / n)
     x = x.T @ x
     x = x * (1 / n)
+    '''
     return mean, x
