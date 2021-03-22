@@ -23,6 +23,7 @@ class MultiNormal:
             raise ValueError("data must contain multiple data points")
         self.mean = np.mean(data, axis=1, keepdims=True)
         self.n = n
+        self.d = d
         self.data = data
         self.stdev = np.std(data, axis=1)
         self.cov = (data - self.mean) @ (data.T - self.mean.T) / (n - 1)
@@ -36,7 +37,7 @@ class MultiNormal:
         if type(x) is not np.ndarray:
             raise TypeError("x must be a numpy.ndarray")
         if len(x.shape) != 2 and x.shape != (x.shape[0], 1):
-            raise ValueError("x must have the shape ({d}, 1)")
+            raise ValueError("x must have the shape ({d}, 1)".format(self.d))
         '''#print("x", x)
         pdf = (1.0 / (self.stdev * np.sqrt(2 * np.pi)))\
         * np.exp(-0.5*((x - self.mean) / self.stdev) ** 2)
