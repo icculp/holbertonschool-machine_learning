@@ -14,7 +14,7 @@ def correlation(C):
         Returns: correlation matrix (d, d)
     """
     if type(C) is not np.ndarray or len(C.shape) != 2:
-        raise TypeError("C must be a 2D numpy.ndarray")
+        raise TypeError("C must be a numpy.ndarray")
     _, d = C.shape
     if C.shape != (d, d):
         raise ValueError("C must be a 2D square matrix")
