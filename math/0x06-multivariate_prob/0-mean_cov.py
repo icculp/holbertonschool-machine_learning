@@ -22,14 +22,12 @@ def mean_cov(X):
         raise ValueError("X must contain multiple data points")
     mean = np.mean(X, axis=0, keepdims=True)
     ones = np.ones((n, 1))
-    ''' method 0
+    ''' method 0 '''
     x = (X.T - mean.T) @ (X - mean) / (n - 1)
-    '''
 
     ''' method 1 '''
     x = X - ones * ones.T @ X * ((ones.T @ ones) ** -1)
-    x = (x.T @ x) * (1 / n)
-
+    x = (x.T @ x) * (1 / (n - 1))
 
     ''' method 2
     x = X - (ones @ ones.T @ X) * (1 / n)
