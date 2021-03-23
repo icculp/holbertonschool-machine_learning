@@ -27,31 +27,13 @@ class MultiNormal:
         self.data = data
         self.stdev = np.std(data, axis=1)
         mean = self.mean
-        self.cov = np.matmul(data - mean, data.T - mean.T) / (n - 1)
-        '''(data - self.mean) @ (data.T - self.mean.T) / (n - 1)'''
+        self.cov = (data - self.mean) @ (data.T - self.mean.T) / (n - 1)
 
     def pdf(self, x):
         """ calculates pdf at data point
             x ndarray (d, 1) data point to calculate pdf
                 d # dims of multinomial instance
             Returns: value of pdf
-        """
-        if type(x) is not np.ndarray:
-            raise TypeError("x must be a numpy.ndarray")
-        d = self.cov.shape[0]
-        if len(x.shape) != 2:
-            raise ValueError("x must have the shape ({}, 1)".format(d))
-        test_d, one = x.shape
-        if test_d != d or one != 1:
-            raise ValueError("x must have the shape ({}, 1)".format(d))
-        det = np.linalg.det(self.cov)
-        inv = np.linalg.inv(self.cov)
-        pdf = 1.0 / np.sqrt(((2 * np.pi) ** d) * det)
-        mult = np.matmul(np.matmul((x - self.mean).T, inv), (x - self.mean))
-        pdf *= np.exp(-0.5 * mult)
-        pdf = pdf[0][0]
-        return pdf
-
         """
         if type(x) is not np.ndarray:
             raise TypeError("x must be a numpy.ndarray")
@@ -76,7 +58,6 @@ class MultiNormal:
         inv = np.linalg.inv(self.cov)
         res = np.exp(-0.5 * (xm.T @ inv @ xm))
         return (norm * res)[0][0]
-        """
         '''xp = (-.5 * xm * (1 / self.cov) * xm.T)
         return (1 / ((2 * pi) ** (n / 2)))\
             * (np.sqrt(E) ** -1)\
