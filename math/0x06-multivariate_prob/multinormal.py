@@ -62,7 +62,7 @@ class MultiNormal:
         var = self.stdev ** 2
         denom = (2* np.pi * var) ** .5
         num = np.exp(-(x - self.mean)**2/(2*var))'''
-        
+    
         e = 2.7182818285
         pi = 3.1415926536
         mean = self.mean
