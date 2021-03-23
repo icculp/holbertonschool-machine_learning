@@ -26,7 +26,8 @@ class MultiNormal:
         self.d = d
         self.data = data
         self.stdev = np.std(data, axis=1)
-        self.cov = (data - self.mean) @ (data.T - self.mean.T) / (n - 1)
+        self.cov = (1 / (n - 1)) * np.matmul(data - mean, data.T - mean.T)
+        '''(data - self.mean) @ (data.T - self.mean.T) / (n - 1)'''
 
     def pdf(self, x):
         """ calculates pdf at data point
