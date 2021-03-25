@@ -14,7 +14,7 @@ f = 10 * c
 X = np.array([a, b, c, d, e, f]).T
 m = X.shape[0]
 X_m = X - np.mean(X, axis=0)
-#print("XM", X_m.shape, "X", X.shape)
+# print("XM", X_m.shape, "X", X.shape)
 W = pca(X_m)
 T = np.matmul(X_m, W)
 print(T)

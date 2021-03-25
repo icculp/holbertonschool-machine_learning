@@ -26,7 +26,7 @@ def pca(X, var=0.95):
     '''#mean = np.expand_dims(mean, axis=0)
     #print("S", s)'''
     n = X.shape[0]
-    X = X / (n - 1)
+    # X = X / (n - 1)
     '''#X = standardize_data(X)
     print("XXXXXXXXXXXXXXX", X)
     #x = standardize_data(X)
@@ -37,7 +37,7 @@ def pca(X, var=0.95):
     #C = X - M
     #print("cshape", C.shape)
     #V = X.T * X * (1 / (n - 1))'''
-    V = np.cov(X.T)  # / (n)
+    V = np.cov(X.T) / (n)
     '''#V = np.matmul(X.T, X) / n
     #V = np.dot(X.T,
     #		 X) / (X.shape[0] - 1)'''
