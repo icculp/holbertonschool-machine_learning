@@ -21,7 +21,7 @@ def pca(X, var=0.95):
     # X = X / np.std(X)
     n = X.shape[0]
     # V = np.cov(X.T)
-    _, values, vectors = np.linalg.svd(X, full_matrices=False, compute_uv=True)
+    _, values, vectors = np.linalg.svd(X)
     idx = values.argsort()[::-1]
     values = values[idx]
     vectors = vectors.T
