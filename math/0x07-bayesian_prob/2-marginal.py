@@ -15,7 +15,7 @@ import numpy as np
 
 
 def marginal(x, n, P, Pr):
-    """ calculates  intersection of obtaining this data
+    """ calculates marginal probability of obtaining the data
             with the various hypothetical probabilities
         x # of patients that develop severe side effects
         n is the total number of patients observed
