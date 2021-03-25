@@ -53,4 +53,4 @@ def likelihood(x, n, P):
                          (np.power(P[p], x)) *
                          (np.power((1 - P[p]), (n - x))))
         # ((P[p]) * (1 - pB)) / (P[p])
-    return likelihood
+    return P  # likelihood
