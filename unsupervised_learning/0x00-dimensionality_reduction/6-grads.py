@@ -6,6 +6,7 @@
         operations to avoid floating point errors
 """
 import numpy as np
+Q_affinities = __import__('5-Q_affinities').Q_affinities
 
 
 def grads(Y, P):
