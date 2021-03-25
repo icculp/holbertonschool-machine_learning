@@ -42,7 +42,7 @@ def likelihood(x, n, P):
         # print('m', m)
         # r = range(1, m + 1)
         # print('r', r)
-        return np.math.factorial(n)
+        return np.math.factorial(m)
 
     likelihood = np.ndarray(P.shape)
     pos = ((x / n))
