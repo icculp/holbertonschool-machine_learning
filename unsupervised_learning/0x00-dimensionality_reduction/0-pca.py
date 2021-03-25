@@ -31,7 +31,7 @@ def pca(X, var=0.95):
         variance_explained.append((i / sum(values)))
     cum = np.cumsum(variance_explained)
     for c in range(len(cum)):
-        print(cum[c], var)
+        # print(cum[c], var)
         if cum[c] > var:
             break
     return vectors[:, :c + 1]
