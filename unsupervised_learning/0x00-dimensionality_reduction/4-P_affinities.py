@@ -6,6 +6,8 @@
         operations to avoid floating point errors
 """
 import numpy as np
+HP = __import__('3-entropy').HP
+P_init = __import__('2-P_init').P_init
 
 
 def P_affinities(X, tol=1e-5, perplexity=30.0):
