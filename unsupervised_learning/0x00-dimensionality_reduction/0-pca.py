@@ -9,26 +9,6 @@
 import numpy as np
 
 
-def standardize_data(X):
-    '''
-    This function standardize an array, its substracts mean value,
-    and then divide the standard deviation.
-    param 1: array
-    return: standardized array
-    '''
-    rows, columns = X.shape
-    standardizedArray = np.zeros(shape=(rows, columns))
-    tempArray = np.zeros(rows)
-    for column in range(columns):
-        mean = np.mean(X[:, column])
-        std = np.std(X[:, column])
-        tempArray = np.empty(0)
-        for element in X[:, column]:
-            tempArray = np.append(tempArray, ((element) / std))
-        standardizedArray[:, column] = tempArray
-    return standardizedArray
-
-
 def pca(X, var=0.95):
     """ performs PCA on a dataset
         X ndarray (n, d)
@@ -42,11 +22,11 @@ def pca(X, var=0.95):
     '''#print("xshape", X.shape)
     #mean = np.mean(X.T)
     #print("mean", mean)'''
-    s = np.std(X)
+    X = X / np.std(X)
     '''#mean = np.expand_dims(mean, axis=0)
     #print("S", s)'''
     n = X.shape[0]
-    X = X / s
+    X = X / (n - 1)
     '''#X = standardize_data(X)
     print("XXXXXXXXXXXXXXX", X)
     #x = standardize_data(X)
@@ -57,15 +37,24 @@ def pca(X, var=0.95):
     #C = X - M
     #print("cshape", C.shape)
     #V = X.T * X * (1 / (n - 1))'''
-    V = np.cov(X.T)  # / (n - 1)
+    V = np.cov(X.T)  # / (n)
+    '''#V = np.matmul(X.T, X) / n
+    #V = np.dot(X.T,
+    #		 X) / (X.shape[0] - 1)'''
     '''print("Vshape", V.shape)'''
     values, vectors = np.linalg.eig(V)
     '''print("values", values.shape)
     print('vectors', vectors.shape)'''
     '''#P = vectors.T.dot(C.T)'''
+    '''#pca_u, pca_s, pca_v = np.linalg.svd(V)
+    #values, values, vectors = np.linalg.svd(V)
+    #print("pca_s", pca_u)'''
     idx = values.argsort()[::-1]
     values = values[idx]
     vectors = vectors[:, idx]
+    '''#values = pca_s[idx]
+    #vectors = pca_u[idx]'''
+    '''print("VECTORSHAPE", vectors.shape)'''
     variance_explained = []
     for i in values:
         variance_explained.append((i / sum(values)))
@@ -75,7 +64,8 @@ def pca(X, var=0.95):
         if cum[c] > var:
             break
     c += 1
-    projection_matrix = (vectors.T[:][:c + 1]).T
+    '''#projection_matrix = (vectors.T[:][:c + 1]).T
+    #projection_matrix = pca_v'''
     '''print("cum", cum)'''
     '''#W = x * x.T
     #T = X @ W
@@ -84,4 +74,39 @@ def pca(X, var=0.95):
     #print(W.shape)
     #pca = X.dot(projection_matrix)
     #print(pca.shape)'''
-    return projection_matrix * -1.0
+    """def svd_flip(u, v, u_based_decision=True):
+            if u_based_decision:
+                # columns of u, rows of v
+                max_abs_cols = np.argmax(np.abs(u), axis=0)
+                signs = np.sign(u[max_abs_cols, range(u.shape[1])])
+                u *= signs
+                v *= signs[:, np.newaxis]
+            else:
+                # rows of v, columns of u
+                max_abs_rows = np.argmax(np.abs(v), axis=1)
+                signs = np.sign(v[range(v.shape[0]), max_abs_rows])
+                u *= signs
+                v *= signs[:, np.newaxis]
+            return u, v
+    U, S, Vt = np.linalg.svd(X, full_matrices=False)
+    U, Vt = svd_flip(U, Vt)
+    components_ = Vt
+
+        # Get variance explained by singular values
+    explained_variance_ = (S ** 2) / (n - 1)
+    total_var = explained_variance_.sum()
+    explained_variance_ratio_ = explained_variance_ / total_var
+    singular_values_ = S.copy()  # Store the singular values.
+
+    variance_explained = []
+    for i in values:
+        variance_explained.append((i / sum(values)))
+    '''print("variance_explained", variance_explained)'''
+    cum = np.cumsum(variance_explained)
+    for c in range(len(cum)):
+        if cum[c] > var:
+            break
+    c += 1
+
+    return Vt#S# U, Vt"""
+    return -vectors[:, :c + 1]
