@@ -31,8 +31,11 @@ def likelihood(x, n, P):
         raise ValueError("x cannot be greater than n")
     if type(P) is not np.ndarray or len(P.shape) != 1:
         raise TypeError("P must be a 1D numpy.ndarray")
-    if not np.all(P >= 0) and np.all(P <= 1):
-        raise ValueError("All values in P must be in the range [0, 1]")
+    for value in P:
+        if value > 1 or value < 0:
+            raise ValueError("All values in P must be in the range [0, 1]")
+    '''if not np.all(P >= 0) and np.all(P <= 1):
+        raise ValueError("All values in P must be in the range [0, 1]")'''
 
     def factorial(m):
         """ calculates factorial of n """
