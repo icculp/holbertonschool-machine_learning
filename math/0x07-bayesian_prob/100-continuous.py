@@ -41,12 +41,14 @@ def posterior(x, n, p1, p2):
         raise TypeError("p1 must be a float in the range [0, 1]")
     if p2 <= p1:
         raise ValueError("p2 must be greater than p1")
-    
+
     def factorial(m):
         """ calculates factorial of n """
         return np.math.factorial(m)
     #p = np.uniform.random(range(1, 11))
     #print("p", p)
+    beta = special.beta(p1, p2)
+    print("beta", beta)
     P = np.linspace(0, 1, 11)
     print("P", P)
     likelihood = np.ndarray(P.shape)
@@ -57,6 +59,6 @@ def posterior(x, n, p1, p2):
         pB = (np.power(P[p], x)) *\
              (np.power((1 - P[p]), (n - x)))
         likelihood[p] = pA * pB
-    intersection = likelihood * Pr
+    intersection = likelihood * beta
     marginal = np.sum(intersection)
-    return intersection / (marginal)
+    return (intersection / (marginal))
