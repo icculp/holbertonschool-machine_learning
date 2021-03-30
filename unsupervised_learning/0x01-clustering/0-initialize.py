@@ -19,7 +19,7 @@ def initialize(X, k):
             or None on failure
     """
     if type(X) is not np.ndarray or X.ndim != 2\
-            or type(k) is not int or k < 0:
+            or type(k) is not int or k <= 0:
         return None
     n, d = X.shape
     init = np.random.uniform(low=X.min(axis=0),
