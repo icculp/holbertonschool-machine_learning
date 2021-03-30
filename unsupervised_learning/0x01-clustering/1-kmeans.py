@@ -26,23 +26,26 @@ def kmeans(X, k, iterations=1000):
                 each data point belongs to
     """
     n, d = X.shape
-    centroids = np.random.uniform(low=X.min(axis=0),
-                             high=X.max(axis=0),
-                             size=(k, d))
-    
-    clss = np.random.randint(low=0, high=k, size=n)
+    centroids = np.random.uniform(low=X.min(),
+                                  high=X.max(),
+                                  size=(k, d))
 
+    clss = np.random.uniform(low=0, high=k, size=n)
+    # randint
     for i in range(iterations):
-        C = np.array(
+        distances = np.array(
             [np.linalg.norm(X - c, axis=1) for c in centroids])
-        new_labels = np.argmin(C, axis=0)
+        # print(C)
+        new_labels = np.argmin(distances, axis=0)
 
         if (clss == new_labels).all():
             clss = new_labels
             break
         else:
-            difference = np.mean(clss != new_labels)
+            # difference = np.mean(clss != new_labels)
+            # print(difference)
             clss = new_labels
             for c in range(k):
-                centroids[c] = np.mean(X[clss == c], axis=0)
-    return C, clss
+                centroids[c] = np.mean(X[c == clss], axis=0)
+                # print(centroids[c])
+    return centroids, clss
