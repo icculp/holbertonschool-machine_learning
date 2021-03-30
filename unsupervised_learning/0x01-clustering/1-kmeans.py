@@ -31,29 +31,40 @@ def kmeans(X, k, iterations=1000):
             or iterations <= 0:
         return None, None
     n, d = X.shape
-    centroids = np.random.uniform(low=X.min(),
-                                  high=X.max(),
+    centroids = np.random.uniform(low=X.min(axis=0),
+                                  high=X.max(axis=0),
                                   size=(k, d))
 
-    clss = np.random.uniform(low=0, high=k, size=n)
     # randint
     for i in range(iterations):
         # distances = np.array(
         # np.linalg.norm(X - c, axis=1) NOT A LOOP c theingoeshere centroids)
         # wrapped in brackets
-        distances = np.linalg.norm(np.expand_dims(X, 2) -
-                                   np.expand_dims(centroids.T, 0), axis=1)
+        distances = np.linalg.norm(X - np.expand_dims(centroids, 1), axis=2)
+        # print(distances.shape)
+        # distances = np.sqrt(np.sum((X -
+        #   centroids[:, np.newaxis])**2, axis=2))
         # print(C)
-        new_labels = np.argmin(distances, axis=1)
-
-        if (clss == new_labels).all():
-            clss = new_labels
-            break
-        else:
-            # difference = np.mean(clss != new_labels)
-            # print(difference)
-            clss = new_labels
-            for c in range(k):
+        clss = np.argmin(distances, axis=0)
+        # print('clss', clss)
+        cent_current = centroids.copy()
+        for c in range(k):
+            '''if (X[clss == c].size == 0):
+                centroids[c] = np.random.uniform(
+                    low=np.min(X, axis=0),
+                    high=np.max(X, axis=0),
+                    size=(1, d)
+                )
+            else:
+            '''
+            if len(X[c == clss]) == 0:
+                centroids[c] = np.random.uniform(low=X.min(),
+                                                 high=X.max(), size=(1, d))
+            else:
                 centroids[c] = np.mean(X[c == clss], axis=0)
-                # print(centroids[c])
+        if np.all(cent_current == centroids):
+            break
+            # print(centroids[c])
+    # print("n, k, d", n, k, d)
+    # print('cenroids shape', centroids.shape, 'clss.shape', clss.shape)
     return centroids, clss
