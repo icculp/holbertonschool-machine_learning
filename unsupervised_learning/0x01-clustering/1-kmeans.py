@@ -38,10 +38,13 @@ def kmeans(X, k, iterations=1000):
     clss = np.random.uniform(low=0, high=k, size=n)
     # randint
     for i in range(iterations):
-        distances = np.array(
-            [np.linalg.norm(X - c, axis=1) for c in centroids])
+        # distances = np.array(
+        # np.linalg.norm(X - c, axis=1) NOT A LOOP c theingoeshere centroids)
+        # wrapped in brackets
+        distances = np.linalg.norm(np.expand_dims(X, 2) -
+                                   np.expand_dims(centroids.T, 0), axis=1)
         # print(C)
-        new_labels = np.argmin(distances, axis=0)
+        new_labels = np.argmin(distances, axis=1)
 
         if (clss == new_labels).all():
             clss = new_labels
