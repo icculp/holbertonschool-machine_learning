@@ -25,17 +25,11 @@ def kmeans(X, k, iterations=1000):
             clss ndarray (n,) index of the cluster in C that
                 each data point belongs to
     """
-    if not isinstance(X, np.ndarray) or len(X.shape) != 2:
-        return None, None
-    if not isinstance(k, int) or k < 1:
-        return None, None
-    if not isinstance(iterations, int) or iterations < 1:
-        return None, None
-    '''if type(X) is not np.ndarray or X.ndim != 2\
+    if type(X) is not np.ndarray or X.ndim != 2\
             or type(k) is not int or k <= 0\
             or type(iterations) is not int\
             or iterations <= 0:
-        return None, None'''
+        return None, None
     n, d = X.shape
     centroids = np.random.uniform(low=X.min(axis=0),
                                   high=X.max(axis=0),
@@ -73,4 +67,6 @@ def kmeans(X, k, iterations=1000):
             # print(centroids[c])
     # print("n, k, d", n, k, d)
     # print('cenroids shape', centroids.shape, 'clss.shape', clss.shape)
+    distances = np.linalg.norm(X - np.expand_dims(centroids, 1), axis=2)
+    clss = np.argmin(distances, axis=0)
     return centroids, clss
