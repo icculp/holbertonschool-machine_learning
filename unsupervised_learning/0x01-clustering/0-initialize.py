@@ -18,7 +18,7 @@ def initialize(X, k):
         Returns: ndarray (k, d) initialized centroids for each cluster
             or None on failure
     """
-    if k <= 0:
+    if type(k) is not int or k < 0:
         return None
     n, d = X.shape
     init = np.random.uniform(low=X.min(axis=0),
