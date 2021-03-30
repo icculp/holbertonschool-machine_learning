@@ -25,11 +25,11 @@ def kmeans(X, k, iterations=1000):
             clss ndarray (n,) index of the cluster in C that
                 each data point belongs to
     """
-    if type(X) is not np.ndarray or X.ndim != 2\
+    '''if type(X) is not np.ndarray or X.ndim != 2\
             or type(k) is not int or k <= 0\
             or type(iterations) is not int\
             or iterations <= 0:
-        return None, None
+        return None, None'''
     n, d = X.shape
     centroids = np.random.uniform(low=X.min(axis=0),
                                   high=X.max(axis=0),
