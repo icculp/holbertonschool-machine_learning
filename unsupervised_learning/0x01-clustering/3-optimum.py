@@ -23,7 +23,7 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
     if type(X) is not np.ndarray or X.ndim != 2:
         return None, None
     if kmax is None:
-        kmax = n
+        return None, None
     n, d = X.shape
     if (kmax <= kmin) or kmin >= n or kmax > n\
             or type(kmin) is not int or kmin < 1\
