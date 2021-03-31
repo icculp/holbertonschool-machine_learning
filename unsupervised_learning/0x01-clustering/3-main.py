@@ -15,8 +15,8 @@ if __name__ == "__main__":
     np.random.shuffle(X)
 
     results, d_vars = optimum_k(X, kmax=10)
-    print(results)
-    print(np.round(d_vars, 5))
+    print('results', results)
+    print('dvars', np.round(d_vars, 5))
     plt.scatter(list(range(1, 11)), d_vars)
     plt.xlabel('Clusters')
     plt.ylabel('Delta Variance')
