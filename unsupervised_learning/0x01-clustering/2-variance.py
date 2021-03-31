@@ -22,7 +22,7 @@ def variance(X, C):
         # print("cshape", C.shape)
         '''n, _ = X.shape
         k, d = C.shape'''
-        distances = np.linalg.norm(X - np.expand_dims(C, 1), axis=2)
+        distances = np.linalg.norm(X - np.expand_dims(C, 1), axis=-1)
         # print(distances.shape)
         min = np.min(distances, axis=0)
         # print(min)
