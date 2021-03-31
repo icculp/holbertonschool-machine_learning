@@ -59,7 +59,8 @@ def kmeans(X, k, iterations=1000):
             '''
             if len(X[c == clss]) == 0:
                 centroids[c] = np.random.uniform(low=X.min(axis=0),
-                                                 high=X.max(axis=0), size=(1, d))
+                                                 high=X.max(axis=0),
+                                                 size=(1, d))
             else:
                 centroids[c] = np.mean(X[c == clss], axis=0)
         if np.all(cent_current == centroids):
