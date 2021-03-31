@@ -40,7 +40,7 @@ def kmeans(X, k, iterations=1000):
         # distances = np.array(
         # np.linalg.norm(X - c, axis=1) NOT A LOOP c theingoeshere centroids)
         # wrapped in brackets
-        distances = np.linalg.norm(X - np.expand_dims(centroids, 1), axis=-1)
+        distances = np.linalg.norm(X - np.expand_dims(centroids, 1), axis=2)
         # print(distances.shape)
         # distances = np.sqrt(np.sum((X -
         #                     centroids[:, np.newaxis])**2, axis=2))
