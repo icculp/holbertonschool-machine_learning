@@ -3,6 +3,7 @@
     Clustering
 """
 import numpy as np
+kmeans = __import__('1-kmeans').kmeans
 
 
 def variance(X, C):
@@ -14,27 +15,15 @@ def variance(X, C):
         Returns: var, or None on failure
             var is the total variance
     """
-    n, d = X.shape
-    centroids = np.random.uniform(low=X.min(),
-                                  high=X.max(),
-                                  size=(k, d))
-
-    clss = np.random.uniform(low=0, high=(k), size=n)
-    # randint
-    for i in range(iterations):
-        distances = np.array(
-            [np.linalg.norm(X - c, axis=1) for c in centroids])
-        # print(C)
-        new_labels = np.argmin(distances)#, axis=1)
-
-        if (clss == new_labels).all():
-            # clss = new_labels
-            break
-        else:
-            # difference = np.mean(clss != new_labels)
-            # print(difference)
-            clss = new_labels
-            for c in range(k):
-                centroids[c] = np.mean(X[c == clss], axis=0)
-                # print(centroids[c])
-    return centroids, clss
+    if type(X) is not np.ndarray or X.ndim != 2\
+            or type(C) is not np.ndarray or C.ndim != 2:
+        return None
+    k, d = C.shape
+    # print("cshape", C.shape)
+    '''n, _ = X.shape
+    k, d = C.shape'''
+    distances = np.linalg.norm(X - np.expand_dims(C, 1), axis=2)
+    # print(distances.shape)
+    min = np.min(distances, axis=0)
+    # print(min)
+    return np.sum(np.square(min))
