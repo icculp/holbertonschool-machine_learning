@@ -26,10 +26,10 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
     if kmax is None:
         kmax = n
     # or kmin >= n or kmax > n
-    if kmin >= kmax\
-            or type(kmin) is not int or kmin < 1\
+    if type(kmin) is not int or kmin < 1\
             or type(kmax) is not int or kmax < 1\
-            or type(iterations) is not int or iterations < 1:
+            or type(iterations) is not int or iterations < 1\
+            or kmin >= kmax:
         return None, None
     '''if type(X) is not np.ndarray or len(X.shape) != 2:
         return None, None
