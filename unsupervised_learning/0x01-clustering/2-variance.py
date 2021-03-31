@@ -27,5 +27,5 @@ def variance(X, C):
         min = np.min(distances, axis=0)
         # print(min)
         return np.sum(np.square(min))
-    except:
+    except Exception as notbare:
         return None
