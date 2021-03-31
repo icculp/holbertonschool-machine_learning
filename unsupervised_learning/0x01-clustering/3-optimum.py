@@ -24,8 +24,7 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
             or type(kmin) is not int or kmin < 1\
             or type(kmax) is not int or kmax < 1\
             or type(iterations) is not int or iterations < 1\
-            or (kmax <= kmin)\
-            or (kmax - kmin) < 2:
+            or (kmax <= kmin):
         return None, None
     results = []
     d_vars = []
@@ -34,4 +33,5 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
         var = variance(X, centroids)
         results.append((centroids, clss))
         d_vars.append(var)
-    return results, d_vars
+    maxi = max(d_vars)
+    return results, maxi - d_vars
