@@ -24,7 +24,8 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
             or type(kmin) is not int or kmin < 1\
             or type(kmax) is not int or kmax < 1\
             or type(iterations) is not int or iterations < 1\
-            or (kmax <= kmin):
+            or (kmax <= kmin)\
+            or (kmax - kmin) < 2:
         return None, None
     results = []
     d_vars = []
