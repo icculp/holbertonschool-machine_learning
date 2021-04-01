@@ -26,19 +26,16 @@ def pdf(X, m, S):
     if d != m.shape[0] or d != S.shape[0]\
             or S.shape[0] != S.shape[1] or d != S.shape[1]:
         return None
-    try:
-        det = np.linalg.det(S)
-        # xm = X - m
-        xm = X - m[np.newaxis, :]
-        norm = 1 / (np.power(2 * np.pi, (d / 2)) * np.sqrt(det))
-        inv = np.linalg.inv(S)
-        res = np.exp(-0.5 * (xm @ inv @ xm.T))
-        P = (norm * res)  # [0] # [0]
-        P = P.reshape(len(P) ** 2)[::len(P) + 1]
-        return np.where(P < 1e-300, 1e-300, P)  # np.maximum(P, 1e-300)
-    except Exception:
-        return None
-
+    det = np.linalg.det(S)
+    # xm = X - m
+    xm = X - m[np.newaxis, :]
+    norm = 1 / (np.power(2 * np.pi, (d / 2)) * np.sqrt(det))
+    inv = np.linalg.inv(S)
+    res = np.exp(-0.5 * (xm @ inv @ xm.T))
+    P = (norm * res)  # [0] # [0]
+    P = P.reshape(len(P) ** 2)[::len(P) + 1]
+    return np.where(P < 1e-300, 1e-300, P)  # np.maximum(P, 1e-300)
+    '''
     # print(X.shape)
     # print(k)
     # print(det)
@@ -54,3 +51,4 @@ def pdf(X, m, S):
     P = P.reshape(len(P) ** 2)[::len(P) + 1]
     P = P.reshape(len(P) ** 2)[::len(P) + 1]
     return P
+    '''
