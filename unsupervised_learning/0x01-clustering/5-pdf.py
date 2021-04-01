@@ -35,7 +35,7 @@ def pdf(X, m, S):
         res = np.exp(-0.5 * (xm @ inv @ xm.T))
         P = (norm * res)  # [0] # [0]
         P = P.reshape(len(P) ** 2)[::len(P) + 1]
-        return np.maximum(P, 1e-300)
+        return np.where(P < 1e-300, 1e-300, P)  # np.maximum(P, 1e-300)
     except Exception:
         return None
 
