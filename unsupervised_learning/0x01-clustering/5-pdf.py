@@ -17,8 +17,7 @@ def pdf(X, m, S):
             P ndarray (n,) containing the PDF values for each data point
             All values in P should have a minimum value of 1e-300
     """
-    # print(X.shape)
-    # print(k)
+
     if type(X) is not np.ndarray or X.ndim != 2\
             or type(m) is not np.ndarray or m.ndim != 1\
             or type(S) is not np.ndarray or S.ndim != 2:
@@ -27,22 +26,25 @@ def pdf(X, m, S):
     if d != m.shape[0] or d != S.shape[0]\
             or S.shape[0] != S.shape[1] or d != S.shape[1]:
         return None
+    try:
+        det = np.linalg.det(S)
+        xm = X - m
+        norm = 1 / (np.power(2 * np.pi, (d / 2)) * np.sqrt(det))
+        inv = np.linalg.inv(S)
+        res = np.exp(-0.5 * (xm @ inv @ xm.T))
+        P = (norm * res)  # [0] # [0]
+        P = P.reshape(len(P) ** 2)[::len(P) + 1]
+        return np.maximum(P, 1e-300)
+    except Exception:
+        return None
 
-    det = np.linalg.det(S)
+    # print(X.shape)
+    # print(k)
     # print(det)
-    xm = X - m
     # print("xm shape", xm.shape)
     # print(xm)
     # inv = np.linalg.inv(S)
     # print("inv shape", inv.shape)
-
-    xm = X - m
-    norm = 1 / (np.power(2 * np.pi, (d / 2)) * np.sqrt(det))
-    inv = np.linalg.inv(S)
-    res = np.exp(-0.5 * (xm @ inv @ xm.T))
-    P = (norm * res)  # [0] # [0]
-    P = P.reshape(len(P) ** 2)[::len(P) + 1]
-    return np.maximum(P, 1e-300)
     """
     norm = 1 / (2 * np.pi) ** (d / 2) * det
     res = np.exp(-.5 * (xm @ inv @ xm.T))
