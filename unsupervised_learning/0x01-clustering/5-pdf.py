@@ -24,6 +24,9 @@ def pdf(X, m, S):
             or type(S) is not np.ndarray or S.ndim != 2:
         return None
     n, d = X.shape
+    if d != m.shape[0] or d != S.shape[0]\
+            or S.shape[0] != S.shape[1] or d != S.shape[1]:
+        return None
 
     det = np.linalg.det(S)
     # print(det)
