@@ -18,16 +18,18 @@ def pdf(X, m, S):
             P ndarray (n,) containing the PDF values for each data point
             All values in P should have a minimum value of 1e-300
     """
-    print(X.shape)
+    # print(X.shape)
     # print(k)
-    if type(X) is not np.ndarray or X.ndim != 2:
+    if type(X) is not np.ndarray or X.ndim != 2\
+            or type(m) is not np.ndarray or m.ndim != 1\
+            or type(S) is not np.ndarray or S.ndim != 2:
         return None
     n, d = X.shape
 
     det = np.linalg.det(S)
     # print(det)
     xm = X - m
-    print("xm shape", xm.shape)
+    # print("xm shape", xm.shape)
     # print(xm)
     # inv = np.linalg.inv(S)
     # print("inv shape", inv.shape)
@@ -43,7 +45,7 @@ def pdf(X, m, S):
     norm = 1 / (2 * np.pi) ** (d / 2) * det
     res = np.exp(-.5 * (xm @ inv @ xm.T))
     # maha = np.sum(np.square(np.dot(xm, inv)), axis=-1)"""
-    P = (norm * res).diag()  # [0][0]
+    P = (norm * res)  # [0][0]
     P = P.reshape(len(P) ** 2)[::len(P) + 1]
     P = P.reshape(len(P) ** 2)[::len(P) + 1]
     return P
