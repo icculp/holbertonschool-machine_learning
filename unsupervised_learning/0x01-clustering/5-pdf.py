@@ -28,7 +28,8 @@ def pdf(X, m, S):
         return None
     try:
         det = np.linalg.det(S)
-        xm = X - m
+        # xm = X - m
+        xm = X - m[np.newaxis, :]
         norm = 1 / (np.power(2 * np.pi, (d / 2)) * np.sqrt(det))
         inv = np.linalg.inv(S)
         res = np.exp(-0.5 * (xm @ inv @ xm.T))
