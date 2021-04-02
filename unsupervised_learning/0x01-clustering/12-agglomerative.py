@@ -12,6 +12,8 @@ def agglomerative(X, dist):
     '''if type(X) is not np.ndarray or X.ndim != 2\
             or type(k) is not int or k <= 0:
         return None, None'''
-    gm = sklearn.mixture.GaussianMixture(k).fit(X)
-
-    return gm.weights_, gm.means_, gm.covariances_, gm.predict(X), gm.bic(X)
+    linky = scipy.cluster.hierarchy.linkage(X, method='ward')
+    fig = plt.figure(figsize=(15, 8))
+    dn = scipy.cluster.hierarchy.dendrogram(linky, color_threshold=dist)
+    plt.show()
+    return dn['ivl']
