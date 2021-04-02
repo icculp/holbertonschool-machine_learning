@@ -14,6 +14,7 @@ def agglomerative(X, dist):
         return None, None'''
     linky = scipy.cluster.hierarchy.linkage(X, method='ward')
     fig = plt.figure(figsize=(15, 8))
+    clusters = scipy.cluster.hierarchy.fcluster(linky, dist, criterion='distance')
     dn = scipy.cluster.hierarchy.dendrogram(linky, color_threshold=dist)
     plt.show()
-    return dn['ivl']
+    return clusters  # dn['ivl']
