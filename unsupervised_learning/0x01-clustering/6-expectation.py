@@ -25,8 +25,18 @@ def expectation(X, pi, m, S):
         return None, None
     n, d = X.shape
     k = pi.shape[0]
-    try:
-
-        return None
-    except Exception:
-        return None
+    # print(k)
+    # print(X.shape)
+    # r = np.zeros((n, k))
+    g = []
+    for j in range(k):
+        p = pdf(X, m[j], S[j]) * pi[j]
+        g.append(p)
+    # g.append(pdf(X, m, S))
+    probs = np.array(g)
+    likelihood = probs.sum(axis=0)
+    probs = probs / likelihood
+    # p = pdf(X, m, S)
+    # print(type(p))
+    loglikelihood = np.sum(np.log(likelihood))
+    return probs, loglikelihood
