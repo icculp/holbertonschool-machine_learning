@@ -20,4 +20,9 @@ def markov_chain(P, s, t=1):
             or type(s) is not np.ndarray or s.shape != (1, P.shape[0])\
             or type(t) is not int or t < 0:
         return None
-    return s
+    # s = np.array([.9, .1])
+    # P = np.array([[.98, .02], [.78, .22]])
+    for _ in range(t):
+        s = np.dot(s, P)
+    # tr = P ** (t - 1)# np.power(P, t + 1)
+    return s  # (P @ s.T) ** (t)
