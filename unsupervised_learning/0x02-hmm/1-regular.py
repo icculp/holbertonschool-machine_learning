@@ -25,6 +25,7 @@ def regular(P):
     bQT = np.ones(dim)
     return np.expand_dims(np.linalg.solve(QTQ, bQT), axis=0)
 
+
 ''' Alternative from Mohammed
 def regular(P):
   n, m = np.shape(P)
