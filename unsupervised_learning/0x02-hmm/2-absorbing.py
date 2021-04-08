@@ -26,7 +26,7 @@ def lock(boxes):
     return True if os == length else False
 
 
-def absorbing(P):
+def absorbingg(P):
     """ determines if a markov chain is absorbing:
         P square 2D ndarray (n, n) transition matrix
             P[i, j] is the probability of transitioning from state i to state j
