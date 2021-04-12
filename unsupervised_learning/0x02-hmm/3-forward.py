@@ -8,7 +8,7 @@ import numpy as np
 def forward(Observation, Emission, Transition, Initial):
     """ performs the forward algorithm for a hidden markov mode
         Observation ndarray (T,) that contains the index of the observation
-        T is the number of observations
+            T is the number of observations
         Emission ndarray (N, M) containing the emission probability
             of a specific observation given a hidden state
             Emission[i, j] is the probability of observing
@@ -38,5 +38,7 @@ def forward(Observation, Emission, Transition, Initial):
         return None, None
     N, M = Emission.shape
     P = .5
+    T = Observation.shape[0]
     F = np.ndarray((N, 1))
+    alpha = np.zeros((T, N))
     return P, F
