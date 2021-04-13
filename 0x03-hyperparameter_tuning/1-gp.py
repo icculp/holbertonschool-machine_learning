@@ -51,7 +51,7 @@ class GaussianProcess():
             sigma ndarray (s,) containing the variance for each point
                 in X_s, respectively
         """
-        print(X_s.shape)
+        # print(X_s.shape)
         # print(X_s)
         K = self.K
         K_s = self.kernel(self.X, X_s)
