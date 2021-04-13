@@ -70,3 +70,8 @@ class GaussianProcess():
             Y_new ndarray (1,) represents the new sample function value
             Updates the public instance attributes X, Y, and K
         """
+        self.X = np.append(self.X, X_new[:, np.newaxis], axis=0)
+        # print(self.X.shape)
+        self.Y = np.append(self.Y, Y_new[:, np.newaxis], axis=0)
+        # print('yshape',self.Y.shape)
+        self.K = self.kernel(self.X, self.X)
