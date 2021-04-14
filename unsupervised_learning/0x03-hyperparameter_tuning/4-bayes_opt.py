@@ -47,22 +47,26 @@ class BayesianOptimization():
                     of each potential sample
         """
         from scipy.stats import norm
-        mu, sigma = self.gp.predict(self.gp.X)
-        print("sigma", sigma)
-        mu_sample, sigma = self.gp.predict(self.gp.Y)
+        mu, sigma = self.gp.predict(self.X_s)
+        # print("sigma", sigma)
+        mu_sample, _ = self.gp.predict(self.gp.X)
         #sigma = sigma.reshape(-1, 1)
         # Needed for noise-based model,
         # otherwise use np.max(Y_sample).
         # See also section 2.4 in [1]
-        mu_sample_opt = np.max(mu_sample)
+        mu_sample_opt = np.max(self.gp.Y)
+        #mu = mu.reshape(-1)
+        print('59', mu.shape)
+        #mu = mu[:, np.newaxis]
         with np.errstate(divide='warn'):
             imp = mu - mu_sample_opt - self.xsi
             print("impshape", imp.shape)
             Z = imp / sigma
             ei = imp * norm.cdf(Z) + sigma * norm.pdf(Z)
-            print("eishape", ei.shape, sigma.shape)
-            #sigma = 
-            ei[sigma == 0.0] = 0.0
+            # print("eishape", ei.shape, sigma.shape)
+            # ei = ei.flatten()
+            #sigma =
+            #ei[sigma == 0.0] = 0.0
         print(type(ei), type(mu_sample_opt))
         print('eishape', ei.shape)
-        return np.array([mu_sample_opt]), ei
+        return np.array([ei[np.argmax(ei)]]), ei
