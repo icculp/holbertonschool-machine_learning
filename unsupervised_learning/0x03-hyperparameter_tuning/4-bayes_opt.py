@@ -49,17 +49,18 @@ class BayesianOptimization():
         from scipy.stats import norm
         mu, sigma = self.gp.predict(self.X_s)
         # mu = mu.flatten()
-        mu_sample, _ = self.gp.predict(self.gp.Y)
+        # mu_sample, _ = self.gp.predict(self.(self.X_s))
+        mu_sample, _ = self.gp.predict(self.gp.X)
         # sigma = np.maximum(1e-15, sigma.flatten())
         if self.minimize is True:
-            mu_sample_opt = np.min(mu_sample)
+            mu_sample_opt = np.min(self.gp.Y)
             sign = -1
         else:
             mu_sample_opt = np.max(mu)
             sign = 1
         with np.errstate(divide='warn'):
-            imp = -mu + mu_sample_opt - self.xsi
-            Z = sign * imp / sigma
+            imp = sign * (mu - mu_sample_opt + self.xsi)
+            Z = imp / sigma
             ei = imp * norm.cdf(Z) + sigma * norm.pdf(Z)
         return np.array(self.X_s[np.argmax(ei)]), ei
         # print("impshape", imp.shape)
