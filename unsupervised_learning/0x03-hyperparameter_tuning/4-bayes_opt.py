@@ -48,32 +48,33 @@ class BayesianOptimization():
         """
         from scipy.stats import norm
         mu, sigma = self.gp.predict(self.X_s)
-        mu = mu.flatten()
+        # mu = mu.flatten()
+        mu_sample, _ = self.gp.predict(self.gp.Y)
+        # sigma = np.maximum(1e-15, sigma.flatten())
+        if self.minimize is True:
+            mu_sample_opt = np.min(mu_sample)
+            sign = -1
+        else:
+            mu_sample_opt = np.max(mu)
+            sign = 1
+        with np.errstate(divide='warn'):
+            imp = -mu + mu_sample_opt - self.xsi
+            Z = sign * imp / sigma
+            ei = imp * norm.cdf(Z) + sigma * norm.pdf(Z)
+        return np.array(self.X_s[np.argmax(ei)]), ei
+        # print("impshape", imp.shape)
         # print("sigma", sigma)
-        mu_sample, _ = self.gp.predict(self.gp.X)
-        sigma = np.maximum(1e-15, sigma.flatten())
+        # mu = mu.reshape(-1)
+        # print('59', mu.shape)
+        # mu = mu[:, np.newaxis]
+        # print("impshape", imp.shape)
+        # print("eishape", ei.shape, sigma.shape)
+        # ei = ei.flatten()
+        # sigma =
+        # ei[sigma == 0.0] = 0.0
+        # print(type(ei), type(mu_sample_opt))
+        # print('eishape', ei.shape)
         # sigma = sigma.reshape(-1)
         # Needed for noise-based model,
         # otherwise use np.max(Y_sample).
         # See also section 2.4 in [1]
-        if self.minimize is True:
-            mu_sample_opt = np.min(mu)
-            sign = 1
-        else:
-            mu_sample_opt = np.max(mu)
-            sign = -1
-        # mu = mu.reshape(-1)
-        # print('59', mu.shape)
-        # mu = mu[:, np.newaxis]
-        with np.errstate(divide='warn'):
-            imp = mu - mu_sample_opt + self.xsi
-            # print("impshape", imp.shape)
-            Z = sign * imp / sigma
-            ei = imp * norm.cdf(Z) + sigma * norm.pdf(Z)
-            # print("eishape", ei.shape, sigma.shape)
-            # ei = ei.flatten()
-            # sigma =
-            # ei[sigma == 0.0] = 0.0
-        # print(type(ei), type(mu_sample_opt))
-        # print('eishape', ei.shape)
-        return np.array(self.X_s[np.argmax(ei)]), ei
