@@ -72,13 +72,10 @@ class BayesianOptimization():
             X_opt ndarray (1,) representing the optimal point
             Y_opt ndarray (1,) representing the optimal function value
         """
-        seen = set()
         for i in range(iterations):
-            print("i", i)
+            # print("i", i)
             X_next, ei = self.acquisition()
             if X_next in self.gp.X:
                 break
-            # seen.add(X_next)
-            # X_opt = X_next
             self.gp.update(X_next, self.f(X_next))
         return X_next, self.f(X_next)
