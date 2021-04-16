@@ -2,6 +2,7 @@
     Hyperparameter Tuning project
 """
 import numpy as np
+from scipy.stats import norm
 GP = __import__('2-gp').GaussianProcess
 
 
@@ -45,7 +46,6 @@ class BayesianOptimization():
                 EI ndarray (ac_samples,) containing the expected improvement
                     of each potential sample
         """
-        from scipy.stats import norm
         mu, sigma = self.gp.predict(self.X_s)
         mu = mu.flatten()
         # mu_sample, _ = self.gp.predict(self.(self.X_s))
