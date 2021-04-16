@@ -75,10 +75,18 @@ class BayesianOptimization():
         """
         if type(iterations) is not int or iterations < 1:
             return None, None
+        # return None, None
+        bests = []
+        x = []
         for i in range(iterations):
             X_next, ei = self.acquisition()
+            x.append(X_next)
+            bests.append(self.f(X_next))
             if X_next in self.gp.X:
                 break
             self.gp.update(X_next, self.f(X_next))
-        X_next = self.gp.X[-3]
+        if self.minimize:
+            X_next = x[np.argmin(bests)]
+        else:
+            X_next = x[np.argmax(bests)]
         return X_next, self.f(X_next)
