@@ -72,11 +72,11 @@ class BayesianOptimization():
             X_opt ndarray (1,) representing the optimal point
             Y_opt ndarray (1,) representing the optimal function value
         """
+        if type(iterations) is not int or iterations < 1:
+            return None, None
         for i in range(iterations):
-            # print("i", i)
             X_next, ei = self.acquisition()
             if X_next in self.gp.X:
                 break
             self.gp.update(X_next, self.f(X_next))
-        X_next = np.array([0.8975979])
         return X_next, self.f(X_next)
