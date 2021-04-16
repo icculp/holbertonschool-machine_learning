@@ -50,7 +50,7 @@ class BayesianOptimization():
         mu = mu.flatten()
         # mu_sample, _ = self.gp.predict(self.(self.X_s))
         mu_sample, _ = self.gp.predict(self.gp.X)
-        sigma = np.maximum(1e-15, sigma.flatten())
+        # sigma = np.maximum(1e-15, sigma.flatten())
         if self.minimize is True:
             mu_sample_opt = np.min(self.gp.Y)
             sign = -1
