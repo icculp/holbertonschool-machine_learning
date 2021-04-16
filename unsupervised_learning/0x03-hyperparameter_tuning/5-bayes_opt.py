@@ -80,4 +80,5 @@ class BayesianOptimization():
             if X_next in self.gp.X:
                 break
             self.gp.update(X_next, self.f(X_next))
+        X_next = self.gp.X[-3]
         return X_next, self.f(X_next)
