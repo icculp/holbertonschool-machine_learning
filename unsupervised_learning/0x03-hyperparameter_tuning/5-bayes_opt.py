@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
     Hyperparameter Tuning project
 """
@@ -49,33 +48,19 @@ class BayesianOptimization():
         from scipy.stats import norm
         mu, sigma = self.gp.predict(self.X_s)
         mu = mu.flatten()
-        # print("sigma", sigma)
+        # mu_sample, _ = self.gp.predict(self.(self.X_s))
         mu_sample, _ = self.gp.predict(self.gp.X)
         sigma = np.maximum(1e-15, sigma.flatten())
-        # sigma = sigma.reshape(-1)
-        # Needed for noise-based model,
-        # otherwise use np.max(Y_sample).
-        # See also section 2.4 in [1]
         if self.minimize is True:
-            mu_sample_opt = np.min(mu)
-            sign = 1
+            mu_sample_opt = np.min(self.gp.Y)
+            sign = -1
         else:
             mu_sample_opt = np.max(mu)
-            sign = -1
-        # mu = mu.reshape(-1)
-        # print('59', mu.shape)
-        # mu = mu[:, np.newaxis]
+            sign = 1
         with np.errstate(divide='warn'):
-            imp = mu - mu_sample_opt + self.xsi
-            # print("impshape", imp.shape)
-            Z = sign * imp / sigma
+            imp = sign * (mu - mu_sample_opt + self.xsi)
+            Z = imp / sigma
             ei = imp * norm.cdf(Z) + sigma * norm.pdf(Z)
-            # print("eishape", ei.shape, sigma.shape)
-            # ei = ei.flatten()
-            # sigma =
-            # ei[sigma == 0.0] = 0.0
-        # print(type(ei), type(mu_sample_opt))
-        # print('eishape', ei.shape)
         return np.array(self.X_s[np.argmax(ei)]), ei
 
     def optimize(self, iterations=100):
@@ -87,6 +72,13 @@ class BayesianOptimization():
             X_opt ndarray (1,) representing the optimal point
             Y_opt ndarray (1,) representing the optimal function value
         """
-        X_opt = np.array(np.min(self.gp.X))
-        Y_opt = np.array(np.min(self.gp.Y))
-        return X_opt, Y_opt
+        seen = set()
+        for i in range(iterations):
+            print("i", i)
+            X_next, ei = self.acquisition()
+            if X_next in self.gp.X:
+                break
+            # seen.add(X_next)
+            # X_opt = X_next
+            self.gp.update(X_next, self.f(X_next))
+        return X_next, self.f(X_next)
