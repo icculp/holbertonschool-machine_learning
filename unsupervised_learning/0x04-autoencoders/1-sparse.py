@@ -20,27 +20,23 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
             decoder is the decoder model
             auto is the full autoencoder model
     """
-    reg = keras.regularizers.l1(lambtha)
     inputs = keras.Input(shape=(input_dims,))
     layer_enc = keras.layers.Dense(hidden_layers[0], activation='relu',
-                                   activity_regularizer=reg)(inputs)
+                                   )(inputs)
     for hl in range(1, len(hidden_layers)):
-        reg = keras.regularizers.l1(lambtha)
         layer_enc = keras.layers.Dense(hidden_layers[hl],
                                        activation='relu',
                                        )(layer_enc)
     reg = keras.regularizers.l1(lambtha)
     latent_enc = keras.layers.Dense(latent_dims, activation='relu',
-                                    )(layer_enc)
+                                    activity_regularizer=reg)(layer_enc)
 
     encoded_input = keras.Input(shape=(latent_dims,))
-    # print('hl first', hl)
     latent = keras.layers.Dense(hidden_layers[hl],
                                 activation='relu',
-                                g)(encoded_input)
+                                )(encoded_input)
     c = 1
     for hl in range(len(hidden_layers) - 2, -1, -1):
-        # print('hl', hl)
         reg = keras.regularizers.l1(lambtha)
         decod = keras.layers.Dense(hidden_layers[hl],
                                    activation='relu',
@@ -49,8 +45,6 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
     decoded = keras.layers.Dense(input_dims, activation='sigmoid')(decod)
 
     encoder = keras.Model(inputs, latent_enc)
-    # decoder_layer = auto.layers[-1]
-    # keras.layers.Dense(latent_dims, activation='sigmoid')  # auto.layers[-1]
     decoder = keras.Model(encoded_input, decoded)
 
     outputs = decoder(encoder(inputs))
