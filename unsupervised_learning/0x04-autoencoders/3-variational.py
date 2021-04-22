@@ -38,6 +38,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     z_log_sigma = keras.layers.Dense(latent_dims)(latent_enc)
 
     def sampling(args):
+        ''' sampling helper '''
         z_mean, z_log_sigma = args
         s1 = keras.backend.shape(z_mean)[0]
         s2 = keras.backend.int_shape(z_mean)[1]
@@ -56,7 +57,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
         c = 0
     decoded = keras.layers.Dense(input_dims,
                                  activation='sigmoid')(latent if c else decod)
-    encoder = keras.Model(inputs, [z, z_mean, z_log_sigma])
+    encoder = keras.Model(inputs, [z_mean, z_log_sigma, z])
     decoder = keras.Model(encoded_input, decoded)
     outputs = decoder(encoder(inputs)[2])
 
