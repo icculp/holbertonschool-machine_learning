@@ -39,7 +39,6 @@ class RNNCell:
                 h_next is the next hidden state
                 y is the output of the cell
         """
-        from scipy.special import softmax
         # softmax(arr, axis=0)
         m, i = x_t.shape
         Wi = self.Wh[:i]
