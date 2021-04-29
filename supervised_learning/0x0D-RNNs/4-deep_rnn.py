@@ -18,7 +18,7 @@ def deep_rnn(rnn_cells, X, h_0):
             H ndarray containing all of the hidden states
             Y ndarray containing all of the outputs
     """
-    print("xxxx", X.shape)
+    # print("xxxx", X.shape)
     t, m, i = X.shape
     l, m, h = h_0.shape
     H = np.zeros((t + 1, l, m, h))
