@@ -48,8 +48,8 @@ class BidirectionalCell:
         """
         m, i = x_t.shape
         cat = np.concatenate((h_prev, x_t), axis=1)
-        h_prev = np.tanh(cat @ self.Whf + self.bhf)
-        return h_prev
+        h_next = np.tanh(cat @ self.Whf + self.bhf)
+        return h_next
 
     def backward(self, h_next, x_t):
         """ performs backward propagation for one time step
