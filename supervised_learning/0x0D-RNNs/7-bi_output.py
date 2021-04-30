@@ -73,7 +73,4 @@ class BidirectionalCell:
             h is the dimensionality of the hidden states
             Returns: Y, the outputs
         """
-        # from sklearn.utils.extmath import softmax
-        # for h in range(len(H)):
-        #    H[h] = softmax(H[h] @ self.Wy + self.by)
         return self.softmax(H @ self.Wy + self.by)
