@@ -9,6 +9,7 @@ from fractions import Fraction
 
 
 def brevity_penalty(closest_ref_len, hyp_len):
+    """ calulates brevity penalty """
     if hyp_len > closest_ref_len:
         return 1
     # If hypothesis is empty, brevity penalty = 0 should result in BLEU = 0.0
