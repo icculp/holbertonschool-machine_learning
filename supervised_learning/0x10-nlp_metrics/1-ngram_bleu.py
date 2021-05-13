@@ -144,16 +144,19 @@ def modified_precision(references, hypothesis, n):
     return Fraction(numerator, denominator, _normalize=False)
 
 
-def uni_bleu(references, sentence):
-    """ calculates the unigram BLEU score for a sentence:
+def ngram_bleu(references, sentence, n):
+    """ that calculates the n-gram BLEU score for a sentence
         references is a list of reference translations
         each reference translation is a list of the words in the translation
         sentence is a list containing the model proposed sentence
-        Returns: the unigram BLEU score
+        n is the size of the n-gram to use for evaluation
+        Returns: the n-gram BLEU score
     """
     hypothesis = sentence
     # weights = (0.25, 0.25, 0.25, 0.25)
-    weights = (1, 0, 0, 0)
+    weights = [0, 0, 0, 0]
+    weights[n - 1] = 1
+    # print(weights)
     # weights = (0, 1, 0, 0)
     # compute modified precision for 1-4 ngrams
     p_numerators = Counter()
