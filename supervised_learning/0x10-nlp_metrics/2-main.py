@@ -8,6 +8,7 @@ references = [["the", "cat", "is", "on", "the", "mat"], ["there", "is", "a", "ca
 sentence = ["there", "is", "a", "cat", "here"]
 
 print(cumulative_bleu(references, sentence, 4))
+print(sentence_bleu(references, sentence))
 
 
 references = [["hello", "there", "my", "friend"]]

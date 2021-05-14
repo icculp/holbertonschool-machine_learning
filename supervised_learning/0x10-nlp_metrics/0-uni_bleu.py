@@ -17,7 +17,14 @@ def brevity_penalty(closest_ref_len, hyp_len):
         return 0
     else:
         return math.exp(1 - closest_ref_len / hyp_len)
-
+    '''mt_length = len(machine_translated)
+    o_length = len(original)
+    # Brevity Penalty
+    if mt_length > o_length:
+        BP = 1
+    else:
+        penality = 1 - (mt_length / o_length)
+        BP = np.exp(penality)'''
 
 def closest_ref_length(references, hyp_len):
     """
@@ -39,7 +46,7 @@ def closest_ref_length(references, hyp_len):
     return closest_ref_len
 
 
-def ngrams(sentence, n=2, n_gram=True):
+def ngrams(sentence, n=2, n_gram=False):
     '''
         N-Gram generator with parameters sentence
         n is for number of n_grams
@@ -169,6 +176,15 @@ def uni_bleu(references, sentence):
     hyp_len = len(hypothesis)
     ref_len = closest_ref_length(references, hyp_len)
     bp = brevity_penalty(ref_len, hyp_len)
+
+    '''mt_length = len(machine_translated)
+    o_length = len(original)
+    # Brevity Penalty
+    if mt_length > o_length:
+        BP = 1
+    else:
+        penality = 1 - (mt_length / o_length)
+        BP = np.exp(penality)'''
 
     # compute final score
     p_n = [

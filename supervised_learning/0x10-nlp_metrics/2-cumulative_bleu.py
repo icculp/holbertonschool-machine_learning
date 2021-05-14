@@ -10,13 +10,14 @@ from fractions import Fraction
 
 def brevity_penalty(closest_ref_len, hyp_len):
     """ calulates brevity penalty """
-    if hyp_len > closest_ref_len:
+    if hyp_len > closest_ref_len + 1:
+        print('here')
         return 1
     # If hypothesis is empty, brevity penalty = 0 should result in BLEU = 0.0
     elif hyp_len == 0:
         return 0
     else:
-        return math.exp(1 - closest_ref_len / hyp_len)
+        return np.exp(1 - closest_ref_len / hyp_len)
 
 
 def closest_ref_length(references, hyp_len):
@@ -39,7 +40,7 @@ def closest_ref_length(references, hyp_len):
     return closest_ref_len
 
 
-def ngrams(sentence, n=2, n_gram=True):
+def ngrams(sentence, n=2, n_gram=False):
     '''
         N-Gram generator with parameters sentence
         n is for number of n_grams
