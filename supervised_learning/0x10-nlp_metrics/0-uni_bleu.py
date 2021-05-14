@@ -26,6 +26,7 @@ def brevity_penalty(closest_ref_len, hyp_len):
         penality = 1 - (mt_length / o_length)
         BP = np.exp(penality)'''
 
+
 def closest_ref_length(references, hyp_len):
     """
     This function finds the reference that is the closest length to the
