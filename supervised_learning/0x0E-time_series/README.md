@@ -25,3 +25,5 @@ Because the dataset is raw, you will need to create a script, preprocess_data.py
 * Should you rescale the data?
 * Is the current time window relevant?
 * How should you save this preprocessed data?
+
+https://docs.google.com/document/d/1r1aAvG4sFdU8uF37IjxtkYAeiZ-4tW3UblXhOFuyS8s/edit?usp=sharing
