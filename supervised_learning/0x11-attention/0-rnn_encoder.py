@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+"""
+    Attention
+"""
 import tensorflow as tf
 
 
