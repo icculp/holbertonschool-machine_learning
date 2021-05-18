@@ -2,9 +2,9 @@
 
 import numpy as np
 import tensorflow as tf
-print('wtf')
+# print('wtf')
 RNNEncoder = __import__('0-rnn_encoder').RNNEncoder
-print('main6')
+# print('main6')
 encoder = RNNEncoder(1024, 128, 256, 32)
 print(encoder.batch)
 print(encoder.units)

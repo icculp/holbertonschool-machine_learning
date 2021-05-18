@@ -1,11 +1,7 @@
-#!/usr/bin/env python3
-"""
-    Attention + Transfomers
-"""
 import tensorflow as tf
 
 
-print('rnn 8')
+# print('rnn 8')
 class RNNEncoder(tf.keras.layers.Layer):
     """ RNN encoder for machine translation """
 
@@ -26,31 +22,43 @@ class RNNEncoder(tf.keras.layers.Layer):
                 as the last hidden state
             Recurrent weights should be initialized with glorot_uniform
         """
+        super(RNNEncoder, self).__init__()
         self.batch = batch
         self.units = units
-        print('30')
-        self.embedding = tf.keras.layers.Embedding(input_dim=vocab, output_dim=embedding)
+        # print('27')
+        self.embedding = tf.keras.layers.Embedding(input_dim=vocab,
+                                                   output_dim=embedding)
+        # print('29')
         self.gru = tf.keras.layers.GRU(units, return_sequences=True,
-                                       return_state=True)
+                                       return_state=True,
+                                       kernel_initializer='glorot_uniform')
+        # print('32')
 
     def initialize_hidden_state(self):
         """ Initializes the hidden states for the RNN cell to a tensor of zeros
             Returns: a tensor of shape (batch, units)
                 containing the initialized hidden states
         """
-        return tf.zeros((self.batch, self.units))
+        # print('39')
+        t = tf.zeros((self.batch, self.units))
+        # print('41')
+        return t
 
     def call(self, x, initial):
         """
-            x is a tensor of shape (batch, input_seq_len)
-                containing input to encoder layer as word indices within the vocabulary
-            initial is a tensor of shape (batch, units) containing the initial hidden state
+            x is a tensor of shape (batch, input_seq_len) containing
+                input to encoder layer as word indices within the vocabulary
+            initial is a tensor of shape (batch, units)
+                containing the initial hidden state
             Returns: outputs, hidden
                 outputs is a tensor (batch, input_seq_len, units)
                     containing the outputs of the encoder
                 hidden is a tensor (batch, units)
                     containing the last hidden state of the encoder
         """
-        hidden = self.embedding(x)
-        outputs = self.gru(hidden)
+        # print('did we get called?')
+        embedded = self.embedding(x)
+        outputs, hidden = self.gru(embedded)
+        # print(hidden.shape)
+        # hidden = self.gru(x)
         return outputs, hidden
