@@ -40,7 +40,7 @@ def closest_ref_length(references, hyp_len):
     return closest_ref_len
 
 
-def ngrams(sentence, n=2, n_gram=False):
+def ngrams(sentence, n=1, n_gram=False):
     '''
         N-Gram generator with parameters sentence
         n is for number of n_grams
@@ -53,7 +53,7 @@ def ngrams(sentence, n=2, n_gram=False):
     length = len(sent_arr)
 
     word_list = []
-    for i in range(length+1):
+    for i in range(length + 1):
         if i < n:
             continue
         word_range = list(range(i - n, i))
@@ -105,11 +105,11 @@ def bleu_score(original, machine_translated):
     # weights = [1, 0, 0, 0]
     s = (w_i * np.log(p_i) for w_i, p_i in zip(weights,
          clipped_precision_score))
-    print(type(s))
+    # print(type(s))
     # for si in s:
     #    print(si)
     s = (BP) * np.exp(math.fsum(s))
-    print('sss', s)
+    # print('sss', s)
     return s
 
 
@@ -168,6 +168,7 @@ def cumulative_bleu(references, sentence, n):
     hyp_lengths, ref_lengths = 0, 0
 
     for i, _ in enumerate(weights, start=1):
+        # print('i', i)
         p_i = modified_precision(references, hypothesis, i)
         p_numerators[i] += p_i.numerator
         p_denominators[i] += p_i.denominator
@@ -185,6 +186,7 @@ def cumulative_bleu(references, sentence, n):
         if p_numerators[i] > 0
     ]
     s = (w_i * math.log(p_i) for w_i, p_i in zip(weights, p_n))
+    # print('s', (s))
     s = bp * math.exp(math.fsum(s))
 
     return s
