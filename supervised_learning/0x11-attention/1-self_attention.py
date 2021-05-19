@@ -21,9 +21,9 @@ class SelfAttention(tf.keras.layers.Layer):
                 tanh of the sum of the outputs of W and U
         """
         super(SelfAttention, self).__init__()
-        self.W = 0
-        self.U = 0
-        self.V = 0
+        self.W = tf.keras.layers.Dense(units)
+        self.U = tf.keras.layers.Dense(units)
+        self.V = tf.keras.layers.Dense(1, activation='tanh')
 
     def call(self, s_prev, hidden_states):
         """
@@ -37,4 +37,10 @@ class SelfAttention(tf.keras.layers.Layer):
             weights is a tensor of shape (batch, input_seq_len, 1)
                 that contains the attention weights
         """
-        return context, weights
+        query_with_time_axis = tf.expand_dims(s_prev, 1)
+        score = self.V(tf.nn.tanh(
+            self.W(query_with_time_axis) + self.U(hidden_states)))
+        attention_weights = tf.nn.softmax(score, axis=1)
+        context_vector = attention_weights * hidden_states
+        context_vector = tf.reduce_sum(context_vector, axis=1)
+        return context_vector, attention_weights
