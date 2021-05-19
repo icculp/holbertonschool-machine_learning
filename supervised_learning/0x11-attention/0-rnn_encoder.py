@@ -35,7 +35,7 @@ class RNNEncoder(tf.keras.layers.Layer):
         # print('29')
         self.gru = tf.keras.layers.GRU(units, return_sequences=True,
                                        return_state=True,
-                                       kernel_initializer='glorot_uniform')
+                                       recurrent_initializer='glorot_uniform')
         # print('32')
 
     def initialize_hidden_state(self):
