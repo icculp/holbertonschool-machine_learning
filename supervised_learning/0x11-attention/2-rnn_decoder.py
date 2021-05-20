@@ -3,6 +3,7 @@
     Attention
 """
 import tensorflow as tf
+SelfAttention = __import__('1-self_attention').SelfAttention
 
 
 class RNNDecoder(tf.keras.layers.Layer):
@@ -49,7 +50,6 @@ class RNNDecoder(tf.keras.layers.Layer):
             s is a tensor of shape (batch, units) containing the new
                 decoder hidden state
         """
-        SelfAttention = __import__('1-self_attention').SelfAttention
         context, attention = SelfAttention(s_prev.get_shape
                                            ()[1])(s_prev, hidden_states)
         x = self.embedding(x)
