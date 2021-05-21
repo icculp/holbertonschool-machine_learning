@@ -23,6 +23,19 @@ def sdp_attention(Q, K, V, mask=None):
             weights a tensor with its last two dimensions as
                 (..., seq_len_q, seq_len_v) containing the attention weights
     """
+    matmul_qk = tf.matmul(Q, K, transpose_b=True)
+    dk = tf.cast(tf.shape(K)[-1], tf.float32)
+    scaled_attention_logits = matmul_qk / tf.math.sqrt(dk)
+    if mask is not None:
+        scaled_attention_logits += (mask * -1e9)
+    attention_weights = tf.nn.softmax(scaled_attention_logits, axis=-1)
+    output = tf.matmul(attention_weights, V)
+    return output, attention_weights
+
+    return tf.keras.layers.Attention(inputs=[Q, K, V],
+                                     mask=mask,
+                                     return_attention_scores=True)
+
     def softmax(x):
         ''' softmax '''
         e_x = np.exp(x)
@@ -36,5 +49,5 @@ def sdp_attention(Q, K, V, mask=None):
     # attn = self.dropout(F.softmax(attn, dim=-1))
     output = tf.matmul(attn, V)
 
-    return output, tf.nn.softmax(attn)
+    return output, tf.nn.dropout(tf.nn.softmax(attn), 1)
     # return output, weights
