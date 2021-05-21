@@ -27,10 +27,10 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         self.h = h
         self.dm = dm
         self.depth = dm // h
-        self.Wq = tf.layers.Dense(dm)
-        self.Wk = tf.layers.Dense(dm)
-        self.Wv = tf.layers.Dense(dm)
-        self.linear = tf.layers.Dense(dm)
+        self.Wq = tf.keras.layers.Dense(dm)
+        self.Wk = tf.keras.layers.Dense(dm)
+        self.Wv = tf.keras.layers.Dense(dm)
+        self.linear = tf.keras.layers.Dense(dm)
 
     def call(self, Q, K, V, mask):
         """
@@ -62,6 +62,7 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         q = split_heads(q, batch_size)
         k = split_heads(k, batch_size)
         v = split_heads(v, batch_size)
+
         scaled_attention, attention_weights = sdp_attention(
             q, k, v, mask)
 
