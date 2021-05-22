@@ -2,7 +2,6 @@
 """
     Attention
 """
-import numpy as np
 import tensorflow as tf
 positional_encoding = __import__('4-positional_encoding').positional_encoding
 EncoderBlock = __import__('7-transformer_encoder_block').EncoderBlock
@@ -36,7 +35,7 @@ class Encoder(tf.keras.layers.Layer):
         self.dm = dm
         self.embedding = tf.keras.layers.Embedding(input_dim=input_vocab,
                                                    output_dim=dm)
-        self.positional_encoding = np.ndarray((max_seq_len, dm))
+        self.positional_encoding = positional_encoding(max_seq_len, dm)
         self.blocks = [EncoderBlock(dm, h, hidden, drop_rate)
                        for _ in range(N)]
         self.dropout = tf.keras.layers.Dropout(drop_rate)
