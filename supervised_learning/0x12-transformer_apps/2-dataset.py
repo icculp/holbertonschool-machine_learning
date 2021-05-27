@@ -22,12 +22,15 @@ class Dataset():
         """
         train = tfds.load('ted_hrlr_translate/pt_to_en',
                           split='train', as_supervised=True)
-        self.data_train = train.map(lambda p, e: tf.py_function(
-            func=self.tf_encode, inp=[p, e], Tout=[tf.int64, tf.int64]))
+        self.data_train = train.map(self.tf_encode)
+        #    lambda p, e: tf.py_function(
+        #    func=self.tf_encode, inp=[p, e], Tout=[tf.int64, tf.int64]))
         valid = tfds.load('ted_hrlr_translate/pt_to_en',
-                          split='valid', as_supervised=True)
-        self.data_valid = valid.map(lambda p, e: tf.py_function(
-            func=self.tf_encode, inp=[p, e], Tout=[tf.int64, tf.int64]))
+                          split='validation', as_supervised=True)
+        self.data_valid = valid.map(self.tf_encode)
+        self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(train)
+        #    lambda p, e: tf.py_function(
+        #    func=self.tf_encode, inp=[p, e], Tout=[tf.int64, tf.int64]))
         # self.data_train = tf.py_function(func=self.tf_encode,
         #                                  inp=train.map(x, y),
         #                                  Tout=[tf.int64, tf.int64])
@@ -39,8 +42,6 @@ class Dataset():
         #                            Tout=[tf.int64, tf.int64])
         # self.tf_encode(tfds.load('ted_hrlr_translate/pt_to_en',
         #                            split='validation', as_supervised=True))
-        self.tokenizer_pt, self.tokenizer_en = self.\
-            tokenize_dataset(self.data_train)
 
     def tokenize_dataset(self, data):
         """ creates sub-word tokenizers for our dataset:
@@ -86,11 +87,14 @@ class Dataset():
         ''' acts as a tensorflow wrapper for the encode instance method
             set shape of return tensors
         '''
-        print('lenpt', len(pt))
-        print('lenen', len(en))
-        p, e = self.encode(pt, en)
-        tp = tf.convert_to_tensor(p)
-        te = tf.convert_to_tensor(e)
-        tf.ensure_shape(tp, [None])
-        tf.ensure_shape(te, [None])
+        # print('lenpt', len(pt))
+        # print('lenen', len(en))
+        # p, e = self.encode(pt, en)
+        # tp = tf.convert_to_tensor(p)
+        # te = tf.convert_to_tensor(e)
+        tp, te = tf.py_function(func=self.encode,
+                                inp=[pt, en],
+                                Tout=[tf.int64, tf.int64])
+        # tf.ensure_shape(tp, [None])
+        # tf.ensure_shape(te, [None])
         return tp, te
