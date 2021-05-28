@@ -95,6 +95,6 @@ class Dataset():
         tp, te = tf.py_function(func=self.encode,
                                 inp=[pt, en],
                                 Tout=[tf.int64, tf.int64])
-        # tf.ensure_shape(tp, [None])
-        # tf.ensure_shape(te, [None])
+        tp = tf.ensure_shape(tp, [None])
+        te = tf.ensure_shape(te, [None])
         return tp, te
