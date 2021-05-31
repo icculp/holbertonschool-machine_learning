@@ -37,6 +37,6 @@ def question_answer(question, reference):
     short_end = tf.argmax(outputs[1][0][1:]) + 1
     answer_tokens = tokens[short_start: short_end + 1]
     answer = tokenizer.convert_tokens_to_string(answer_tokens)
-    if question in answer:
+    if question in answer or answer == '':
         answer = None
     return answer
