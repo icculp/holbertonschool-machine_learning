@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+    QA Bots!
+"""
 import tensorflow as tf
 import tensorflow_hub as hub
 from transformers import BertTokenizer
