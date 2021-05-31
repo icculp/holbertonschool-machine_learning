@@ -16,6 +16,7 @@ def answer_loop(reference):
             if word == question.lower():
                 print("A: Goodbye")
                 exit()
+                !kill  # if in colab
         A = question_answer(question, reference)
         if A is None:
             A = 'Sorry, I do not understand your question.'
