@@ -103,11 +103,11 @@ def train_transformer(N, dm, h, hidden, max_len, batch_size, epochs):
             create_masks(inp, tar_inp)
 
         with tf.GradientTape() as tape:
-            predictions, _ = transformer(inp, tar_inp,
-                                         True,
-                                         enc_padding_mask,
-                                         combined_mask,
-                                         dec_padding_mask)
+            predictions = transformer(inp, tar_inp,
+                                      True,
+                                      enc_padding_mask,
+                                      combined_mask,
+                                      dec_padding_mask)
             loss = loss_function(tar_real, predictions)
 
         gradients = tape.gradient(loss, transformer.trainable_variables)
@@ -117,7 +117,7 @@ def train_transformer(N, dm, h, hidden, max_len, batch_size, epochs):
         train_loss(loss)
         train_accuracy(accuracy_function(tar_real, predictions))
 
-    for e in range(epochs):
+    for epoch in range(epochs):
         batch = 0
         for (inp, tar) in data.data_train:
             train_step(inp, tar)
