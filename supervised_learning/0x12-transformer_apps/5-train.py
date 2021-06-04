@@ -6,7 +6,7 @@ import tensorflow.compat.v2 as tf
 import tensorflow_datasets as tfds
 Dataset = __import__('3-dataset').Dataset
 create_masks = __import__('4-create_masks').create_masks
-transformer = __import__('5-transformer').Transformer
+Transformer = __import__('5-transformer').Transformer
 
 
 def train_transformer(N, dm, h, hidden, max_len, batch_size, epochs):
@@ -53,7 +53,7 @@ def train_transformer(N, dm, h, hidden, max_len, batch_size, epochs):
     # create_masks()
     input_v = data.tokenizer_pt.vocab_size + 2
     target_v = data.tokenizer_en.vocab_size + 2
-    transformer = transformer(N, dm, h, hidden, input_v,
+    transformer = Transformer(N, dm, h, hidden, input_v,
                               target_v, max_len, max_len)
     loss_object = tf.keras.losses.SparseCategoricalCrossentropy(
         from_logits=True, reduction='none')
