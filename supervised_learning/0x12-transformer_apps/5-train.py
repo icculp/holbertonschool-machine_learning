@@ -9,6 +9,8 @@ create_masks = __import__('4-create_masks').create_masks
 Transformer = __import__('5-transformer').Transformer
 
 
+tf.config.run_functions_eagerly(True)
+# tf.data.experimental.enable.debug_mode()
 def train_transformer(N, dm, h, hidden, max_len, batch_size, epochs):
     """ creates and trains a transformer model for machine translation of
             Portuguese to English using our previously created dataset
