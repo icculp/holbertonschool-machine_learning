@@ -118,12 +118,14 @@ def train_transformer(N, dm, h, hidden, max_len, batch_size, epochs):
         train_accuracy(accuracy_function(tar_real, predictions))
 
     for e in range(epochs):
-        for (batch, (inp, tar)) in enumerate(data.data_train):
+        batch = 0
+        for (inp, tar) in data.data_train:
             train_step(inp, tar)
 
             if batch % 50 == 0:
                 print(f'Epoch {epoch + 1} Batch {batch} Loss ' +
                       '{train_loss.result():.f} Accuracy ' +
                       '{train_accuracy.result():.f}')
+            batch += 1
         print(f'Epock {epoch+1}: loss {train_loss.result():.f}')
     return model
