@@ -53,7 +53,7 @@ def train_transformer(N, dm, h, hidden, max_len, batch_size, epochs):
     # create_masks()
     input_v = data.tokenizer_pt.vocab_size + 2
     target_v = data.tokenizer_en.vocab_size + 2
-    transformer = Transformer(N, dm, h, hidden, input_v,
+    transformer = transformer(N, dm, h, hidden, input_v,
                               target_v, max_len, max_len)
     loss_object = tf.keras.losses.SparseCategoricalCrossentropy(
         from_logits=True, reduction='none')
