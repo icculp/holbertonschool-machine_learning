@@ -45,9 +45,6 @@ def build_agent(model, actions):
     return agent
 
 
-model = create_q_model()
-
-
 if __name__ == '__main__':
     env = gym.make('Breakout-v0')
     # 'Breakout-ram-v0')  # Breakout-v0')
@@ -56,6 +53,7 @@ if __name__ == '__main__':
     # print(env.observation_space.shape)
     shp = env.observation_space.shape
     actions = env.action_space.n
+    model = create_q_model()
     # model_target = create_q_model()
     dqn = build_agent(model, actions)
     dqn.compile(K.optimizers.Adam(lr=0.00025), metrics=['mae'])
