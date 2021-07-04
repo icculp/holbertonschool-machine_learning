@@ -16,29 +16,36 @@ def create_q_model():
     inputs = K.layers.Input((actions,) + shp)
     #  (84, 84, 4,)) #  # shape=(1, 1, 128)) # (84, 84, 4,))
     # Convolutions on the frames on the screen
-    layer1 = K.layers.Conv2D(32, 8, strides=4, activation="relu")(inputs)
-    layer2 = K.layers.Conv2D(64, 4, strides=2, activation="relu")(layer1)
-    layer3 = K.layers.Conv2D(64, 3, strides=1, activation="relu")(layer2)
-
+    layer1 = K.layers.Conv2D(32, 8, name='conv1', strides=4,
+                             activation="relu")(inputs)
+    layer2 = K.layers.Conv2D(64, 4, name='conv2', strides=2,
+                             activation="relu")(layer1)
+    layer3 = K.layers.Conv2D(64, 3, name='conv3', strides=1,
+                             activation="relu")(layer2)
     layer4 = K.layers.Flatten()(layer3)
-
-    layer5 = K.layers.Dense(512, activation="relu")(layer4)
-    action = K.layers.Dense(actions, activation="linear")(layer5)
+    layer5 = K.layers.Dense(512, name='dense1',
+                            activation="relu")(layer4)
+    action = K.layers.Dense(actions, name='dense2',
+                            activation="linear")(layer5)
 
     return K.Model(inputs=inputs, outputs=action)
 
 
 def build_agent(model, actions):
     """ build's the DQN agent """
-    memory = SequentialMemory(limit=500000, window_length=actions)
+    memory = SequentialMemory(limit=1000000, window_length=actions)
     policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1.,
                                   value_min=.1, value_test=.05,
-                                  nb_steps=100000)
+                                  nb_steps=1000000)
     agent = DQNAgent(model, policy=policy, test_policy=None,
                      enable_double_dqn=True,
                      enable_dueling_network=False,
-                     dueling_type='avg', nb_actions=actions, memory=memory)
+                     dueling_type='avg', nb_actions=actions, memory=memory,
+                     nb_steps_warmup=10000)
     return agent
+
+
+model = create_q_model()
 
 
 if __name__ == '__main__':
@@ -49,11 +56,10 @@ if __name__ == '__main__':
     # print(env.observation_space.shape)
     shp = env.observation_space.shape
     actions = env.action_space.n
-    model = create_q_model()
     # model_target = create_q_model()
     dqn = build_agent(model, actions)
     dqn.compile(K.optimizers.Adam(lr=0.00025), metrics=['mae'])
-    dqn.fit(env, nb_steps=1000,
+    dqn.fit(env, nb_steps=1000000,
             visualize=False,
             verbose=2)  # ,
     # callbacks=callbacks)
