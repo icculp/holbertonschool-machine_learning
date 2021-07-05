@@ -12,14 +12,41 @@ from rl.memory import SequentialMemory
 from rl.policy import EpsGreedyQPolicy, LinearAnnealedPolicy
 
 
+INPUT_SHAPE = (84, 84)
+
+
+class AtariProcessor(Processor):
+    def process_observation(self, observation):
+        assert observation.ndim == 3  # (height, width, channel)
+        img = Image.fromarray(observation)
+        img = img.resize(INPUT_SHAPE).convert('L')
+        # resize and convert to grayscale
+        processed_observation = np.array(img)
+        assert processed_observation.shape == INPUT_SHAPE
+        return processed_observation.astype('uint8')
+        # saves storage in experience memory
+
+    def process_state_batch(self, batch):
+        # We could perform this processing step in `process_observation`.
+        # In this case, however, we would need to store a `float32`
+        # array instead, which is 4x more memory intensive than
+        # an `uint8` array. This matters if we store 1M observations.
+        processed_batch = batch.astype('float32') / 255.
+        return processed_batch
+
+    def process_reward(self, reward):
+        return np.clip(reward, -1., 1.)
+
+
 def create_q_model():
     """ q-learning model """
     # Network defined by the Deepmind paper
-    inputs = K.layers.Input((actions,) + shp)
+    inputs = K.layers.Input((actions,) + INPUT_SHAPE)
+    perm = K.layers.Permute((2, 3, 1))(inputs)
     #  (84, 84, 4,)) #  # shape=(1, 1, 128)) # (84, 84, 4,))
     # Convolutions on the frames on the screen
     layer1 = K.layers.Conv2D(32, 8, name='conv1', strides=4,
-                             activation="relu")(inputs)
+                             activation="relu")(perm)
     layer2 = K.layers.Conv2D(64, 4, name='conv2', strides=2,
                              activation="relu")(layer1)
     layer3 = K.layers.Conv2D(64, 3, name='conv3', strides=1,
@@ -39,9 +66,9 @@ def build_agent(model, actions):
     policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1.,
                                   value_min=.1, value_test=.05,
                                   nb_steps=1750000)
-    # processor = AtariProcessor()
+    processor = AtariProcessor()
     agent = DQNAgent(model, policy=policy, test_policy=None,
-                     enable_double_dqn=True,
+                     processor=processor, enable_double_dqn=True,
                      enable_dueling_network=False,
                      dueling_type='avg', nb_actions=actions, memory=memory,
                      nb_steps_warmup=1750000, train_interval=4, delta_clip=1.)
