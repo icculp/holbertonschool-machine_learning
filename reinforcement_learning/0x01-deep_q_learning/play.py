@@ -30,15 +30,15 @@ def create_q_model():
 
 def build_agent(model, actions):
     """ build's the DQN agent """
-    memory = SequentialMemory(limit=10000, window_length=actions)
+    memory = SequentialMemory(limit=1750000, window_length=actions)
     policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1.,
                                   value_min=.1, value_test=.05,
-                                  nb_steps=10000)
+                                  nb_steps=1750000)
     agent = DQNAgent(model, policy=policy, test_policy=None,
                      enable_double_dqn=True,
                      enable_dueling_network=False,
                      dueling_type='avg', nb_actions=actions, memory=memory,
-                     nb_steps_warmup=10000)
+                     nb_steps_warmup=1750000)
     return agent
 
 
