@@ -6,12 +6,10 @@ import rl
 import keras as K
 import gym
 import numpy as np
-from PIL import Image
 from rl.agents.dqn import DQNAgent
 from rl.core import Processor
 from rl.memory import SequentialMemory
 from rl.policy import EpsGreedyQPolicy, LinearAnnealedPolicy
-
 
 
 def create_q_model():
