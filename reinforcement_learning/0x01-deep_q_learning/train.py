@@ -5,9 +5,13 @@
 import rl
 import keras as K
 import gym
+import numpy as np
+from PIL import Image
 from rl.agents.dqn import DQNAgent
+from rl.core import Processor
 from rl.memory import SequentialMemory
 from rl.policy import EpsGreedyQPolicy, LinearAnnealedPolicy
+
 
 
 def create_q_model():
@@ -33,15 +37,16 @@ def create_q_model():
 
 def build_agent(model, actions):
     """ build's the DQN agent """
-    memory = SequentialMemory(limit=1000000, window_length=actions)
+    memory = SequentialMemory(limit=10000, window_length=actions)
     policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1.,
                                   value_min=.1, value_test=.05,
-                                  nb_steps=1000000)
+                                  nb_steps=10000)
+    # processor = AtariProcessor()
     agent = DQNAgent(model, policy=policy, test_policy=None,
                      enable_double_dqn=True,
                      enable_dueling_network=False,
                      dueling_type='avg', nb_actions=actions, memory=memory,
-                     nb_steps_warmup=10000)
+                     nb_steps_warmup=10000, train_interval=4, delta_clip=1.)
     return agent
 
 
@@ -57,7 +62,7 @@ if __name__ == '__main__':
     # model_target = create_q_model()
     dqn = build_agent(model, actions)
     dqn.compile(K.optimizers.Adam(lr=0.00025), metrics=['mae'])
-    dqn.fit(env, nb_steps=1000000,
+    dqn.fit(env, nb_steps=10000,
             visualize=False,
             verbose=2)  # ,
     # callbacks=callbacks)

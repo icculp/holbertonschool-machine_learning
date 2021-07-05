@@ -7,7 +7,7 @@ import keras as K
 import gym
 from rl.agents.dqn import DQNAgent
 from rl.memory import SequentialMemory
-from rl.policy import EpsGreedyQPolicy, LinearAnnealedPolicy, GreedyQPolicy
+from rl.policy import EpsGreedyQPolicy, LinearAnnealedPolicy
 
 
 def create_q_model():
@@ -31,7 +31,7 @@ def create_q_model():
 def build_agent(model, actions):
     """ build's the DQN agent """
     memory = SequentialMemory(limit=10000, window_length=actions)
-    policy = LinearAnnealedPolicy(GreedyQPolicy(), attr='eps', value_max=1.,
+    policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1.,
                                   value_min=.1, value_test=.05,
                                   nb_steps=10000)
     agent = DQNAgent(model, policy=policy, test_policy=None,
