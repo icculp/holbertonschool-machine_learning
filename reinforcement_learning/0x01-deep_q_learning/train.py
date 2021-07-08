@@ -11,6 +11,7 @@ from rl.agents.dqn import DQNAgent
 from rl.core import Processor
 from rl.memory import SequentialMemory
 from rl.policy import EpsGreedyQPolicy, LinearAnnealedPolicy
+from rl.callbacks import FileLogger, ModelIntervalCheckpoint
 
 
 INPUT_SHAPE = (84, 84)
@@ -68,16 +69,16 @@ def build_agent(model, actions):
                                   value_min=.1, value_test=.05,
                                   nb_steps=1750000)
     processor = AtariProcessor()
-    agent = DQNAgent(model, policy=policy, test_policy=None,
-                     processor=processor, enable_double_dqn=True,
-                     enable_dueling_network=False,
-                     dueling_type='avg', nb_actions=actions, memory=memory,
-                     nb_steps_warmup=1750000, train_interval=4, delta_clip=1.)
+    agent = DQNAgent(model, policy=policy,
+                     processor=processor, nb_actions=actions,
+                     memory=memory,  nb_steps_warmup=50000,
+                     gamma=.99, target_model_update=10000,
+                     train_interval=4, delta_clip=1.)
     return agent
 
 
 if __name__ == '__main__':
-    env = gym.make('Breakout-v0')
+    env = gym.make('BreakoutDeterministic-v4')
     # 'Breakout-ram-v0')  # Breakout-v0')
     env.reset()
     # height, width, channels =
@@ -88,8 +89,10 @@ if __name__ == '__main__':
     # model_target = create_q_model()
     dqn = build_agent(model, actions)
     dqn.compile(K.optimizers.Adam(lr=0.00025), metrics=['mae'])
+    callbacks = [ModelIntervalCheckpoint('checkpoint.h5', interval=50000)]
+    callbacks += [FileLogger('log', interval=100)]
     dqn.fit(env, nb_steps=1750000,
             visualize=False,
-            verbose=2)  # ,
+            verbose=2, callbacks=callbacks)  # ,
     # callbacks=callbacks)
     dqn.save_weights('policy.h5', overwrite=True)
