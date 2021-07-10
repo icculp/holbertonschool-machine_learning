@@ -23,6 +23,7 @@ def td_lambtha(env, V, policy, lambtha, episodes=5000,
     # print(V)
     states = V.shape[0]
     elig = np.zeros(states)
+    # se = set()
     for i in range(episodes):
         s = env.reset()
         # episode = []
@@ -33,14 +34,18 @@ def td_lambtha(env, V, policy, lambtha, episodes=5000,
             # episode.append([s, action, reward, s_new])
             # elig[s] *= lambtha * gamma
             # elig += 1.0
-            elig *= lambtha * gamma
             elig[s] += 1.0
+            # se.add(s)
             delta = reward + gamma * V[s_new] - V[s]
             # for si in range(len(V)):
-            V[s] += alpha * delta * elig[s]
+            # print(V.shape, elig.shape)
+            V += alpha * delta * elig
+            elig *= lambtha * gamma
             if done:
-                break  # env.reset()
-            s = s_new
+                break  # s = env.reset()
+            else:
+                s = s_new
+    # print(se)
     return V
 
 
