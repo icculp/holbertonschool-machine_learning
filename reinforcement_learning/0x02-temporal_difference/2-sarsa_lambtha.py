@@ -47,6 +47,7 @@ def sarsa_lambtha(env, Q, lambtha, episodes=5000,
         for j in range(max_steps):
             # action = policy(s)
             s_new, reward, done, info = env.step(action)
+
             action_new = epsilon_greedy(env, Q, s, epsilon)
             # episode.append([s, action, reward, s_new])
             # elig[s] *= lambtha * gamma
@@ -54,6 +55,7 @@ def sarsa_lambtha(env, Q, lambtha, episodes=5000,
             # elig[s, :] *= 0
             elig *= gamma * epsilon
             elig[s, action] += (1.0)  # - epsilon)
+
             # se.add(s)
             delta = reward + gamma * Q[s_new, action_new] - Q[s, action]
             Q += alpha * delta * elig  # * epsilon
@@ -64,7 +66,6 @@ def sarsa_lambtha(env, Q, lambtha, episodes=5000,
             else:
                 s = s_new
                 action = action_new
-
         if epsilon < min_epsilon:
             epsilon = min_epsilon
         else:
