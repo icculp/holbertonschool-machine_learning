@@ -14,8 +14,9 @@ df2 = df2.set_index('Timestamp', drop=True)
 
 # YOUR CODE HERE
 
-df = pd.concat([df2, df1], keys=['bitstamp', 'coinbase'])
+df = pd.concat([df2.loc[:1417411921], df1], keys=['bitstamp', 'coinbase'])
 
 # print(df.loc[('bitstamp', 1417411920)])
+# print(df.loc[('bitstamp', 1417411921)])
 
-print(df)
+# print(df)
