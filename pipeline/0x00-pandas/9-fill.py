@@ -10,7 +10,7 @@ df.drop(columns=['Weighted_Price'], inplace=True)
 # for i in range(1, len(df)):
 #    df.iloc(i)
 
-df['Close'].fillna(method='bfill', inplace=True)
+df['Close'].fillna(method='ffill', inplace=True)
 df['High'].fillna(df.Close, inplace=True)
 df['Low'].fillna(df.Close, inplace=True)
 df['Open'].fillna(df.Close, inplace=True)
