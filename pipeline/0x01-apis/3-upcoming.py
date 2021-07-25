@@ -10,7 +10,13 @@ if __name__ == "__main__":
     """ prints location of user specified as cli arg """
     url = 'https://api.spacexdata.com/v4/launches/upcoming'
     r_api = requests.get(url)
-    j = r_api.json()[0]
+    launches_to_sort = r_api.json()
+    sorting_dict = {}
+    for i in range(len(launches_to_sort)):
+        launch = launches_to_sort[i]
+        sorting_dict.update({launch.get('date_unix') : i})
+    soonest_launch_index = sorting_dict[sorted(sorting_dict.keys())[0]]
+    j = launches_to_sort[soonest_launch_index]
     launch_name = j.get('name')
     rocket_id = j.get('rocket')
     date = j.get('date_local')
