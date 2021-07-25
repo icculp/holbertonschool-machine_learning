@@ -14,6 +14,8 @@ if __name__ == "__main__":
     sorting_dict = {}
     for i in range(len(launches_to_sort)):
         launch = launches_to_sort[i]
+        if launch.get('date_unix') in sorting_dict:
+            continue
         sorting_dict.update({launch.get('date_unix') : i})
     soonest_launch_index = sorting_dict[sorted(sorting_dict.keys())[0]]
     j = launches_to_sort[soonest_launch_index]
