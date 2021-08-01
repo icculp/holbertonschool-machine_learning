@@ -1,0 +1,2 @@
+// mongo now
+db.school.remove({"name":"Holberton school"});
