@@ -11,7 +11,7 @@ if __name__ == '__main__':
     post = nginx.find({'method': 'POST'})
     put = nginx.find({'method': 'PUT'})
     patch = nginx.find({'method': 'PATCH'})
-    delete = nginx.find({'method': 'DELTE'})
+    delete = nginx.find({'method': 'DELETE'})
     status = nginx.find({'method': 'GET', 'path': '/status'})
     print("{} logs".format(logs.count()))
     print("Methods:\n" +
