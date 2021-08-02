@@ -19,5 +19,5 @@ if __name__ == '__main__':
           "\tmethod POST: {}\n".format(post.count()) +
           "\tmethod PUT: {}\n".format(put.count()) +
           "\tmethod PATCH: {}\n".format(patch.count()) +
-          "\tmethod DELETE: {}\n".format(delete.count()))
+          "\tmethod DELETE: {}".format(delete.count()))
     print("{} status check".format(status.count()))
