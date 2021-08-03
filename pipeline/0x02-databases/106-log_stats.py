@@ -6,7 +6,7 @@ from pymongo import MongoClient
 if __name__ == '__main__':
     client = MongoClient('mongodb://127.0.0.1:27017')
     nginx = client.logs.nginx
-    logs = nginx.find()
+    logs = nginx.count_documents({})
     # print(dir(logs))
     # print(logs.collection)
     ips = nginx.aggregate([
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     patch = nginx.count_documents({'method': 'PATCH'})
     delete = nginx.count_documents({'method': 'DELETE'})
     status = nginx.count_documents({'method': 'GET', 'path': '/status'})
-    print("{} logs".format(logs.count()))
+    print("{} logs".format(logs))
     print("Methods:\n" +
           "\tmethod GET: {}\n".format(get) +
           "\tmethod POST: {}\n".format(post) +
