@@ -7,14 +7,13 @@ if __name__ == '__main__':
     client = MongoClient('mongodb://127.0.0.1:27017')
     nginx = client.logs.nginx
     logs = nginx.find()
-    print(dir(logs))
-    #print(logs.collection)
+    # print(dir(logs))
+    # print(logs.collection)
     ips = nginx.aggregate([
-                
-                {'$group': {'_id': '$ip', 'sum': { '$sum': 1}}},
-                {"$sort": {"sum": -1}},
-                {"$limit": 10}
-    ])
+                          {'$group': {'_id': '$ip', 'sum': {'$sum': 1}}},
+                          {"$sort": {"sum": -1}},
+                          {"$limit": 10}
+                          ])
     '''pipe = [{"$unwind": "$topics"},
             {"$group":
                 {"_id": '$_id',
@@ -25,9 +24,10 @@ if __name__ == '__main__':
             {"$sort": {"averageScore": -1}}
             ]
     logs.aggregate(pipe)'''
-    # ips = logs.count('ip')#.sort("ip", -1)#.limit(10)#logs.sort("ip", -1).limit(10)
-    #for document in logs: 
-    #    print(document.keys()) 
+    # ips = logs.count('ip')#.sort("ip", -1)
+    # #.limit(10)#logs.sort("ip", -1).limit(10)
+    # for document in logs:
+    #    print(document.keys())
     get = nginx.find({'method': 'GET'})
     post = nginx.find({'method': 'POST'})
     put = nginx.find({'method': 'PUT'})
