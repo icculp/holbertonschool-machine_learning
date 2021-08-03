@@ -36,12 +36,12 @@ if __name__ == '__main__':
     status = nginx.find({'method': 'GET', 'path': '/status'})
     print("{} logs".format(logs.count()))
     print("Methods:\n" +
-          "\tmethod GET: {}\n".format(get.count()) +
-          "\tmethod POST: {}\n".format(post.count()) +
-          "\tmethod PUT: {}\n".format(put.count()) +
-          "\tmethod PATCH: {}\n".format(patch.count()) +
-          "\tmethod DELETE: {}".format(delete.count()))
-    print("{} status check".format(status.count()))
+          "\tmethod GET: {}\n".format(get.count_documents()) +
+          "\tmethod POST: {}\n".format(post.count_documents()) +
+          "\tmethod PUT: {}\n".format(put.count_documents()) +
+          "\tmethod PATCH: {}\n".format(patch.count_documents()) +
+          "\tmethod DELETE: {}".format(delete.count_documents()))
+    print("{} status check".format(status.count_documents()))
     print("IPs:")
     for doc in ips:
         print("\t{}: {}".format(doc.get('_id'), doc.get('sum')))
