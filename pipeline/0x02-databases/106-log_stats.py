@@ -28,20 +28,20 @@ if __name__ == '__main__':
     # #.limit(10)#logs.sort("ip", -1).limit(10)
     # for document in logs:
     #    print(document.keys())
-    get = nginx.find({'method': 'GET'})
-    post = nginx.find({'method': 'POST'})
-    put = nginx.find({'method': 'PUT'})
-    patch = nginx.find({'method': 'PATCH'})
-    delete = nginx.find({'method': 'DELETE'})
-    status = nginx.find({'method': 'GET', 'path': '/status'})
+    get = nginx.count_documents({'method': 'GET'})
+    post = nginx.count_documents({'method': 'POST'})
+    put = nginx.count_documents({'method': 'PUT'})
+    patch = nginx.count_documents({'method': 'PATCH'})
+    delete = nginx.count_documents({'method': 'DELETE'})
+    status = nginx.count_documents({'method': 'GET', 'path': '/status'})
     print("{} logs".format(logs.count()))
     print("Methods:\n" +
-          "\tmethod GET: {}\n".format(get.count_documents()) +
-          "\tmethod POST: {}\n".format(post.count_documents()) +
-          "\tmethod PUT: {}\n".format(put.count_documents()) +
-          "\tmethod PATCH: {}\n".format(patch.count_documents()) +
-          "\tmethod DELETE: {}".format(delete.count_documents()))
-    print("{} status check".format(status.count_documents()))
+          "\tmethod GET: {}\n".format(get) +
+          "\tmethod POST: {}\n".format(post) +
+          "\tmethod PUT: {}\n".format(put) +
+          "\tmethod PATCH: {}\n".format(patch) +
+          "\tmethod DELETE: {}".format(delete))
+    print("{} status check".format(status))
     print("IPs:")
     for doc in ips:
         print("\t{}: {}".format(doc.get('_id'), doc.get('sum')))
