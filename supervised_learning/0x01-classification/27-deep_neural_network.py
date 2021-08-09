@@ -102,12 +102,68 @@ class DeepNeuralNetwork():
 
     def evaluate(self, X, Y):
         """Evaluates the predictions made and the cost"""
-        predictions, _ = self.forward_prop(X)
-        cost = self.cost(Y, predictions)
-        for x, max in enumerate(np.amax(predictions, axis=0)):
-            predictions.T[x] = predictions.T[x] == max
-        evaluation = predictions.astype(int)
+        try:
+            predictions, _ = self.forward_prop(X)
+            cost = self.cost(Y, predictions)
+            for x, max in enumerate(np.amax(predictions, axis=0)):
+                predictions.T[x] = predictions.T[x] == max
+            evaluation = predictions.astype(int)
+        except Exception:
+            return None
+        # print(evaluation)
+        # print(evaluation.shape)
         return evaluation, cost
+
+    def eevaluate(self, X, Y):
+        """ Evaluates the neural networks predictions
+            X contains the input data (nx, m)
+            Y contains the correct labels
+        """
+        def one_hot_encode(Y, classes):
+            """ Converts numeric label vector into one-hot matrix """
+            if type(Y) is not np.ndarray:
+                return None
+            if type(classes) is not int:
+                return None
+            if len(Y.shape) != 1:
+                return None
+            try:
+                shape = (classes, Y.shape[0])
+                hot = np.eye(classes)[Y]
+                return hot.T
+            except Exception:
+                return None
+
+        def one_hot_decode(one_hot):
+            """ Converts a one-hot matrix into a vector of labels """
+            if type(one_hot) is not np.ndarray or\
+                    len(one_hot.shape) != 2 or\
+                    one_hot.shape[0] < 1 or\
+                    one_hot.shape[1] < 1:
+                return None
+            try:
+                hot = np.argmax(one_hot, axis=0)
+                return hot
+            except Exception:
+                return None
+        a, _ = self.forward_prop(X)
+        cost = self.cost(Y, a)
+        """ decode predicted output
+            re-encode for every class
+        """
+        classes = Y.shape[0]
+        decoded = one_hot_decode(a)
+        encoded_classes = one_hot_encode(decoded, classes)
+        '''x = np.where(a >= 0.5, 1, 0)'''
+        encoded_classes = encoded_classes.astype(int)
+        # print(encoded_classes)
+        print(encoded_classes.shape)
+        for x, max in enumerate(np.amax(a, axis=0)):
+            a.T[x] = a.T[x] == max
+        evaluation = a.astype(int)
+        print(evaluation.shape)
+        print((evaluation == encoded_classes).all())
+        return encoded_classes, cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """Gradient descent method for deep neural network"""
