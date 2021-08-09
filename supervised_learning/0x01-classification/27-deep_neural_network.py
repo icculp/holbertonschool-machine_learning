@@ -158,9 +158,10 @@ class DeepNeuralNetwork():
         encoded_classes = encoded_classes.astype(int)
         # print(encoded_classes)
         # print(encoded_classes.shape)
-        # for x, max in enumerate(np.amax(a, axis=0)):
-        #    a.T[x] = a.T[x] == max
-        # evaluation = a.astype(int)
+        for x, max in enumerate(np.amax(a, axis=0)):
+            #    a.T[x] = a.T[x] == max
+            pass
+        evaluation = a.astype(int)
         # print(evaluation.shape)
         # print((evaluation == encoded_classes).all())
         return encoded_classes, cost
