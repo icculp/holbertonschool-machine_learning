@@ -102,7 +102,7 @@ class DeepNeuralNetwork():
 
     def evaluate(self, X, Y):
         """Evaluates the predictions made and the cost"""
-        predictions, cache = self.forward_prop(X)
+        predictions, _ = self.forward_prop(X)
         cost = self.cost(Y, predictions)
         for x, max in enumerate(np.amax(predictions, axis=0)):
             predictions.T[x] = predictions.T[x] == max
