@@ -65,34 +65,26 @@ class DeepNeuralNetwork():
             return None
 
     def forward_prop(self, X):
-        """ Forward propagation of the network
-            X contains the input data (nx, m)
-            returns final output and activations cache
         """
-        self.__cache['A0'] = X
-
-        def sig_act(aw):
-            """ sigmoid activation function """
-            return 1 / (1 + np.exp(-aw))
-
-        def soft_act(aw):
-            """ softmax activation function """
-            return np.exp(aw) / np.sum(np.exp(aw), axis=0)
-
-        for i in range(self.L):
-            w = "W" + str(i + 1)
-            a = "A" + str(i)
-            b = "b" + str(i + 1)
-            aw_ = np.matmul(self.__weights[w],
-                            self.__cache[a]) + self.__weights[b]
-            A = "A" + str(i + 1)
-            if i == self.L - 1:
-                act = sig_act(aw_)
-                act = soft_act(aw_)
-            else:
-                act = sig_act(aw_)
-            self.__cache[A] = act
-        return self.__cache[A], self.__cache
+           Forward Propagation method for
+           Deep Neural Network using sigmoid
+           and softmax activation functions
+        """
+        self.__cache["A0"] = X
+        for layer in range(1, self.__L + 1):
+            Z = (
+                np.matmul(self.__weights["W{}".format(layer)],
+                          self.__cache["A{}".format(layer - 1)]) +
+                self.__weights["b{}".format(layer)]
+                )
+            self.__cache["A{}".format(layer)] = 1/(1 + np.exp(-Z))
+            if layer == self.__L:
+                sig = 1/(1 + np.exp(-Z))
+                T = np.exp(sig)
+                self.__cache["A{}".format(self.__L)] = T/np.sum(T, axis=0)
+            # else:
+            #     self.__cache["A{}".format(layer)] = 1/(1 + np.exp(-Z))
+        return self.__cache["A{}".format(self.__L)], self.__cache
 
     def cost(self, Y, A):
         """Logistic Regression Cost Function"""
