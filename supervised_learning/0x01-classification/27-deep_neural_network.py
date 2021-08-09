@@ -143,43 +143,27 @@ class DeepNeuralNetwork():
         return encoded_classes.astype(int), cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
+        """ Calculates one pass of gradient descent on the NN
+            Y contains correct labels
         """
-           Gradient descent method for deep neural network
-           using back propogation
-        """
-        mth = cache["A1"].shape[1]
-        partials = {}
-        new_weights = {}
-        for layer in range(self.__L, 0, -1):
-            if layer == self.__L:
-                partials["Z{}".format(self.__L)] = (cache["A{}".
-                                                    format(self.__L)] - Y) *\
-                                                    (cache["A{}".
-                                                     format(self.__L)] - Y)
+        m = Y.shape[1]
+        wold = self.weights.copy()
+        for i in range(self.L, 0, -1):
+            A_i = cache['A' + str(i)]
+            A_iless1 = cache['A' + str(i - 1)]
+            if i == self.L:
+                dz = np.subtract(A_i, Y)
             else:
-                partials["Z{}".format(layer)] = (
-                    np.matmul(self.__weights["W{}".format(layer + 1)].T,
-                              partials["Z{}".format(layer + 1)]) *
-                    (cache["A{}".format(layer)] *
-                        (1 - cache["A{}".format(layer)]))
-                )
-            partials["W{}".format(layer)] = (
-                np.matmul(partials["Z{}".format(layer)],
-                          cache["A{}".format(layer - 1)].T) / mth
-            )
-            new_weights["W{}".format(layer)] = (
-                self.__weights["W{}".format(layer)] -
-                (alpha * partials["W{}".format(layer)])
-            )
-            partials["b{}".format(layer)] = (
-                np.sum(partials["Z{}".format(layer)],
-                       axis=1, keepdims=True) / mth
-            )
-            new_weights["b{}".format(layer)] = (
-                self.__weights["b{}".format(layer)] -
-                (alpha * partials["b{}".format(layer)])
-            )
-        self.__weights = new_weights
+                dz = np.matmul(wold['W' + str(i + 1)].T, dz2) *\
+                     np.multiply(A_i, (1 - A_i))
+            dz2 = dz
+            dw = np.matmul(dz, A_iless1.T) / m
+            wupdate = np.subtract(wold['W' + str(i)], np.multiply(alpha, dw))
+            bupdate = np.subtract(self.weights['b' + str(i)],
+                                  np.multiply(alpha, np.sum(dz,
+                                              axis=1, keepdims=True) / m))
+            self.weights['W' + str(i)] = wupdate
+            self.weights['b' + str(i)] = bupdate
 
     def train(self, X, Y, iterations=5000,
               alpha=0.05, verbose=True, graph=True, step=100):
