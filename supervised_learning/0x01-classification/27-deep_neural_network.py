@@ -144,33 +144,45 @@ class DeepNeuralNetwork:
         return encoded_classes.astype(int), cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
-        """
-           Gradient descent method for deep neural network
-           using back propogation
-        """
-        mth = cache["A1"].shape[1]
+        """Gradient descent method for deep neural network"""
+        mth = 1/cache["A1"].shape[1]
         partials = {}
         new_weights = {}
-        for layer in range(self.__L, 0, -1):
-            if layer == self.__L:
-                partials["Z{}".format(self.__L)] = (cache["A{}".format(self.__L)] - Y) * (cache["A{}".format(self.__L)] - Y)
-            else:
-                partials["Z{}".format(layer)] = (
-                    np.matmul(self.__weights["W{}".format(layer + 1)].T,
-                            partials["Z{}".format(layer + 1)]) *
-                    (cache["A{}".format(layer)] * (1 - cache["A{}".format(layer)]))
-                )
+        partials["Z{}".format(self.__L)] = cache["A{}".format(self.__L)] - Y
+        partials["W{}".format(self.__L)] = (
+            mth * np.matmul(partials["Z{}".format(self.__L)],
+                            cache["A{}".format(self.__L - 1)].T)
+            )
+        new_weights["W{}".format(self.__L)] = (
+            self.__weights["W{}".format(self.__L)] -
+            (alpha * partials["W{}".format(self.__L)])
+        )
+        partials["b{}".format(self.__L)] = (
+            mth * np.sum(partials["Z{}".format(self.__L)],
+                         axis=1, keepdims=True)
+        )
+        new_weights["b{}".format(self.__L)] = (
+            self.__weights["b{}".format(self.__L)] -
+            (alpha * partials["b{}".format(self.__L)])
+        )
+
+        for layer in range(self.__L - 1, 0, -1):
+            partials["Z{}".format(layer)] = (
+                np.matmul(self.__weights["W{}".format(layer + 1)].T,
+                          partials["Z{}".format(layer + 1)]) *
+                (cache["A{}".format(layer)] * (1 - cache["A{}".format(layer)]))
+            )
             partials["W{}".format(layer)] = (
-                np.matmul(partials["Z{}".format(layer)],
-                          cache["A{}".format(layer - 1)].T) / mth
+                mth * np.matmul(partials["Z{}".format(layer)],
+                                cache["A{}".format(layer - 1)].T)
             )
             new_weights["W{}".format(layer)] = (
                 self.__weights["W{}".format(layer)] -
                 (alpha * partials["W{}".format(layer)])
             )
             partials["b{}".format(layer)] = (
-                np.sum(partials["Z{}".format(layer)],
-                       axis=1, keepdims=True) / mth
+                mth * np.sum(partials["Z{}".format(layer)],
+                             axis=1, keepdims=True)
             )
             new_weights["b{}".format(layer)] = (
                 self.__weights["b{}".format(layer)] -
