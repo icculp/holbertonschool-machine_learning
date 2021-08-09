@@ -61,26 +61,34 @@ class DeepNeuralNetwork:
         return self.__weights
 
     def forward_prop(self, X):
+        """ Forward propagation of the network
+            X contains the input data (nx, m)
+            returns final output and activations cache
         """
-           Forward Propagation method for
-           Deep Neural Network using sigmoid
-           and softmax activation functions
-        """
-        self.__cache["A0"] = X
-        for layer in range(1, self.__L + 1):
-            Z = (
-                np.matmul(self.__weights["W{}".format(layer)],
-                          self.__cache["A{}".format(layer - 1)]) +
-                self.__weights["b{}".format(layer)]
-                )
-            self.__cache["A{}".format(layer)] = 1/(1 + np.exp(-Z))
-            if layer == self.__L:
-                sig = 1/(1 + np.exp(-Z))
-                T = np.exp(sig)
-                self.__cache["A{}".format(self.__L)] = T/np.sum(T, axis=0)
-            # else:
-            #     self.__cache["A{}".format(layer)] = 1/(1 + np.exp(-Z))
-        return self.__cache["A{}".format(self.__L)], self.__cache
+        self.__cache['A0'] = X
+
+        def sig_act(aw):
+            """ sigmoid activation function """
+            return 1 / (1 + np.exp(-aw))
+
+        def soft_act(aw):
+            """ softmax activation function """
+            return np.exp(aw) / np.sum(np.exp(aw), axis=0)
+
+        for i in range(self.L):
+            w = "W" + str(i + 1)
+            a = "A" + str(i)
+            b = "b" + str(i + 1)
+            aw_ = np.matmul(self.__weights[w],
+                            self.__cache[a]) + self.__weights[b]
+            A = "A" + str(i + 1)
+            if i == self.L - 1:
+                act = sig_act(aw_)
+                act = soft_act(aw_)
+            else:
+                act = sig_act(aw_)
+            self.__cache[A] = act
+        return self.__cache[A], self.__cache
 
     def cost(self, Y, A):
         """ calculates the cost of the model using logistic regression
@@ -136,27 +144,39 @@ class DeepNeuralNetwork:
         return encoded_classes.astype(int), cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
-        """ Calculates one pass of gradient descent on the NN
-            Y contains correct labels
         """
-        m = Y.shape[1]
-        wold = self.weights.copy()
-        for i in range(self.L, 0, -1):
-            A_i = cache['A' + str(i)]
-            A_iless1 = cache['A' + str(i - 1)]
-            if i == self.L:
-                dz = np.subtract(A_i, Y)
+           Gradient descent method for deep neural network
+           using back propogation
+        """
+        mth = cache["A1"].shape[1]
+        partials = {}
+        new_weights = {}
+        for layer in range(self.__L, 0, -1):
+            if layer == self.__L:
+                partials["Z{}".format(self.__L)] = (cache["A{}".format(self.__L)] - Y) * (cache["A{}".format(self.__L)] - Y)
             else:
-                dz = np.matmul(wold['W' + str(i + 1)].T, dz2) *\
-                     np.multiply(A_i, (1 - A_i))
-            dz2 = dz
-            dw = np.matmul(dz, A_iless1.T) / m
-            wupdate = np.subtract(wold['W' + str(i)], np.multiply(alpha, dw))
-            bupdate = np.subtract(self.weights['b' + str(i)],
-                                  np.multiply(alpha, np.sum(dz,
-                                              axis=1, keepdims=True) / m))
-            self.weights['W' + str(i)] = wupdate
-            self.weights['b' + str(i)] = bupdate
+                partials["Z{}".format(layer)] = (
+                    np.matmul(self.__weights["W{}".format(layer + 1)].T,
+                            partials["Z{}".format(layer + 1)]) *
+                    (cache["A{}".format(layer)] * (1 - cache["A{}".format(layer)]))
+                )
+            partials["W{}".format(layer)] = (
+                np.matmul(partials["Z{}".format(layer)],
+                          cache["A{}".format(layer - 1)].T) / mth
+            )
+            new_weights["W{}".format(layer)] = (
+                self.__weights["W{}".format(layer)] -
+                (alpha * partials["W{}".format(layer)])
+            )
+            partials["b{}".format(layer)] = (
+                np.sum(partials["Z{}".format(layer)],
+                       axis=1, keepdims=True) / mth
+            )
+            new_weights["b{}".format(layer)] = (
+                self.__weights["b{}".format(layer)] -
+                (alpha * partials["b{}".format(layer)])
+            )
+        self.__weights = new_weights
 
     def train(self, X, Y, iterations=5000, alpha=0.05,
               verbose=True, graph=True, step=100):
