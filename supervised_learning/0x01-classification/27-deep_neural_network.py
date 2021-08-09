@@ -159,10 +159,11 @@ class DeepNeuralNetwork():
         # print(encoded_classes)
         # print(encoded_classes.shape)
         # a = a.T
+        n = np.zeros_like(a.T)
         for x, max in enumerate(np.amax(a, axis=0)):
             # print(x)
             # print(a.T[x])
-            a.T[x] = a.T[x] == max
+            n[x] = a.T[x] == max
             # print(a.T[x])
             # pass
         evaluation = a.astype(int)
