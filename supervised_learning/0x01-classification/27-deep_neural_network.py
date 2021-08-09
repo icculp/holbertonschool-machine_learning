@@ -160,7 +160,7 @@ class DeepNeuralNetwork():
         # print(encoded_classes.shape)
         # a = a.T
         for x, max in enumerate(np.amax(a, axis=0)):
-            a.T[x] = 1
+            a[x] = 1
             # pass
         evaluation = a.astype(int)
         # print(evaluation.shape)
