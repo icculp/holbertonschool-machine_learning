@@ -100,7 +100,7 @@ class DeepNeuralNetwork():
         costs = -Y * np.log(A)
         return np.sum(costs) / A.shape[1]
 
-    def evaluate(self, X, Y):
+    def eevaluate(self, X, Y):
         """Evaluates the predictions made and the cost"""
         try:
             predictions, _ = self.forward_prop(X)
@@ -114,7 +114,7 @@ class DeepNeuralNetwork():
         # print(evaluation.shape)
         return evaluation, cost
 
-    def eevaluate(self, X, Y):
+    def evaluate(self, X, Y):
         """ Evaluates the neural networks predictions
             X contains the input data (nx, m)
             Y contains the correct labels
@@ -157,12 +157,12 @@ class DeepNeuralNetwork():
         '''x = np.where(a >= 0.5, 1, 0)'''
         encoded_classes = encoded_classes.astype(int)
         # print(encoded_classes)
-        print(encoded_classes.shape)
+        # print(encoded_classes.shape)
         for x, max in enumerate(np.amax(a, axis=0)):
             a.T[x] = a.T[x] == max
         evaluation = a.astype(int)
-        print(evaluation.shape)
-        print((evaluation == encoded_classes).all())
+        # print(evaluation.shape)
+        # print((evaluation == encoded_classes).all())
         return encoded_classes, cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
