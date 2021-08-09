@@ -158,8 +158,9 @@ class DeepNeuralNetwork():
         encoded_classes = encoded_classes.astype(int)
         # print(encoded_classes)
         # print(encoded_classes.shape)
+        a = a.T
         for x, max in enumerate(np.amax(a, axis=0)):
-            a.T[x] = a.T[x] == max
+            a[x] = a[x] == max
             # pass
         evaluation = a.astype(int)
         # print(evaluation.shape)
